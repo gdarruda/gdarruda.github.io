@@ -5,6 +5,8 @@ comments: true
 description: "Rede neural para análise de sentimentos em português."
 keywords: "Deep Learning, Convoluções, NLP, Análise de Sentimentos"
 ---
+{% include lib/mathjax.html %}
+
 Semanas atrás, tive a oportunidade de fazer um [excelente curso da Unicamp](http://adessowiki.fee.unicamp.br/rnpi/) de redes neurais na área de processamento de imagens. Sendo um ignorante em deep learning e processamento de imagens, achei uma boa ideia aplicar os conceitos de deep learning em uma área que eu tenho mais familariedade.
 
 Eu já tinha visto o artigo "[Natural Language Processing (almost) from Scratch](https://arxiv.org/abs/1103.0398)", 

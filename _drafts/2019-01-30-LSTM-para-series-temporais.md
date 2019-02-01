@@ -6,6 +6,8 @@ description: "Rede neural para análise de sentimentos em português."
 keywords: "Deep Learning, Convoluções, NLP, Análise de Sentimentos"
 ---
 
+{% include lib/mathjax.html %}
+
 Os problemas de predição envolvendo de séries temporais são bastante comuns em diversas áreas, entretanto não são muito fáceis de serem modelados. Se optarmos por métodos autoregressivos, não é trivial adicionar variáveis exógenas a série nesse tipo de estratégia. Interpretando a série como um problema de regressão, é mais simples trabalhar com dados além do histórico da série, mas é mais complicado mapear características importantes como sazonalidade e tendência.
 
 Nesse contexto de *trade-offs* entre técnicas, as redes neurais recorrentes aparecem como uma boa alternativa. Além da capacidade de trabalhar com diversas variáveis para prever a série, é fácil modelar o caráter temporal do problema. Nesse post, será apresentada o uso de uma rede neural recorrente para o desafio de prever o volume de aluguéis em um serviço de compartilhamento de bicicletas.
@@ -49,22 +51,22 @@ Na própria descrição do dataset, o criador diz que as variáveis de clima imp
 Primeiramente a nível de dia, é possível notar que temperaturas extremas impactam negativamente o volume de usuários. Na figura 1,  um exemplo de um sábado muito frio (2011-10-29) no mês de outubro, que impactou negativamente no volume de aluguéis.
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/saturdays_october_cnt.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/saturdays_october_cnt.png"/>
 </figure>
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/saturdays_october_atemp.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/saturdays_october_atemp.png"/>
   <figcaption>Figura 1 - Sábados do mês de outubro</figcaption>
 </figure>
 
 Na figura 2, podemos ver um exemplo de uma quinta muito quente no mês de de junho (2011-06-09), em que também tivemos um menor volume de aluguéis.
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/thursdays_june_cnt.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/thursdays_june_cnt.png"/>
 </figure>
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/thursdays_june_atemp.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/thursdays_june_atemp.png"/>
   <figcaption>Figura 2 - Quintas-feiras do mês de outubro</figcaption>
 </figure>
 
@@ -73,32 +75,63 @@ Além disso, é interessante perceber a diferença da curva durante as quintas-f
 Apesar dos extremos aparentemente ter uma relação negativa com o aluguel de bicicletas, temperaturas mais altas tendem a aumentar o uso de bicicletas. Na Figura 3, em que temos o aluguel de bicicletas agregado por dia do ano de 2011, podemos ver que o aumento de temperatura no meio do ano impacta positivamente no aluguel de bicicletas.
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/daily_2011_cnt.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/daily_2011_cnt.png"/>
 </figure>
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/daily_2011_atemp.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/daily_2011_atemp.png"/>
   <figcaption>Figura 3 - Volume de aluguel e temperaturas no ano de 2011</figcaption>
 </figure>
 
 Expandindo essa série, além desse ciclo anual das estações do ano, podemos observar que há uma tendência de crescimento de 2011 para 2012 no uso do serviço como um todo (Figura 4).
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/daily_cnt.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/daily_cnt.png"/>
 </figure>
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/daily_atemp.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/daily_atemp.png"/>
   <figcaption>Figura 4 - Volume de luguel e temperaturas diário</figcaption>
 </figure>
 
 Pelos gráficos anteriores, é possível perceber a influência da temperatura no volume de aluguel de bicicletas. Outra variável de interesse. é a indicação de dia chuvoso, nublado ou com neve. No gráfio da Figura 5, podemos ver como chuva e neve impactam negativamente no aluguel de bicicletas , enquanto dias abertos tem um efeito positivo.
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/boxplot_weathersit_2011.png" alt="my alt text"/>
+  <img src="{{site.url}}/assets/images/lstm/boxplot_weathersit_2011.png"/>
   <figcaption>Figura 5 - Volume de aluguel diário por clima do dia</figcaption>
 </figure>
 
 Por essas análises, podemos perceber que as condições climáticas são um fator relevante para estimar o volume de aluguéis de bicicletas. As características da série também se mostram relevantes, como o ciclo das estações e a curva típica dos dias dasemana e dos finais de semana.
 
 Nessa seção, foi feito um resumo das análises, os gráficos e os códigos dessa anaálise estão nesse [notebook](https://github.com/gdarruda/bike-predict/blob/master/Explanatory_analysis.ipynb).
+
+## RNNs
+
+As redes neurais recorrentes (RNN) são bastante utilizadas para problemas com dados sequênciais não estruturados, como processamento de linguagem natural e reconhecimento de fala por exemplo, mas suas características são interessantes para qualquer problema com característica de sequência como o nosso.
+
+As RNNs têm uma arquitetura básica como apresentada na figura 6, na qual a informação computada em $$ t $$ é utilizada para calcular $$ t + 1 $$. Ou seja, para prever a quantidade de bicicletas alugadas na hora $$ t + 1 $$, usamos informações de $$ t $$.
+
+<figure>
+  <img src="{{site.url}}/assets/images/lstm/rnn_basic.png"/>
+  <figcaption>Figura 6 - Arquitetura das RNNs</figcaption>
+</figure>
+
+No momento $$ t $$,  a rede computa $$ V_{t} $$ e $$ O_{t} $$. Essas saídas são calculadas com base nas caraterísticas da posição atual ($$ X_{t}$$) e na saída do passo anterior ($$ V_{t-1}$$).
+
+$$
+  V_{t} = g(W_{vv}V_{t-1} + W_{vx}X_{t} + b_{a}) \\
+  O_{t} = g(W_{ov}V_{t} + b_{o})
+$$
+
+Em nosso caso, $$ O_{t} $$ é a quantidade de bicletas alugadas na hora $$ t $$ e $$ V_{t} $$ é a informação do momento $$ t $$ que será utilizada em $$ t_{t + 1} $$. A função de ativação $$ g(x) $$ é normalmente uma $$ tanh $$, mas pode ser utilizada outra função de ativação para calcular $$ V_{t} $$ e $$ O_{t} $$.
+
+Arquiteturas de RNN mais complexas como a GRU e LSTM utilizam o conceito de portões, que controlam a passagem de informação entre as etapas da sequência. Entretanto, a ideia dessas redes é a mesma: utilizar informação do passado para prever o momento atual.
+
+### LSTM
+
+As LSTM é umas das arquiteturas de RNNs mais utilizadas, como podemos ver no diagrama da figura 7, essa rede neural tem bastante componentes. A ideia da rede é controlar a passagem de informação entre as etapas da sequência, de forma que ela consiga manter informações de partes anteriores da rede e não apenas do passo imediatamente anterior.
+
+<figure>
+  <img src="{{site.url}}/assets/images/lstm/rnn_lstm.png"/>
+  <figcaption>Figura 7 - Arquitetura de uma LSTM</figcaption>
+</figure>
