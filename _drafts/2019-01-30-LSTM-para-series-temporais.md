@@ -177,11 +177,11 @@ São esses portõess que ajudam a rede a mapear características temporais do pr
 
 ## Utilizando a LSTM
 
- As redes LSTM são bastante complexas, mas sua arquitetura fixa e poucos parâmetros a serem definidos, as tornam muito prática de serem utilizadas com o Keras. Usando poucas linhas de código, é possível treinar uma rede para projetar os valores de uma série temporal.
+ As redes LSTM são complexas de entender, mas simples de usar, sua arquitetura fixa e poucos parâmetros a serem definidos as tornam muito prática de serem utilizadas com o Keras. Com poucas linhas de código, é possível treinar uma rede para projetar os valores de uma série temporal.
 
 ### Preparação dos dados
 
- As variáveis contínuas desse dataset como temperatura e humidade do ar já estão em uma escala entre 0 e 1, mas é importante tratar os dados categóricos e cíclicos. Nesse caso, precisamos transformar essas variáveis para a representação *one-hot-encoding*. Abaixo, o código feito para carregar o dataset e transformar as variáveis para o formato *one-hot-encoding*.
+ As variáveis contínuas desse dataset como temperatura e humidade do ar já estão em uma escala entre 0 e 1, mas é interessante tratar também os dados categóricos. Para variáveis categórias, iremos usar uma representação *one-hot-encoding*. Abaixo, o código feito para carregar o dataset e transformar as variáveis para o formato *one-hot-encoding*.
 
  ```python
 import pandas as pd
@@ -210,13 +210,13 @@ dataset = load_dataset()
 dataset = preprocess_dataset(dataset)
  ```
 
- Note que variáveis periódicas como `mnth` e `hr` também foram transformadas em *one-hot-encoding*. Em meus testes, isso se mostrou fundamental, apenas escalar as variáveis entre 0 e 1 (ou normalizar) como se fossem variáveis contínuas fez com que a rede não convergisse mesmo com várias épocas de treinamento.
+ Note que variáveis periódicas, como `mnth` e `hr`, também foram transformadas em *one-hot-encoding*. Em meus testes, isso se mostrou fundamental. Apenas escalar as variáveis cíclicas entre 0 e 1, como se fossem variáveis contínuas, fez com que a rede não coonseguisse convergir mesmo com várias époas de treinamento.
 
 ### Treinamento e validação
 
-Uma diferença importante de problemas de regressão e séries temporais são as técnicas de validação. Não faz sentido amostrar aleatoriamente para dividir em treino e validação em uma validação cruzada, os dados de treino precisam estar antes no tempo que os dados de validação. 
+O problema que estamos lidando é de séries temporais, então não faz sentido amostrar aleatoriamente para dividir em treino e validação em uma validação cruzada como seria o caso para uma regressão ou classificação, os dados de treino precisam estar antes no tempo que os dados de validação. 
 
-Seguindo uma estratégia para deep learning, vamos separar o conjunto de dados como treino, desenvolvimento e validação. O conjunto de treino e desenvolvimento serão usadas na etapa de treinamento, para "tunar" os parâmetros de treinamento. O conjunto de validação será apenas para verificação final após treinamento, não otimizaremos os parâmetros para alcançar bons resultados nele.
+Seguindo uma estratégia comum em deep learning, vamos separar o conjunto de dados como treino, desenvolvimento e validação. O conjunto de treino e desenvolvimento serão usadas na etapa de treinamento, para "tunar" os parâmetros de treinamento. O conjunto de validação será apenas para verificação final após treinamento, ou seja, não otimizaremos os parâmetros para alcançar bons resultados nesse conjunto.
 
 * Treino: **2011-01-01** até **2012-10-31**
 * Desenvolvimento: **2012-11-01** até **2012-11-30**
@@ -239,9 +239,9 @@ dev = filter_by_date(dataset, '2012-11-01', '2012-11-30')
 val = filter_by_date(dataset, '2012-11-01', '2012-12-31')
 ``` 
 
-Após separar os conjunto, podemos transforma-los em vetores *numpy* para serem usados na rede neural. Veja que o *reshape* do vetor de entrada é no formato (# de linhas, 1, # de variáveis) ao invés de (# de linhas, # de variáveis).
+Após separar os conjuntos, podemos transforma-los em vetores *numpy* para serem usados na rede neural. Perceba que o *reshape* do vetor de entrada é no formato (# de linhas, 1, # de variáveis) ao invés de (# de linhas, # de variáveis).
 
-O dado precisa ser formatado assim, pois a segunda dimensão se refere ao comprimento da sequência para gerar uma saída. Para alguns problemas, ao invés de gerar uma saída por etapa da sequência, geramos apenas uma saída para a sequência toda.
+O dado precisa ser formatado assim, pois a segunda dimensão se refere ao comprimento da sequência que gera uma saída. Para alguns problemas, ao invés de gerar uma saída por etapa da sequência, geramos apenas uma saída final para a sequência toda por exemplo.
 
 ```python
 import numpy as np
@@ -260,7 +260,7 @@ X_dev, Y_dev = reshape_dataset(dev)
 X_val, Y_val = reshape_dataset(val)
 ``` 
 
-Por fim, é útil criar um *callback* para vermos o gráfico de evolução de treinamento em tempo real, isso é bastante útil para fazer o ajuste dos parâmetros, principalmente nas etapas inicias para direcionar que parâmetros podem ser aprimorados.
+Por fim, é útil criar um *callback* do Keras para vermos o gráfico de evolução de treinamento em tempo real, isso é bastante útil para fazer o ajuste dos parâmetros, principalmente nas etapas inicias.
 
 ```python
 %matplotlib inline
@@ -296,13 +296,16 @@ class PlotLosses(keras.callbacks.Callback):
 plot_losses = PlotLosses()
 ```
 
-### Definição da LSTM no Keras
+### LSTM no Keras
 
-O uso da LSTM no Keras é bastante simples, bastanto ao usuário definir a dimensão do vetor de entrada, a quantidade de neurônios e a função de saída. O vetor de entrada, após a transformação, tem 58 dimensões. A quantidade de neurônios utilizados, em alguns testes rápidos, eu defini como 150 que alcançava o mesmo *fit* sem onerar tanto a perfomance do treinamento. Por fim, ligamos um output linear de 1 saída para treinamento.
+O uso da LSTM no Keras é bastante simples, bastanto ao usuário definir a dimensão do vetor de entrada, a quantidade de neurônios e a função de saída. O vetor de entrada, após as transformações de variáveis, tem 58 dimensões. A quantidade de neurônios utilizados, após alguns testes, defini como 200 que alcançava o mesmo *fit* de redes maiores sem onerar tanto a perfomance do treinamento. Por fim, ligamos um output linear de 1 saída para treinamento.
  
-Adicionei uma camada de Dropout entre a saída da rede ($$W_{t}$$) e a saída ($$O_{t}$$), entretanto deixei desativada com probabilidade 0. Ativando essa camada, a rede não atingia o menor nível de erro, nem no treino e nem no desenvolvimento. Existem aplicações de dropout em LSTM, mas precisaria entender melhor como utiliza-las, nesse experimento as redes não convergem tão bem com esse método de regularização
 
-O otimizador utilizado foi o Adam, que possui uma convergência mais "estável" que o SGD (Stochastic Gradient Descent). Após experimentos, percebi que o valor padrão da taxa de aprendizado (0,001) era muito baixo, modificando para 0,01 a convergência ficou muito mais rápida e alcançou mínomos de erros melhores. Combinando esse aumento com um decaimento de 0,001, a rede consegue convergir sem ficar "pulando" muito no ajuste fino do gradiente.
+Adicionei uma camada de Dropout entre a saída da rede ($$W_{t}$$) e a saída ($$O_{t}$$), procurando mitigar problemas de Dropout. Não utilizei essa técnica nas camadas internas da rede, pois elas acabavam atrasando muito o aprendizado, ainda preciso entender melhor quais as estratégias para uso de Dropout em redes neurais recorrentes.
+
+<!--Adicionei uma camada de Dropout entre a saída da rede ($$W_{t}$$) e a saída ($$O_{t}$$), entretanto deixei desativada com probabilidade 0. Ativando essa camada, a rede não atingia o menor nível de erro, nem no treino e nem no desenvolvimento. Existem aplicações de dropout em LSTM, mas precisaria entender melhor como utiliza-las, nesse experimento as redes não convergem tão bem com esse método de regularização-->
+
+O otimizador utilizado foi o Adam, que geralmente é o mais rápido e estável para convergir. Após experimentos, percebi que o valor padrão da taxa de aprendizado (0,001) era muito baixo, subindo para 0,01 a convergência ficou muito mais rápida e também alcançou taxas de erros menores. Combinando esse aumento de taxa de aprendizado com uma taxa de decaimento de 0,001, a rede consegue convergir no ajuste fino da rede.
 
 A rede está sendo otimizada a métrica de [erro absoluto médio](https://en.wikipedia.org/wiki/Mean_absolute_error), dessa forma temos uma visão clara de quanto estamos errando comparado ao valor total das predições. Abaixo, o código completo para definição da LSTM.
 
@@ -313,7 +316,7 @@ from keras.layers import Input, Dense, LSTM, Dropout
 def get_model():
 
     input = Input(shape=(1, 58))
-    x = LSTM(150, dropout=.0)(input)
+    x = LSTM(200, dropout=.0)(input)
     x = Dropout(.5)(x)
     activation = Dense(1, activation='linear')(x)
     model = Model(inputs=input, outputs=activation)
@@ -332,9 +335,9 @@ def get_model():
 
 get_model()
 ```
-## Resultados
+## Resultados e conclusão
 
-A nossa rede está definida, agora podemos treina-la e avaliar os resultados no conjunto de validação. Assim como na definição dos parâmetros da rede, irei direto para a solução final para não deixar o *post* mais comprido ainda. Usando a arquitetura acima, com 50 épocas, chegamos ao ponto de estabilidade das perdas no conjunto de treino e de desenvolvimento.
+A nossa rede está definida, agora podemos treina-la e avaliar os resultados no conjunto de validação. Assim como na definição dos parâmetros da rede, irei direto para a solução final para não deixar o *post* mais comprido ainda. Usando a arquitetura acima, com 50 épocas, chegamos ao ponto de estabilidade das perdas no conjunto de treino e desenvolvimento.
 
 ```python
 def train_model(model, X_train, Y_train, validation, callbacks):
@@ -344,7 +347,7 @@ def train_model(model, X_train, Y_train, validation, callbacks):
   
 model = train_model(get_model(), X_train, Y_train, (X_dev, Y_dev), [plot_losses])
 ```
-Durante o processo de treinamento e validação, o erro da validação ficou na faixa de 40 aluguéis, enquanto o erro do treinamento ficou chegou na faixa dos 20 aluguéis. A média de aluguéies está em 189, para efeitos de comparação.
+Durante o processo de treinamento e validação, o erro da validação ficou na faixa de 40/50 aluguéis, enquanto o erro do treinamento ficou na faixa dos 20 aluguéis. A média de aluguéis a cada hora está em 189 para efeitos de comparação.
 
 Abaixo, o gráfico de perda desse processo de treinamento especificado.
 
@@ -353,7 +356,27 @@ Abaixo, o gráfico de perda desse processo de treinamento especificado.
   <figcaption>Figura 8 - Gráfico de perda</figcaption>
 </figure>
 
-Olhando o real com o projetado, podemos ver que o processo consegue capturar as curvas diárias e dos finais de semana. Como podemos ver, a série tem uma boa capacidade de capturar as características da série, entretanto parece não capturar muito bem a queda no final do mês de validação.
+Para problemas de séries temporais é interessante observar os dados no olho para entender em que situações a rede está errando, segue abaixo o código para plotar o observado e o predito pela rede.
+
+```python
+from sklearn.metrics import mean_absolute_error
+
+def show_predict(model, X, Y):
+    
+    Y_predict = model.predict(X)
+    
+    plt.figure(figsize=(40,10))
+    plt.plot(list(range(len(Y))), Y, label="Real")
+    plt.plot(list(range(len(Y_predict))), Y_predict, label="Predicted")
+    plt.legend()
+    plt.show()
+
+    return mean_absolute_error(Y, Y_predict)
+
+show_predict(model, X_val[:360], Y_val[:360])
+show_predict(model, X_val[360:720], Y_val[360:720])
+```
+Comparando o real com o projetado para dezembro, obtemos um resultado muito melhor do que com o conjunto de dev, chegando próximo ao obtido no conjunto de treino, menos que 30 no erro médio. Alguns meses devem ter características específicas, seria interessante fazer testes com a rede aplicando outros cortes para entender melhor essa discrepância re resultados.
 
 <figure>
   <img src="{{site.url}}/assets/images/lstm/validation_1.png"/>
@@ -363,6 +386,6 @@ Olhando o real com o projetado, podemos ver que o processo consegue capturar as 
   <figcaption>Figura 9 - Gráfico de perda</figcaption>
 </figure>
 
-Como qualquer problema de machine learning, podemos seguir com testes com outras técnicas e aprimorando os parâmetros da LSTM, mas acredito que esse resultado seja o fuciente para mostar como é prático usar essa rede para problemas de séries temporais: elas são rápidas de implementar e já oferecem uma bom ponto de partida como benchmark para outras técnicas.
+A partir desse momento, o interessante seria fazer uma análise mais extensa, para um ajuste fino da rede e entender melhor as características do dataset, mas esses resultados já mostram que as redes recorrentes tem uma ótima capacidade de se adaptar a esses problemas de séries temporais. Combinando essa capacidade com a facilidade de implementação, são um ótimo ponto de partida para esses problemas de séries temporais.
 
 #### Notas
