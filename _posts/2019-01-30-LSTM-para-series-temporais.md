@@ -14,7 +14,7 @@ Se optarmos por métodos autoregressivos, não é trivial adicionar variáveis e
 
 Nesse contexto de *trade-offs* entre técnicas de regressão e de séries temporais, as redes neurais recorrentes aparecem como uma boa alternativa, que ataca as limitações das duas estratégias. As RNNs têm capacidade de trabalhar com diversas variáveis para prever a série e também apresentam mecanismos para capturar características de ciclos e sazonalidades da série.
 
-Nesse post, será apresentada o uso de uma LSTM para o problema de prever o volume de aluguéis em um serviço de compartilhamento de bicicletas, ilustrando o uso de redes neurais em problemas de séries temporais.
+Nesse post, será apresentada o uso de uma LSTM para o problema de prever o volume de aluguéis de bicicletas em um serviço de compartilhamento, ilustrando o uso de redes neurais em problemas de séries temporais.
 
 ## Bike Sharing Dataset
 
@@ -63,7 +63,7 @@ Iniciando a análise no nível diário, vamos entender como se comportam os dife
   <figcaption>Figura 1 - Sábados do mês de outubro</figcaption>
 </figure>
 
-Na figura 2, podemos ver um exemplo do efeito inverso do observado em Outubro. Uma quinta-feira muito quente no mês de de Junho (2011-06-09), em que também tivemos um volume menor de aluguéis comparado a outras quintas-feiras do mesmo mês com temperaturas mais agradáveis.
+Na figura 2, podemos ver um exemplo do efeito inverso do observado em Outubro. Uma quinta-feira muito quente no mês de de Junho (2011-06-09), em que também tivemos um volume menor de aluguéis, comparado a outras quintas-feiras do mesmo mês com temperaturas mais agradáveis.
 
 <figure>
   <img src="{{site.url}}/assets/images/lstm/thursdays_june_cnt.png"/>
@@ -74,9 +74,9 @@ Na figura 2, podemos ver um exemplo do efeito inverso do observado em Outubro. U
   <figcaption>Figura 2 - Quintas-feiras do mês de outubro</figcaption>
 </figure>
 
-Além da questão das temperaturas extremas, é interessante notar a diferença da curva entre as quintas-feiras e os sábados. Nas quintas, o pico de aluguéis está nos horários de chegada e saída do trabalho, enquanto nos sábados o pico é no horário da tarde.
+Além da questão das temperaturas extremas, é interessante notar a diferença da curva entre as quintas-feiras e os sábados. Nas quintas, os picos de aluguéis estão nos horários de chegada e saída do trabalho, enquanto nos sábados o pico é no horário da tarde.
 
-Partindo para um visão anual, mais ampla, podemos ver que o calor tem um impacto positivo no aluguel de bicicletas, como mostrado na figura 3 que apresenta o agregado de aluguéis e temperaturas diários no ano de 2011 .
+Partindo para um visão anual, mais ampla, podemos ver que a temperatura maior tem um impacto positivo no aluguel de bicicletas, como mostrado na figura 3, que apresenta o agregado de aluguéis e temperaturas diários no ano de 2011.
 
 <figure>
   <img src="{{site.url}}/assets/images/lstm/daily_2011_cnt.png"/>
@@ -98,7 +98,7 @@ Expandindo essa análise para o ano de 2012, além desse ciclo anual das tempera
   <figcaption>Figura 4 - Volume de luguel e temperaturas diário</figcaption>
 </figure>
 
-Dessa forma, podemos entender que a temperatura é uma variável importante para estimar o volume de bicicletas alugadas. Os dias com temperaturas extremas parecem menos convidativos ao uso de bicicletas e, de uma perspectiva geral, o calor parece incentivar o aluguel de bicicletas.
+Por esses gráficos, podemos entender que a temperatura é uma variável importante para estimar o volume de bicicletas alugadas. Os dias com temperaturas extremas parecem menos convidativos ao uso de bicicletas e, de uma perspectiva geral, o calor parece incentivar o aluguel de bicicletas.
 
 Além da temperatura, outras características como a indicação de dia chuvoso, nublado ou com neve também parecem relevantes para o modelo. No boxplot da Figura 5, podemos ver como chuva e neve impactam negativamente no aluguel de bicicletas, enquanto dias abertos tem um efeito positivo.
 
@@ -107,7 +107,7 @@ Além da temperatura, outras características como a indicação de dia chuvoso,
   <figcaption>Figura 5 - Volume de aluguel diário por clima do dia</figcaption>
 </figure>
 
-A partir dessa breve análise [^1], podemos perceber que as condições climáticas são um fator relevante para estimar o volume de aluguéis de bicicletas. Seria temerário modelar um preditor somente com o comportamento da série, sem considerar as variáveis de clima, mas também é visível que temos características inerentemente temporais como os ciclos diários e a tendência de crescimento do serviço.
+A partir dessa breve análise [^1], podemos perceber que as condições climáticas são um fator relevante para estimar o volume de aluguéis de bicicletas. Seria temerário modelar um preditor somente com o comportamento da série, sem considerar as variáveis de clima, mas também é visível que temos características inerentemente temporais como os ciclos diários e a tendência de crescimento do serviço ao longo do tempo.
 
 [^1]: Nessa seção, foi feito um resumo das análises, os gráficos e os códigos dessa análise estão nesse [notebook](https://github.com/gdarruda/bike-predict/blob/master/Explanatory_analysis.ipynb).
 
@@ -117,7 +117,7 @@ O problema de prever o número de bicicletas alugadas envolve tanto questões sa
 
 ### RNN
 
-As redes neurais recorrentes (RNN) são bastante utilizadas para problemas com dados sequenciais não estruturados, como processamento de linguagem natural e reconhecimento de fala por exemplo, mas suas características são interessantes para qualquer problema com caráter de sequência como é o nosso caso.
+As redes neurais recorrentes são bastante utilizadas para problemas com dados sequenciais não estruturados, como processamento de linguagem natural e reconhecimento de fala por exemplo, mas suas características são interessantes para qualquer problema com caráter de sequência – como é o nosso caso.
 
 As RNNs têm uma arquitetura básica como a da figura 6, na qual a informação computada em $$ t $$ é utilizada para calcular $$ t + 1 $$.
 
@@ -133,9 +133,9 @@ $$
   W_{t} = g(W_{ov}V_{t} + b_{o})
 $$
 
-A função de ativação $$ g(x) $$ é normalmente uma $$ tanh $$, mas nada impede de ser utilizada outra função de ativação para calcular $$ V_{t} $$ e $$ O_{t} $$.
+A função de ativação $$ g(x) $$ é normalmente uma $$ tanh $$, mas nada impede de ser utilizada outra função de ativação para calcular $$ V_{t} $$ e $$ W_{t} $$.
 
-Depois de calculado $$ W_{t} $$, esse vetor de saída pode ser conectado a uma camada final, que pode ser uma softmax para problemas de classificação ou até mesmo uma outra rede neural. Para o nosso caso, em que queremos o total de aluguéis, a saída $$ W_{t} $$ será conectada a uma camada linear $$ O_{t} $$ com um neurônio na saída, que retornará o valor da projeção feita pela rede.
+Depois de calculado $$ W_{t} $$, esse vetor de saída pode ser conectado a uma camada final, que pode ser uma softmax para problemas de classificação ou até mesmo uma outra rede neural. Para o nosso caso, em que queremos estimar o total de aluguéis, a saída $$ W_{t} $$ será conectada a uma camada linear $$ O_{t} $$ com um neurônio na saída, que retornará o valor da projeção feita pela rede.
 
 Essa á a arquitetura mais básica de uma RNN, soluções mais complexas como a GRU e LSTM, adicionam o conceito de portões a esse desenho, que controlam a passagem de informação entre as etapas da sequência.
 
@@ -143,14 +143,14 @@ Essa á a arquitetura mais básica de uma RNN, soluções mais complexas como a 
 
 As LSTM é umas das arquiteturas de RNNs mais populares, muito usada na área de NLP. Como podemos ver na sua arquitetura (Figura 7), é uma rede que possui bastante componentes adicionais em comparação a uma RNN simples.
 
-Esses componentes são os chamados *gates* (portões), sua função é controlar a passagem de informação entre as etapas da rede, não limitando a “memória” apenas a etapa imediatamente anterior. Dessa forma, a rede neural pode aprender com informações de etapas muito anteriores que podem influenciar na etapa atual da série – parecido com a ideia dos métodos autogressivos para séries temporais.
+Esses componentes são os chamados *gates* (portões), sua função é controlar a passagem de informação entre as etapas da rede, não limitando a “memória” apenas a etapa imediatamente anterior. Dessa forma, a rede neural pode aprender com informações de etapas muito anteriores que podem influenciar na predição da etapa atual da série – parecido com a ideia dos métodos autogressivos para séries temporais.
 
 <figure>
   <img src="{{site.url}}/assets/images/lstm/rnn_lstm.png"/>
   <figcaption>Figura 7 - Arquitetura de uma LSTM</figcaption>
 </figure>
 
-Esses *gates* são aplicados na entrada/saída das redes, como um vetor de “máscara”, com valores entre 0 e 1, que indicam o quanto de informação deve ser propagada. É bem similar ao conceito de *Dropout* [^2] em sua forma de funcionamento, mas aprendido pela rede para reaproveitar as informações da série, ao invés de ser aplicado aleatoriamente durante o treinamento.
+Esses *gates* são aplicados na entrada/saída da rede, como um vetor de “máscara”, com valores entre 0 e 1, que indicam o quanto de informação deve ser propagada. É bem similar ao *Dropout* [^2] em sua forma de funcionamento, mas com essa "máscara" aprendida pela rede para reaproveitar informações da série, ao invés de ser definida aleatoriamente durante o treinamento.
 
 [^2]: O Dropout é uma técnica de regularização que pode ser aplicada em qualquer rede, apesar de termos uma analogia em termos de funcionamento, o objetivo dos gates e da técnica de dropout são diferentes.
 
@@ -172,17 +172,17 @@ $$
  h_{t} = O_{t} \ast tanh(c_{t})
  $$
 
-A função sigmoide $$\sigma$$ usada nos portões podem ter qualquer valor entre 0 e 1, mas é comum que elas acabam com valores muito próximo dos extremos, funcionamento como um filtro binário do tipo “passa” ou “não passa” informação adiante.
+A função sigmoide $$\sigma$$ usada nos portões podem ter qualquer valor entre 0 e 1, mas é comum que elas acabam com valores muito próximo dos extremos, funcionando como um filtro binário do tipo “passa” ou “não passa” informação adiante.
 
-São esses portões que ajudam a rede a mapear características temporais do problema, é possível que um valor de $$ c_{0} $$ seja propagado para várias etapas posteriores, sendo utilizados quando a rede achar “pertinente” e ir posteriormente “esquecendo” essa informação quando necessário.
+São esses portões que ajudam a rede a mapear características temporais do problema, é possível que algum valor de $$ c_{0} $$ seja propagado para várias etapas posteriores, sendo utilizados quando a rede achar “pertinente” e ir posteriormente “esquecendo” essa informação quando necessário.
 
 ## Utilizando a LSTM
 
- As redes LSTM são complexas de entender, mas simples de usar. A arquitetura “fixa” e poucos parâmetros as tornam muito prática de serem utilizadas com o Keras. Com poucas linhas de código, é possível treinar uma rede para projetar os valores de uma série temporal.
+ As redes LSTM são complexas de entender, mas simples de usar. A arquitetura “fixa” e poucos parâmetros as tornam muito prática de serem utilizadas com o Keras. Com poucas linhas de código, é possível treinar uma rede para projetar os valores de uma série temporal. Nessa seção, será explicado o passo a passo para criar uma LSTM para o nosso dataset.
 
 ### Preparação dos dados
 
- As variáveis contínuas desse dataset como temperatura e humidade do ar já estão em uma escala entre 0 e 1, mas ainda é necessário tratar os dados categóricos. Abaixo, o código feito para carregar o dataset como um *dataframe* e transformar as variáveis categóricas para uma representação *one-hot-encoding*.
+ As variáveis contínuas desse dataset, como temperatura e humidade do ar, já estão em uma escala entre 0 e 1, mas ainda é necessário tratar os dados categóricos. Abaixo, o código feito para carregar o dataset como um *dataframe* e transformar as variáveis categóricas para uma representação *one-hot-encoding*.
 
  ```python
 import pandas as pd
@@ -211,13 +211,15 @@ dataset = load_dataset()
 dataset = preprocess_dataset(dataset)
  ```
 
- Note que variáveis periódicas, como `mnth` e `hr`, também foram transformadas em *one-hot-encoding* como as variáveis categóricas. Apenas escalar as variáveis periódicas entre 0 e 1, como se fossem variáveis ordinais, fez com que a rede não conseguisse convergir, mesmo com várias épocas de treinamento.
+ Note que variáveis periódicas, como `mnth` e `hr`, também foram transformadas em *one-hot-encoding*. Apenas escalar as variáveis periódicas entre 0 e 1, como se fossem variáveis ordinais, fez com que a rede não conseguisse convergir, mesmo com várias épocas de treinamento.
 
 ### Treinamento e validação
 
-O problema que estamos lidando é de séries temporais, então não faz sentido amostrar aleatoriamente para dividir em treino e validação em uma validação cruzada, como seria o caso para uma regressão ou classificação. Os dados de treino precisam estar antes no tempo que os dados de validação em nosso caso. 
+O problema que estamos lidando é de séries temporais, então não faz sentido amostrar aleatoriamente para dividir o dataset entre treino e validação, como seria o caso para um problema regressão ou classificação. Os dados de treino precisam ser contíguos e estar antes no tempo que os dados de validação. 
 
-Seguindo uma estratégia comum em *deep learning*, vamos separar o conjunto de dados como treino, desenvolvimento e validação. O conjunto de treino e desenvolvimento serão usadas na etapa de treinamento, para “tunar” os parâmetros de rede e do treinamento. O conjunto de validação será apenas para verificação final após treinamento, ou seja, não otimizaremos os parâmetros para esse conjunto.
+Seguindo uma estratégia comum em *deep learning*, vamos separar o conjunto de dados como treino, desenvolvimento e validação. O conjunto de treino e desenvolvimento serão usadas na etapa de treinamento, para “tunar” os parâmetros de rede e do treinamento. O conjunto de validação será apenas para verificação final após treinamento da rede.
+
+Serão usados os dados até Outubro de 2012 para treinamento, o mês de Novembro de 2012 como conjunto de desenvolvimento e o mês de Dezembro de 2012 como validação.
 
 * Treino: **2011-01-01** até **2012-10-31**
 * Desenvolvimento: **2012-11-01** até **2012-11-30**
@@ -228,7 +230,7 @@ Abaixo, o código para separação do *dataframe* entre treino, desenvolvimento 
 ```python
 from datetime import datetime
 
-**def** filter_by_date(ds, start_date, end_date):
+def filter_by_date(ds, start_date, end_date):
     
     start_date_parsed = datetime.strptime(start_date, "%Y-%m-%d") 
     start_end_parsed = datetime.strptime(end_date, "%Y-%m-%d")
@@ -240,9 +242,9 @@ dev = filter_by_date(dataset, '2012-11-01', '2012-11-30')
 val = filter_by_date(dataset, '2012-11-01', '2012-12-31')
 ``` 
 
-Após separar os conjuntos, podemos transforma-los em vetores *numpy* para serem usados na rede neural. Perceba que o *reshape* do vetor de entrada é no formato (# de linhas, 1, # de variáveis) ao invés de (# de linhas, # de variáveis).
+Após separar os conjuntos, podemos transforma-los em vetores *numpy* para serem usados na rede neural. Perceba que o *reshape* do vetor de entrada é no formato `(# de linhas, 1, # de variáveis)` ao invés de `(# de linhas, # de variáveis)`.
 
-O dado de entrada precisa ser formatado assim, pois a segunda dimensão se refere ao comprimento da sequência. Em nosso caso, o valor é 1 pois cada etapa da sequência gera uma saída. Para alguns problemas, ao invés de gerar uma saída por etapa da sequência, geramos apenas uma saída final para a sequência toda por exemplo.
+O dado de entrada precisa ser formatado assim, pois a segunda dimensão se refere ao comprimento da sequência. Em nosso caso, o valor é 1 pois cada etapa da sequência gera uma saída. Para alguns problemas, ao invés de gerar uma saída por etapa da sequência, geramos apenas uma saída final para a sequência toda.
 
 ```python
 import numpy as np
@@ -261,7 +263,7 @@ X_dev, Y_dev = reshape_dataset(dev)
 X_val, Y_val = reshape_dataset(val)
 ``` 
 
-Por fim, é útil criar um *callback* do Keras para vermos o gráfico de evolução de treinamento em tempo real, isso é bastante útil para fazer o ajuste dos parâmetros, principalmente nas etapas inicias.
+Por fim, é útil criar um *callback* do Keras para vermos o gráfico de evolução de treinamento em tempo real, isso é bastante útil para fazer o ajuste dos parâmetros.
 
 ```python
 %matplotlib inline
@@ -299,7 +301,7 @@ plot_losses = PlotLosses()
 
 ### LSTM no Keras
 
-O uso da LSTM no Keras é bastante simples, bastando ao usuário definir a dimensão do vetor de entrada, a quantidade de neurônios e a função de saída. O vetor de entrada, após as transformações de variáveis, tem 58 dimensões. A quantidade de neurônios utilizados, após alguns testes, defini como 200 que alcançou o mesmo *fit* de redes maiores sem onerar tanto a perfomance do treinamento. Por fim, a saída será uma camada com um único output com o valor estimado dos aluguéis.
+O uso da LSTM no Keras é bastante simples, bastando ao usuário definir a dimensão do vetor de entrada, a quantidade de neurônios e a função de saída. O vetor de entrada, após as transformações de variáveis, tem 58 dimensões. A quantidade de neurônios, após alguns testes, foi definida como 200 que alcançou o mesmo *fit* de redes maiores sem onerar tanto a perfomance do treinamento. Por fim, a saída será uma camada com um único output com o valor estimado dos aluguéis.
 
 Adicionei uma camada de Dropout entre a saída da rede ($$W_{t}$$) e a saída final ($$O_{t}$$), procurando mitigar problemas de sobreajuste. Não utilizei essa técnica nas camadas internas da rede, pois elas acabavam atrasando muito o aprendizado, mas o ideal seria entender melhor o uso de dropout nas camadas internas da LSTM.
 
@@ -337,7 +339,7 @@ get_model()
 ```
 ## Resultados e conclusão
 
-A nossa rede está definida, agora podemos treina-la e avaliar os resultados no conjunto de validação. Assim como na definição dos parâmetros da rede, irei direto para a solução final para não deixar o *post* mais comprido ainda. Usando a arquitetura acima, com 50 épocas e batch de 128, chegamos ao ponto de estabilidade das perdas no conjunto de treino e desenvolvimento.
+A nossa rede está definida, agora podemos treina-la e avaliar os resultados no conjunto de validação. Assim como na definição dos parâmetros da rede. Usando a arquitetura acima, com 50 épocas e batch de 128, chegamos ao ponto de estabilidade das perdas no conjunto de treino e desenvolvimento.
 
 ```python
 def train_model(model, X_train, Y_train, validation, callbacks):
@@ -354,7 +356,7 @@ Durante o processo de treinamento e validação, o erro da validação ficou na 
   <figcaption>Figura 8 - Gráfico do processo de treinamento</figcaption>
 </figure>
 
-Para problemas de séries temporais é interessante observar os dados para entender em que situações a rede está errando, segue abaixo o código para plotar o resultado observado e o predito pela rede.
+Para problemas de séries temporais é interessante observar os dados sequencialmente para entender em que situações a rede está errando. Segue abaixo o código para plotar o resultado observado e o predito pela rede, possibilitando assim a visualização dos resultados.
 
 ```python
 from sklearn.metrics import mean_absolute_error
@@ -376,7 +378,7 @@ show_predict(model, X_val[360:720], Y_val[360:720])
 ```
 <!--Comparando o real com o projetado para dezembro, obtemos um resultado muito melhor do que com o conjunto de dev, chegando próximo ao obtido no conjunto de treino, menos que 30 no erro médio. Como alguns meses devem ter características específicas, seria interessante fazer testes com a rede aplicando outros cortes para entender melhor essa discrepância de resultados entre meses diferentes.-->
 
-Comparando o real com o projetado para Dezembro, obtemos um similar ao conjunto de dev, com o erro aumentando na segunda metade do mês.
+Comparando o real do conjunto de validação com o projetado, obtemos um erro similar similar ao conjunto de dev.
 
 <figure>
   <img src="{{site.url}}/assets/images/lstm/validation_1.png"/>
