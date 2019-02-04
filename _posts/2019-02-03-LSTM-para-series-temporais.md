@@ -2,8 +2,8 @@
 layout: post
 title: "LSTM para séries temporais"
 comments: true
-description: "Rede neural para análise de sentimentos em português."
-keywords: "Deep Learning, Convoluções, NLP, Análise de Sentimentos"
+description: "LSTM aplicada a um problema de séries temporais."
+keywords: "Deep Learning, LSTM, Séries Temporais"
 ---
 
 {% include lib/mathjax.html %}
@@ -52,7 +52,9 @@ O nosso objetivo é projetar o valor de `cnt`, de hora em hora, com base em toda
 
 Na própria descrição do dataset, o criador diz que as variáveis de clima impactam no comportamento da série, vamos plotar alguns gráficos para verificar como funcionam essas relações.
 
-Iniciando a análise no nível diário, vamos entender como se comportam os diferentes dias da semana no dataset, selecionando um mês e um dia da semana para análise. Na figura 1, temos os sábados do mês de Outubro de 2011, em que podemos ver os impactos de um dia muito frio. O volume do aluguel de bicicletas ficou bastante abaixo no sábado do dia 2011-10-29, comparado a outros sábados do mesmo mês com temperaturas mais agradáveis.
+Iniciando a análise no nível diário, vamos entender como se comportam os diferentes dias da semana no dataset, selecionando um mês e um dia da semana para análise.
+
+Na figura 1, temos os sábados do mês de Outubro de 2011, em que podemos ver os impactos de um dia muito frio. O volume do aluguel de bicicletas ficou bastante abaixo no sábado do dia 2011-10-29, comparado a outros sábados do mesmo mês com temperaturas mais agradáveis.
 
 <figure>
   <img src="{{site.url}}/assets/images/lstm/saturdays_october_cnt.png"/>
@@ -117,7 +119,7 @@ O problema de prever o número de bicicletas alugadas envolve tanto questões sa
 
 ### RNN
 
-As redes neurais recorrentes são bastante utilizadas para problemas com dados sequenciais não estruturados, como processamento de linguagem natural e reconhecimento de fala por exemplo, mas suas características são interessantes para qualquer problema com caráter de sequência – como é o nosso caso.
+As redes neurais recorrentes são bastante utilizadas para problemas com dados sequenciais não estruturados, como processamento de linguagem natural e reconhecimento de fala, mas suas características são interessantes para qualquer problema com caráter de sequência – como é o nosso caso.
 
 As RNNs têm uma arquitetura básica como a da figura 6, na qual a informação computada em $$ t $$ é utilizada para calcular $$ t + 1 $$.
 
@@ -215,7 +217,7 @@ dataset = preprocess_dataset(dataset)
 
 ### Treinamento e validação
 
-O problema que estamos lidando é de séries temporais, então não faz sentido amostrar aleatoriamente para dividir o dataset entre treino e validação, como seria o caso para um problema regressão ou classificação. Os dados de treino precisam ser contíguos e estar antes no tempo que os dados de validação. 
+O problema que estamos lidando é de séries temporais, então não faz sentido amostrar aleatoriamente para dividir o dataset entre treino e validação, como seria o caso para um problema de regressão ou classificação. Os dados de treino precisam ser contíguos e estar antes no tempo que os dados de validação. 
 
 Seguindo uma estratégia comum em *deep learning*, vamos separar o conjunto de dados como treino, desenvolvimento e validação. O conjunto de treino e desenvolvimento serão usadas na etapa de treinamento, para “tunar” os parâmetros de rede e do treinamento. O conjunto de validação será apenas para verificação final após treinamento da rede.
 
@@ -388,6 +390,6 @@ Comparando o real do conjunto de validação com o projetado, obtemos um erro si
   <figcaption>Figura 9 - Gráfico de perda</figcaption>
 </figure>
 
-A partir desse resultado inicial, seria interessante fazer uma análise mais extensa, para um ajuste fino da rede e entender melhor as particularidades do dataset, mas esses resultados já mostram que as redes recorrentes tem uma ótima capacidade de se adaptar a esses problemas de séries temporais. Combinando essa poder das redes recorrentes com a facilidade de implementação, usar uma LSTM é um ótimo ponto de partida para esses problemas de séries temporais.
+A partir desse resultado inicial, seria interessante fazer uma análise mais extensa, para um ajuste fino da rede e entender melhor as particularidades do dataset, mas esses resultados já mostram que as redes recorrentes têm uma ótima capacidade de se adaptar a esses problemas de séries temporais. Combinando essa poder das redes recorrentes com a facilidade de implementação, usar uma LSTM é um ótimo ponto de partida para esses problemas de séries temporais.
 
 #### Notas

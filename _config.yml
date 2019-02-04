@@ -18,8 +18,11 @@ email: gda.gabriel@gmail.com
 description: "Histórias de um desenvolvedor trabalhando como cientista de dados."
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: gdarruda
 github_username:  gdarruda
+linkedin_username: gdarruda
+twitter_username: gdarruda
+instagram_username: gdarruda
+
 
 # Build settings
 markdown: kramdown
