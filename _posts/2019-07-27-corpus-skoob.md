@@ -22,7 +22,7 @@ O Scrapy é um framework Python para extração de dados da web, lidando com o f
 
 A parte de *crawling* é a etapa de navegar pelas páginas que precisam ser baixadas, de encontrar todas as URLs que precisam ser acessadas. Para o nosso projeto, essa etapa é a parte de identificar todas as URLs do Skoob que contenham resenhas de livros.
 
-O *scrapping* é a parte mais trabalhosa do processo. A partir do HTML das páginas baixadas, precisamos encontrar uma forma de extrair as informações desejadas. Em nosso caso, descobrir como extrair as informações dos livros e os textos das [páginas de resenhas](https://www.skoob.com.br/livro/resenhas/219/).
+O *scrapping* é a parte mais trabalhosa do processo. A partir do HTML das páginas baixadas, precisamos encontrar e extrair as informações desejadas. Em nosso caso, descobrir como extrair as informações dos livros e os textos das [páginas de resenhas](https://www.skoob.com.br/livro/resenhas/219/).
 
 Por fim, temos a etapa de persistência, que é a parte de salvar os resultados das etapas de *crawling* e *scrapping*. Salvaremos os dados em um simples arquivo JSON, mas é comum esse tipo de dado ser armazenado em algum banco de dados.
 
@@ -67,16 +67,16 @@ Vamos entender o passo-a-passo de como o *spider* para as resenhas do Skoob foi 
 
 O primeiro passo para fazer um processo de *scrapping*, é entender como estão organizadas as URLs que devem ser acessadas. As resenhas do Skoob são agrupadas por livros, portanto devemos iterar sobre todos os livros para extrair as resenhas. 
 
-No caso do Skoob, as URLs dos livros não poderiam ser mais simples, já que as páginas estão indexadas por um sequencial inteiro:
+No caso do Skoob, as URLs dos livros não poderiam estar organizadas de forma mais simples, já que as páginas estão indexadas por um sequencial inteiro:
 
 *  `skoob.com.br/livro/resenhas/1/` - Resenhas de *Ensaio Sobre a Cegueira*
 *  `skoob.com.br/livro/resenhas/2/` - Resenhas de *O Caçador De Pipas*
 * ...
 *  `skoob.com.br/livro/resenhas/456920/` - Resenhas de *Pronto para recomeçar*
 
-Iterando de um em um nos IDs dos livros, conseguimos acesso às páginas que desejamos. Testanto as URLs no browser, identifiquei que o último ID disponível era o 456.920.
+Iterando de um em um nos IDs dos livros, conseguimos acesso às páginas que desejamos. Testando as URLs no browser, identifiquei que o último ID disponível era o 456.920.
 
-A partir disso, já é possível iniciar o desenvolvimeno da nossa classe `ReviewsSkoob`, que é uma filha da classe `scrapy.Spider`, dentro do diretório `spiders`.
+A partir disso, já é possível iniciar o desenvolvimento da nossa classe `ReviewsSkoob`, que é uma filha da classe `scrapy.Spider`, dentro do diretório `spiders`.
 
 ```python
 class ReviewsSkoob(scrapy.Spider):
@@ -98,13 +98,13 @@ A partir desse lista geradas pelo método `start_requests`, o Scrapy conseguirá
 
 Livros populares têm várias resenhas e, acessando apenas o primeiro link, estamos restrito a 15 resenhas. Como não sabemos *a priori* quantas páginas de resenha um livro tem, iremos lidar com esse problema na etapa de *scraping*, usando a opção de seguir links oferecido pelo framework.
 
-[^1]: Não existe uma única definição de framework, mas estou partindo do príncipio da [inversão de controle](https://en.wikipedia.org/wiki/Inversion_of_control), em que o fluxo é controlado pelo framework e o código desenvolvido pelo usuário é chamado pelo framework.
+[^1]: Não existe uma única definição de framework, mas estou partindo do princípio da [inversão de controle](https://en.wikipedia.org/wiki/Inversion_of_control), em que o fluxo é controlado pelo framework e o código desenvolvido pelo usuário é chamado pelo framework.
 
 ### Extraindo as resenhas
 
 A estratégia de *crawling* já foi (parcialmente) resolvida com o método acima, agora iremos para a parte mais trabalhosa que é o *scrapping* das resenhas: com o DOM da página, como pegar as informações de interesse? Para essa tarefa, a única opção é inspecionar o HTML em um browser e definir que *tags* HTML serão extraídas.
 
-Primeiramente, devemos definir o que desejamos extrair das páginas. Abaixo, a estrutura de dados que será extraídas para cada livro:
+Primeiramente, devemos definir o que desejamos extrair das páginas. Abaixo, a estrutura de dados que será extraída para cada livro:
 
 ```python
 {'author': '', # Nome do autor
@@ -119,7 +119,7 @@ O atributo `reviews` será uma lista de objetos, que contém as informações de
   'rating': , # Nota da resenha
   'text': ''} # Texto da resenha.
 ```
-Por fim, um exemplo do resultado dessa estrutura da extração de um livro com 2 resenhas.
+Por fim, um exemplo do resultado dessa estrutura da extração de um livro com duas resenhas.
 
 ```python
 {'author': 'Justin Herald',
@@ -136,9 +136,9 @@ Por fim, um exemplo do resultado dessa estrutura da extração de um livro com 2
 ```
 Definida a estrutura que desejamos, podemos agora explorar o DOM para entender como extrair essas informações. 
 
-Para identificar e extrair as informações das páginas, eu usei o [Xpath](http://docs.scrapy.org/en/1.6/topics/selectors.html#working-with-xpaths), que é uma linguaguem padrão para navegar em arquivos XML. Ou seja, é suportada por vários frameworks e linguagens que trabalham com dados em estrutura de XML.
+Para identificar e extrair as informações das páginas, eu usei o [Xpath](http://docs.scrapy.org/en/1.6/topics/selectors.html#working-with-xpaths), que é uma linguagem padrão para navegar em arquivos XML. Ou seja, é suportada por vários frameworks e linguagens que trabalham com dados em estrutura de XML.
 
-A parte de extração é um pouco maçante e específica de cada *scrapping*, portanto não irei me estender explicando como criei as expressóes Xpath, mas abaixo temos os códigos usados para a extração dos dados no método `parse`.
+A parte de extração é um pouco maçante e específica de cada *scrapping*, portanto não irei me estender explicando como criei as expressões Xpath, mas abaixo temos os códigos usados para a extração dos dados no método `parse`.
 
 ```python
 def get_user(self, user):
@@ -185,7 +185,7 @@ O método `parse` é chamado para cada requisição gerada pelo método `start_r
 
 Perceba que eu apenas utilizo o método `Response.xpath` para extração dos dados dos livros e das resenhas. O uso do atributo `Response.meta` será discutido adiante, ele foi usado como forma de passar dados de uma requisição para outra.
 
-Com as informações extraídas, basta usar o comando no `yield` no objeto criado (a variável `reviews_page`) para indicar que aqueles dados devem ser salvos. Entretanto, não podemos salvar os dados visitando apenas a primeira página de cadas livro, pois precisamos visitar as $$ N $$ páginas subsequentes de livros com mais de 15 resenhas.
+Com as informações extraídas, basta usar o comando no `yield` no objeto criado (a variável `reviews_page`) para indicar que aqueles dados devem ser salvos. Entretanto, não podemos salvar os dados visitando apenas a primeira página de cada livro, pois precisamos visitar as $$ N $$ páginas subsequentes de livros com mais de 15 resenhas.
 
 Neste momento, temos a maior dificuldade desse processo, que é criar uma outra requisição dentro do método `parse` para as demais páginas de resenhas.
 
@@ -195,13 +195,11 @@ Para resolver esse problema, o primeiro passo é identificar se existe uma próx
 next_page = response.css('div.proximo').xpath('.//a/@href').extract_first()
 ```
 
-Se houver uma próxima página, precisamos criar uma requisição para a próxima páginam com os `reviews` já extraídos. Dessa forma, quando chegarmos a última página, teremos um objeto livro com todas as resenhas juntas. 
+Se houver uma próxima página, precisamos criar uma requisição para a próxima página com os `reviews` já extraídos. Dessa forma, quando chegarmos a última página, teremos um objeto livro com todas as resenhas juntas. 
 
 Para passar essa informação para a próxima requisição, é possível adicionar a informação usando o atributo `meta` do objeto [Request](https://docs.scrapy.org/en/latest/topics/request-response.html#request-objects), que pode receber os dados em um estrutura de `dict`.
 
-As requisições serão criadas recursivamente, sempre passando para frente os dados já extraídos, até que cheguemos a última página. A condição de parada, é identificada pela presença do link de próxima página.
-
-Vale notar que livros sem resenhas não são salvos no final do processo. [Nesse link](https://github.com/gdarruda/scrap-skoob/blob/master/skoob/spiders/reviews_skoob.py), temo a implementação completa dessa classe.
+As requisições serão criadas recursivamente, sempre passando para frente os dados já extraídos, até que cheguemos a última página. A condição de parada da recursão é identificada pela presença do link de próxima página.
 
 ```python
 if next_page is not None:
@@ -212,6 +210,7 @@ elif len(reviews) > 0:
     self.log(f"Saving {len(reviews)} reviews for book {book_name}")
     yield reviews_page
 ```
+Vale notar que livros sem resenhas não são salvos no final do processo. [Nesse link](https://github.com/gdarruda/scrap-skoob/blob/master/skoob/spiders/reviews_skoob.py), temo a implementação completa dessa classe.
 
 Agora que já resolvemos o problema de *crawling* e *scrapping*, basta executar o framework para realizar a extração dos dados.
 
@@ -221,7 +220,7 @@ A execução do crawler é a parte onde começamos a perceber as vantagens de us
 
 * Persistência automática, possibilitando o uso automático de vários formatos como JSON, CSV, XML em várias tipos de *storage* como S3 e FTP. 
 * Controle de execução via *jobs*, possibilitando que um processo seja pausado/reiniciado quando necessário.
-* Opções de *AutoThrottle* para evitar sobrecarga no site que as informações estão sendo baixadas.
+* Opções de *AutoThrottle* para evitar sobrecarga no site do qual as informações estão sendo baixadas.
 
 Além dessas facilidades, temos outros recursos úteis para processos de *crawling* e *scrapping* mais complexos, envolvendo questões de *cookies* e deploy por exemplo.
 
@@ -253,7 +252,7 @@ Para executar o crawler, basta usarmos o comando `crawl` do Scrapy:
 ```bash
 scrapy crawl reviewsSkoob -o output/reviewsSkoob.json -s JOBDIR=crawls/skoob20190622
 ```
-A variável `reviewsSkoob` é o atributo `name` que adicionamos na classe `ReviewsSkoob`. O parâmetro `-o` é o tipo de saída desejada para o processo, que definimos como um arquivo JSON[^2]. Por fim, o parâmetro `-s` é um diretórion no qual será controlado a execução do crawler, permitindo assim pausa-lo e reinicia-lo.
+A variável `reviewsSkoob` é o atributo `name` que adicionamos na classe `ReviewsSkoob`. O parâmetro `-o` é o tipo de saída desejada para o processo, que definimos como um arquivo JSON[^2]. Por fim, o parâmetro `-s` é um diretório no qual será controlado a execução do crawler, permitindo assim pausa-lo e reinicia-lo.
 
 Agora, é só esperar o processo terminar, que ao final o arquivos `reviewsSkoob.json` estará com todas as resenhas.
 
@@ -268,21 +267,21 @@ A execução do crawler foi iniciada no dia 22/06/2019, terminando de executar n
 * **108.882** autores de resenhas.
 * **139.678.539** tokens no total.
 
-Analisando a distribuição de notas, podemos ver que as resenhas pendem fortemente para o lado positivo (Figura 1). No total, cerca de 68% das resenhas tem 4 e 5 estrelas, então estamos tratando de um *dataset*  de resenhas com classes bem desbalanciadas.
+Analisando a distribuição de notas, podemos ver que as resenhas pendem fortemente para o lado positivo (Figura 1). No total, cerca de 68% das resenhas tem 4 e 5 estrelas, então estamos tratando de um *dataset*  de resenhas com classes bem desbalanceadas.
 
 <figure>
   <img src="{{site.url}}/assets/images/scrap-skoob/distribuicao_notas.png" align="middle"/>
   <figcaption>Figura 1 - Distribuição de Notas</figcaption>
 </figure>
 
-Em relação a quais livros são mais resenhados, podemos percer  que o grande volume de resenhas está concentrado em um pequeno conjunto de livros, com uma cara de [lei de Zipf](https://en.wikipedia.org/wiki/Zipf%27s_law) (Figura 2). O Skoob exibe apenas 1.000 resenhas para cada livros, mesmo que a página indique a existência de mais, mas ainda é possível ver a grande concentração de resenhas em poucos títulos. 
+Em relação a quais livros são mais resenhados, podemos perceber  que o grande volume de resenhas está concentrado em um pequeno conjunto de livros, com uma cara de [lei de Zipf](https://en.wikipedia.org/wiki/Zipf%27s_law) (Figura 2). O Skoob exibe apenas 1.000 resenhas para cada livros, mesmo que a página indique a existência de mais, mas ainda é possível ver a grande concentração de resenhas em poucos títulos. 
 
 <figure>
   <img src="{{site.url}}/assets/images/scrap-skoob/livro_resenhas.png" align="middle"/>
   <figcaption>Figura 2 - Resenhas por livros</figcaption>
 </figure>
 
-Em relação aos tamanhos das resenhas, se olharmos em uma escala logaritma base 10 (Figura 3), podemos perceber que segue uma distribuição normal com $$ \mu = 2,08 $$ (cerca de 100 palavras) e $$ \sigma = 0,54$$.
+Em relação aos tamanhos das resenhas, se olharmos em uma escala logaritmica base 10 (Figura 3), podemos perceber que segue uma distribuição normal com $$ \mu = 2,08 $$ (cerca de 100 palavras) e $$ \sigma = 0,54$$.
 
 <figure>
   <img src="{{site.url}}/assets/images/scrap-skoob/histograma_tamanho_resenhas.png" align="middle"/>
@@ -291,6 +290,6 @@ Em relação aos tamanhos das resenhas, se olharmos em uma escala logaritma base
 
 A partir dessa breve análise, podemos ver que temos aqui um grande volume de dados para se trabalhar, seja com o objetivo de compreender o comportamento dos usuários da rede social ou como insumo para treinamento de algoritmos.
 
-O Jupyter notebook que fiz para essa análise destá [disponível no GitHub](https://github.com/gdarruda/scrap-skoob/blob/master/Analise.ipynb), assim como o [restante do projeto](https://github.com/gdarruda/scrap-skoob). Caso alguém esteja interessado em trabalhar com os dados extraídos, podem me contatar por e-mail ou qualquer uma das redes socias no rodapé da página.
+O Jupyter notebook que fiz para essa análise está [disponível no GitHub](https://github.com/gdarruda/scrap-skoob/blob/master/Analise.ipynb), assim como o [restante do projeto](https://github.com/gdarruda/scrap-skoob). Caso alguém esteja interessado em trabalhar com os dados extraídos, podem me contatar por e-mail ou qualquer uma das redes sociais no rodapé da página.
 
 #### Notas
