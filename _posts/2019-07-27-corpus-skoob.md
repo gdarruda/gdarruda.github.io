@@ -12,7 +12,7 @@ A criação de  *web scrapers* para gerar datasets não é a área mais descolad
 
 ## Por que fazer um crawler de Skoob?
 
-O Skoob é uma rede social para leitores, que possui um rico espaço de resenhas feito pelos usuários da rede. No momento de escrita desse blog, encontrei mais de 600.000 resenhas para 80.000 livros diferentes.
+O Skoob é uma rede social para leitores, que possui um rico espaço de resenhas feitas pelos usuários da rede. No momento de escrita desse blog, encontrei mais de 600.000 resenhas para 80.000 livros diferentes.
 
 Apesar de ser um conceito manjado – criar *corpus* de resenhas para análise de sentimentos – sempre é mais complicado achar esse tipo de material em língua portuguesa. Nesse contexto, achei válido desenvolver esse projetinho usando Scrapy para criar um *dataset* com resenhas publicadas no Skoob.
 
@@ -20,11 +20,11 @@ Apesar de ser um conceito manjado – criar *corpus* de resenhas para análise d
 
 O Scrapy é um framework Python para extração de dados da web, lidando com o fluxo de ponta a ponta: *crawling* das páginas, *scrapping* dos dados e persistência. Ou seja, tudo o que precisamos para fazer a extração de dados do Skoob.
 
-A parte de *crawling* é a etapa de navegar pelas páginas que precisam ser baixadas, de encontrar todas as URLs que precisam ser acessadas. Para o nosso projeto, essa etapa é a parte de identificar todas as URLs do Skoob que contém resenhas de livros.
+A parte de *crawling* é a etapa de navegar pelas páginas que precisam ser baixadas, de encontrar todas as URLs que precisam ser acessadas. Para o nosso projeto, essa etapa é a parte de identificar todas as URLs do Skoob que contenham resenhas de livros.
 
-O *scrapping* é a parte mais trabalhosa do processo. A partir do HTML das páginas encontrados, precisamos encontrar uma forma de extrair as informações desejadas. Em nosso caso, descobrir como extrair as informações dos livros e os textos das [páginas de resenhas](https://www.skoob.com.br/livro/resenhas/219/).
+O *scrapping* é a parte mais trabalhosa do processo. A partir do HTML das páginas baixadas, precisamos encontrar uma forma de extrair as informações desejadas. Em nosso caso, descobrir como extrair as informações dos livros e os textos das [páginas de resenhas](https://www.skoob.com.br/livro/resenhas/219/).
 
-Por fim, temos a parte de persistência, que é a parte de salvar os resultados das etapas de *crawling* e *scrapping*. Salvaremos os dados em um simples arquivo JSON, mas é comum esse tipo de dado ser armazenado em algum banco de dados.
+Por fim, temos a etapa de persistência, que é a parte de salvar os resultados das etapas de *crawling* e *scrapping*. Salvaremos os dados em um simples arquivo JSON, mas é comum esse tipo de dado ser armazenado em algum banco de dados.
 
 Usando o Scrapy, todas essas etapas exigiram a codificação de apenas uma classe! Nas próximas seções, irei explicar como desenvolvi esse projeto.
 
@@ -67,14 +67,14 @@ Vamos entender o passo-a-passo de como o *spider* para as resenhas do Skoob foi 
 
 O primeiro passo para fazer um processo de *scrapping*, é entender como estão organizadas as URLs que devem ser acessadas. As resenhas do Skoob são agrupadas por livros, portanto devemos iterar sobre todos os livros para extrair as resenhas. 
 
-No caso do Skoob, as URLs dos livros não poderia ser mais simples, já que as páginas estão indexadas por um sequencial inteiro:
+No caso do Skoob, as URLs dos livros não poderiam ser mais simples, já que as páginas estão indexadas por um sequencial inteiro:
 
 *  `skoob.com.br/livro/resenhas/1/` - Resenhas de *Ensaio Sobre a Cegueira*
 *  `skoob.com.br/livro/resenhas/2/` - Resenhas de *O Caçador De Pipas*
 * ...
 *  `skoob.com.br/livro/resenhas/456920/` - Resenhas de *Pronto para recomeçar*
 
-Iterando de 1 em 1 nos IDs dos livros, conseguimos acesso às páginas que desejamos. Testanto as URLs no browser, identifiquei que o último ID disponível era o 456.920.
+Iterando de um em um nos IDs dos livros, conseguimos acesso às páginas que desejamos. Testanto as URLs no browser, identifiquei que o último ID disponível era o 456.920.
 
 A partir disso, já é possível iniciar o desenvolvimeno da nossa classe `ReviewsSkoob`, que é uma filha da classe `scrapy.Spider`, dentro do diretório `spiders`.
 
@@ -223,7 +223,7 @@ A execução do crawler é a parte onde começamos a perceber as vantagens de us
 * Controle de execução via *jobs*, possibilitando que um processo seja pausado/reiniciado quando necessário.
 * Opções de *AutoThrottle* para evitar sobrecarga no site que as informações estão sendo baixadas.
 
-Além dessas facilidades, temos outros recursos úteis para processos de *crawling* e *scrapping* mais complexos, envolvendo questões de *cookies* e deploy.
+Além dessas facilidades, temos outros recursos úteis para processos de *crawling* e *scrapping* mais complexos, envolvendo questões de *cookies* e deploy por exemplo.
 
 ### Definindo um AutoThrottle
 
@@ -261,7 +261,7 @@ Agora, é só esperar o processo terminar, que ao final o arquivos `reviewsSkoob
 
 ## Resultados
 
-O crawler foi executado no dia 22/06/2019, terminando de rodar no dia 28/06/2019. Para termos dimensão da quantidade de dados, alguns métricas do *corpus* extraído.
+A execução do crawler foi iniciada no dia 22/06/2019, terminando de executar no dia 28/06/2019. Para termos dimensão da quantidade de dados, alguns métricas do *corpus* extraído.
 
 * **640.644** resenhas no total.
 * **81.724** livros diferentes resenhados.
