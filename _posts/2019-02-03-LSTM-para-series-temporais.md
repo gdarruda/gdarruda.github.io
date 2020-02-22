@@ -307,8 +307,6 @@ O uso da LSTM no Keras é bastante simples, bastando ao usuário definir a dimen
 
 Adicionei uma camada de Dropout entre a saída da rede ($$W_{t}$$) e a saída final ($$O_{t}$$), procurando mitigar problemas de sobreajuste. Não utilizei essa técnica nas camadas internas da rede, pois elas acabavam atrasando muito o aprendizado, mas o ideal seria entender melhor o uso de dropout nas camadas internas da LSTM.
 
-<!--Adicionei uma camada de Dropout entre a saída da rede ($$W_{t}$$) e a saída ($$O_{t}$$), entretanto deixei desativada com probabilidade 0. Ativando essa camada, a rede não atingia o menor nível de erro, nem no treino e nem no desenvolvimento. Existem aplicações de dropout em LSTM, mas precisaria entender melhor como utiliza-las, nesse experimento as redes não convergem tão bem com esse método de regularização-->
-
 O otimizador utilizado foi o Adam, que geralmente é o mais rápido e estável para convergir. Após experimentos, percebi que o valor padrão da taxa de aprendizado (0,001) era muito baixo. Subindo para 0,01 a taxa de aprendizado, a convergência ficou muito mais rápida e também alcançou taxas de erros menores. Combinando esse aumento de taxa de aprendizado com uma taxa de decaimento de 0,001, a rede consegue aprender rapidamente e continuar convergindo na parte do ajuste fino.
 
 A rede está usando como função de perda a métrica de [erro absoluto médio](https://en.wikipedia.org/wiki/Mean_absolute_error), dessa forma temos uma visão clara de quanto estamos errando comparado ao valor absoluto das predições. Abaixo, o código completo para definição da LSTM.
