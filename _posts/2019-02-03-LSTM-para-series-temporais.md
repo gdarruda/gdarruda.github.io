@@ -2,11 +2,10 @@
 layout: post
 title: "LSTM para séries temporais"
 comments: true
+mathjax: true
 description: "LSTM aplicada a um problema de séries temporais."
 keywords: "Deep Learning, LSTM, Séries Temporais"
 ---
-
-{% include lib/mathjax.html %}
 
 Problemas que envolvem predições de séries temporais são comuns em várias áreas de negócios (*e.g.* previsão de demanda, acompanhamento de preços, evolução de carteira) e, geralmente, não exigem trabalho de rotulação para serem utilizados em algoritmos de predição. Por outro lado, não são muito fáceis de serem modelados.
 

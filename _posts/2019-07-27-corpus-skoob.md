@@ -6,8 +6,6 @@ description: "Desenvolendo um crawler para criar um corpus do Skoob com Scrapy"
 keywords: "Skoob, crawler, redes-socias"
 ---
 
-{% include lib/mathjax.html %}
-
 A criação de  *web scrapers* para gerar datasets não é a área mais descolada de ciência de dados, mas uma solução usando o  [Scrapy](https://scrapy.org) ficou tão simples e elegante, que deu vontade de escrever sobre. Neste post, vou explicar como desenvolvi um *web scrapper* para baixar as resenhas de livros da rede social [Skoob](https://www.skoob.com.br).
 
 ## Por que fazer um crawler de Skoob?

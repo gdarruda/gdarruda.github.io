@@ -17,16 +17,11 @@ title: Gabriel Arruda
 email: gda.gabriel@gmail.com
 description: "Histórias de um desenvolvedor trabalhando como cientista de dados."
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  gdarruda
-linkedin_username: gdarruda
-twitter_username: gdarruda
-instagram_username: gdarruda
-
+url: "" # the base hostname & protocol for your site, e.g. http://example.comda
 
 # Build settings
 markdown: kramdown
-theme: minima
+theme: plainwhite
 plugins:
   - jekyll-feed
 
@@ -41,3 +36,16 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+remote_theme: thelehhman/plainwhite-jekyll
+show_excerpts: true
+
+plainwhite:
+  name: Gabriel Arruda
+  tagline: Cientista de dados
+  date_format: "%b %-d, %Y"
+
+  social_links:
+    twitter: gdarruda
+    github: gdarruda
+    linkedIn: in/gdarruda # format: locale/username

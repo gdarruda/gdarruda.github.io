@@ -2,11 +2,10 @@
 layout: post
 title: "O que é estatística bayesiana?"
 comments: true
+mathjax: true
 description: "A intuição do debate entre as abordagens frequentistas e bayesianas"
 keywords: "Estatística, Frequentista, Bayesiana"
 ---
-
-{% include lib/mathjax.html %}
 
 Eu já ouvi muito se falar sobre um debate entre as abordagens bayesiana e frequentista na estatística, mas a verdade é que nunca entendi muito bem as diferenças. Por isso, decidi fazer o (ótimo) curso [Bayesian Statistics: From Concept to Data Analysis](https://www.coursera.org/learn/bayesian-statistics)[^1]. Ainda não me sinto completamente confortável com todos os conceitos, mas ajudou bastante a compreender melhor a questão.
 
@@ -179,7 +178,7 @@ Assumindo que $$ \theta \sim U[0,1] $$, podemos considerar que $$ f(\theta) = I_
     </div>
 {:/}{% endraw %}
 
-Nesse caso, estamos trabalhando com uma simples função linear.
+Nesse caso, estamos trabalhando com uma simples função linear. TESTANDO!
 
 <figure>
   <img src="{{site.url}}/assets/images/lstm/validation_1.png"/>
