@@ -37,7 +37,7 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-remote_theme: thelehhman/plainwhite-jekyll
+# remote_theme: thelehhman/plainwhite-jekyll
 show_excerpts: true
 
 plainwhite:
