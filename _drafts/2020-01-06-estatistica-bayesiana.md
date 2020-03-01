@@ -11,7 +11,7 @@ Eu já ouvi muito se falar sobre um debate entre as abordagens bayesiana e frequ
 
 [^1]: Muitos cursos do Coursera fazem parte de uma graduação, que tem acesso liberado por uma mensalidade. Esse é um curso isolado, o acesso a todo conteúdo e tarefas é gratuito, sendo necessário pagar apenas pelo certificado se for desejável.
 
-Esse post é a minha tentativa de explicar o conceito, para quem precisa de uma definição maior que uma linha e menor que um curso.
+Esse post é a minha tentativa de explicar o conceito, para quem precisa de uma definição maior que uma linha e menor que um curso. Entretanto, é necessário que o leitor conheça os conceitos de inferência e intervalo de confiança da abordagem frequentista.
 
 ## Conceito
 
@@ -50,19 +50,19 @@ $$
 44 \pm 9.7 = (34.3 , 53.7)
 $$
 
-Pelo intervalo de confiança, podemos afirmar com 95% de confiança que a moeda é justa. Isso significa que – se repetirmos esse experimento indefinidamente – 95% das vezes a média estará dentro do intervalo gerado usando os cálculos descritos acima. Além de ser uma afirmação pouco intuitiva, não nos fornece tantas informações como a mesma inferência realizada usando a abordagem bayesiana.
+Pelo intervalo de confiança, podemos afirmar com 95% de confiança que a moeda é justa. Isso significa que – se repetirmos esse experimento indefinidamente – 95% das vezes a média estará dentro do intervalo gerado usando os cálculos descritos acima. Além de ser uma conclusão indireta e pouco intuitiva, veremos que essa inferência fornece menos respostas que uma realizada a partir de uma abordagem bayesiana.
 
 ## Inferência Bayesiana
 
-A inferência bayesiana nos ajuda a modelar melhor esse problema com os conceitos de distribuição *a priori* e *a posteriori*. No caso de nossa moeda, a distribuição *a priori* é referente a informação inicial que temos da moeda. Ou seja, o nosso palpite antes de observar qualquer experimento. A distribuição *a posteriori* é o nosso palpite mais a informação obtida com os experimentos. É um modelo bem intuitivo: temos um palpite inicial em relação ao valor de $$ P(\text{Moeda Honesta}) $$ e vamos atualizando ele à medida em que fazemos os experimentos. 
+A inferência bayesiana nos ajuda a modelar melhor esse problema com os conceitos de distribuição *a priori* e *a posteriori*. No caso de nossa moeda, a distribuição *a priori* é referente a informação inicial que temos da moeda. Ou seja, o nosso palpite antes de observar qualquer experimento. A distribuição *a posteriori* considera o nosso palpite, mais a informação obtida com os experimentos. É um modelo bem intuitivo: temos um palpite inicial em relação ao valor de $$ P(\text{Moeda Honesta}) $$ e vamos atualizando ele à medida em que fazemos os experimentos. 
 
 Na abordagem frequentista, não temos a ideia do palpite inicial, pois a intepretação é que a moeda tem uma distribuição real que funciona como uma característica física...como se encontrar a distribuição fosse um processo similar a medir o diâmetro dela.
 
 ### Simplificando a questão
 
-Um problema da abordagem bayesiana é que ela é mais complexa de modelar em comparação a frequentista, então para começar é interessante trabalhar com uma hipótese mais simples do problema original.
+Um problema da abordagem bayesiana é que ela é mais complexa de modelar em comparação a frequentista, então vamos começar com uma hipótese mais simples do que a do problema original para entender as diferenças.
 
-Suponha que temos 5 lançamentos de moeda e apenas duas duas distribuições candidatas e temos o seguinte problema[^2]:
+Suponha que fizemos 5 lançamentos de moeda e temos apenas duas duas distribuições candidatas[^2]:
 
 $$
 
@@ -90,21 +90,21 @@ f(\theta \mid 2) =
 \end{cases}
 $$
 
-A partir da comparação desses resultados, podemos inferir que a moeda está **mais** de uma distribuição honesta do que desonesta. Entretanto, não há uma resposta de **probabilidade** de cada uma das distribuições.
+A partir da comparação desses resultados, podemos inferir que a moeda está **mais** próxima de uma distribuição honesta do que desonesta. Entretanto, não há uma resposta de **probabilidade** de cada uma das distribuições.
 
 Sabemos que $$ f(\theta=honesta \mid x=2) > f(\theta=desonesta \mid x=2) $$, mas não sabemos o valor da probabilidade $$ f(\theta=honesta \mid x=2) $$. Lembre-se: o paradigma frequentista não considera $$ P(\theta=honesta) $$ como uma probabilidade, já que nessa abordagem essa questão é tratada como uma grande física no qual só temos dois valores possíveis  $$ \{0,1\} $$
 
 ### Bayes ao resgate
 
-A abordagem bayesiana será útil para termos uma estimativa de $$ f(\theta=honesta \mid x=2) $$, o que não conseguimos obter pela abordagem frequentista. Como palpite inicial, vamos considerar que $$ P(\text{desonesta}) = 0.6 $$. Isso significa que, antes de qualquer experimento, entendemos que essa moeda tem uma chance ligeiramente maior de ser desonesta do que honesta.
+A abordagem bayesiana consegue nos fornecer uma estimativa de $$ f(\theta=honesta \mid x=2) $$, o que não conseguimos obter pela abordagem frequentista. Como palpite inicial, vamos considerar que $$ P(\text{desonesta}) = 0.6 $$. Isso significa que – antes de qualquer experimento – entendemos que essa moeda tem uma chance ligeiramente maior de ser desonesta do que honesta.
 
-Transformando o problema de máxima verossilhança para incluir a probabilidade *a priori*, chegamos a seguinte formulação do problema usando o teorema de Bayes:
+Transformando o problema de máxima verossilhança, para incluir a probabilidade *a priori*, chegamos a seguinte formulação do problema usando o teorema de Bayes:
 
 $$
 f(\theta \mid x) =  \frac{f(\theta \mid x)f(\theta)}{\sum_{\theta} f(\theta \mid x)f(\theta)}
 $$
 
-Adaptando os cálculos realizados para essa formulação, chegamos ao seguinte resultado para o problema [^3]:
+Representando o problema nessa nova formulação [^3]:
 
 [^3]: A função $$ I_{\{\text{condição}\}} $$ é chamada de [função indicadora](https://pt.wikipedia.org/wiki/Função_indicadora). Ela é apenas uma forma de escrever funções condicionais usando multiplicadore de 0 e 1.
 
@@ -120,7 +120,7 @@ Adaptando os cálculos realizados para essa formulação, chegamos ao seguinte r
 
 Na parte superior da equação, temos o mesmo cálculo usado na inferência anterior condicionado às probabilidade *a priori* de cada uma das hipóteses de distribuição: $$ P(\text{honesta}) = 0.4 $$ e $$ P(\text{desonesta}) = 0.6 $$. Na parte inferior, temos uma constante de normalização que considera a soma de todas as distribuições possíveis.
 
-Substituindo pelos resultados dos experimentos nessa formulação nova, conseguimos estimar $$ f(\theta=honesta \mid x=2) $$:
+Usando os mesmos resultados dos experimentos, conseguimos estimar $$ f(\theta=honesta \mid x=2) $$:
 
 {% raw %}{::nomarkdown}
     <div>
@@ -133,18 +133,19 @@ Substituindo pelos resultados dos experimentos nessa formulação nova, consegui
     </div>
 {:/}{% endraw %}
 
-Agora, nós temos uma resposta para $$ P(\theta=honesta \mid x=2) $$ que é $$ .612 $$. A questão proposta é definir se a moeda é justa e agora nós temos uma probabilidade para essa pergunta, considerando uma probabilidade *a priori* definida por nós e *a posteriori* a partir dos resultados dos experimentos.
+Com isso, temos uma resposta para $$ P(\theta=honesta \mid x=2) $$ que é $$ .612 $$.
 
-Usando a abordagem bayesiana, temos uma resposta muito mais clara e informativa para o problema. Um porém, que pode incomodar alguns, é a questão de definirmos uma probabilidade *a priori* de forma subjetiva. o que é compreensível, já que um dos pontos de debate filosófico é justamente como [lidar com a priori](https://en.wikipedia.org/wiki/Prior_probability#Uninformative_priors) nos métodos bayesianos.
+Usando a abordagem bayesiana, temos uma resposta muito mais clara e informativa para o problema, que é a probabilide da moeda ser honesta. Um porém, que pode incomodar alguns, é a questão de definirmos uma probabilidade *a priori* de forma subjetiva. É compreensível, já que um dos pontos de debate filosófico é justamente como [lidar com a priori](https://en.wikipedia.org/wiki/Prior_probability#Uninformative_priors) nos métodos bayesianos.
 
-Nesse momento, acredito que já seja possível ter uma visão mais clara de quais as diferenças práticas e conceituais entre as duas abordagens.
-
+Indenpente dessa (complicada) questão de trabalhar com distribuições *a priori*, acredito que já seja possível ter uma visão mais clara de quais as diferenças práticas e conceituais entre as duas abordagens.
 
 ### Complicando a questão
 
-Para mostrar a diferença conceitual entre as duas abordagens, foi utilizada uma versão simplificada do problema em que temos apenas duas hipóteses de distribuições Imaginando um problema real, é mais provável que desejamos inferir $$ P(\theta=honesta) $$ sem definir quais são as outras distribuições desonestas possíveis.
+A solução anterior foi para um problema simplifcado, considerando apenas duas distribuições candidatas. Em um caso real, é mais provável que precisamos inferir $$ P(\theta=honesta) $$ sem definir uma única distribuição desonesta.
 
-Para isso, precisamos de uma abordagem contínua com uma distribuição *a priori* uniforme. Ou seja, consideramos inicialmente que todos os valores do parâmetro $$ p $$ da distribuição binomial são equiprováveis. Primeiramente, precisamos de uma versão contínua do teorema de bayes:
+Assumindo que nosso palpite sobre a moeda é "neutro" agora, usaremos uma distribuição *a priori* uniforme e contínua. Ou seja, consideramos inicialmente que todos os valores do parâmetro $$ p $$ da distribuição binomial são equiprováveis. 
+
+O primeiro passo é definir uma versão contínua do teorema de bayes, já que estamos trabalhando agora com infinitas possibilidades e não somente duas.
 
 {% raw %}{::nomarkdown}
     <div>
@@ -159,9 +160,9 @@ Para isso, precisamos de uma abordagem contínua com uma distribuição *a prior
     </div>
 {:/}{% endraw %}
 
-A estrutura dessa forma contínua é a mesma da proposição na forma discreta, seguindo a estrutura $$\frac{\text{a posteriori} \ * \ \text{a priori}}{\text{constante de normalização}}$$.
+A nova formulação continua seguindo a estrutura $$\frac{\text{a posteriori} \ * \ \text{a priori}}{\text{constante de normalização}}$$, a diferença é que agora precisamos trabalhar com uma integral no lugar do somatório pois estamos lidando com um problema contínuo.
 
-Assumindo que $$ \theta \sim U[0,1] $$, podemos considerar que $$ f(\theta) = I_{\{0 \leq \theta \leq 1\}} $$. A distribuição *a posteriori* continua seguindo uma binomial, logo temos que $$ f(\theta \mid y) = \theta^y(1-0)^{(n-y)} $$. Para $$ Y= 1 $$ em um lanamento, conseguimos calcular facilmente a distribuição resultante:
+Assumindo que $$ \theta \sim U[0,1] $$, podemos considerar que $$ f(\theta) = I_{\{0 \leq \theta \leq 1\}} $$. A distribuição *a posteriori* continua seguindo uma binomial, logo temos que $$ f(\theta \mid y) = \theta^y(1-0)^{(n-y)} $$. Para $$ Y= 1 $$ em um lançamento, conseguimos calcular facilmente a distribuição resultante já que as integrais são triviais:
 
 {% raw %}{::nomarkdown}
     <div>
@@ -178,12 +179,15 @@ Assumindo que $$ \theta \sim U[0,1] $$, podemos considerar que $$ f(\theta) = I_
     </div>
 {:/}{% endraw %}
 
-Nesse caso, estamos trabalhando com uma simples função linear. TESTANDO!
+Antes de qualquer experimento, tínhamos uma distribuição *a priori* uniforme. A partir do primeiro experimento, a distribuição *a posteriori* foi atualizada para uma linear $$ 2\theta \ I_{\{0 \leq \theta \leq 1\}} $$. Na figura abaixo, é possível observar que à medida em que temos mais sucessos, o valor de $$ \theta $$ vai se aproximando de 1 como esperado para uma moeda desonesta que só retorna sucessos.
 
 <figure>
-  <img src="{{site.url}}/assets/images/lstm/validation_1.png"/>
+  <img src="{{site.url}}/assets/images/bayes/distribuicoes.png"/>
 </figure>
-<figure>
-  <img src="{{site.url}}/assets/images/lstm/validation_1.png"/>
-</figure>
+
+A função *a posteriori* é uma função de $$ \theta $$, isso nos possibilita calcular os intervalos de probabilidade de $$ \theta $$. Por exemplo, podemos calcular $$ P(\theta > 0.5) $$, para verificar a probabilidade da moeda ser enviesada para resultar em mais caras: considerando *a priori* temos $$ P(\theta > 0.5) = 0.5 $$, para *a posteriori*  com $$ Y=1 $$ essa probabilidade aumenta $$ P(\theta \mid Y=1) = 0.75 $$ como esperado.
+
+Apesar da maior complexidade de se trabalhar com essa abordagem bayesiana, ao obtermos uma distribuição de $$ \theta $$ conseguimos trabalhar de forma muito mais intuitiva o problema original da inferência.
+
+## Conclusão
 
