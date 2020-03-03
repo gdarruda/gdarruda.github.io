@@ -7,7 +7,7 @@ description: "A intuição do debate entre as abordagens frequentistas e bayesia
 keywords: "Estatística, Frequentista, Bayesiana"
 ---
 
-Eu já ouvi muito se falar sobre um debate entre as abordagens bayesiana e frequentista na estatística, mas a verdade é que nunca entendi as diferenças entre elases. Por isso, decidi fazer o (ótimo) curso [Bayesian Statistics: From Concept to Data Analysis](https://www.coursera.org/learn/bayesian-statistics)[^1]. Ainda não me sinto completamente confortável com os conceitos, mas ajudou bastante a melhorar minha compreensão.
+Eu já ouvi muito se falar sobre um debate entre as abordagens bayesiana e frequentista na estatística, mas a verdade é que nunca entendi as diferenças entre elas. Por isso, decidi fazer o (ótimo) curso [Bayesian Statistics: From Concept to Data Analysis](https://www.coursera.org/learn/bayesian-statistics)[^1]. Ainda não me sinto completamente confortável com os conceitos, mas ajudou bastante a melhorar minha compreensão.
 
 [^1]: Muitos cursos do Coursera fazem parte de uma graduação, que tem acesso liberado por uma mensalidade. Esse é um curso isolado, o acesso a todo conteúdo e tarefas é gratuito, sendo necessário pagar apenas pelo certificado se for desejável.
 
@@ -29,7 +29,7 @@ Imagino que a diferença entre os métodos continue pouco palpável com essas ex
 
 Primeiro, vamos observar o problema de definir $$ P(\text{Moeda Honesta}) $$ a partir de uma perspectiva frequentista. A ideia é realizar uma série de $$ N $$ lançamentos da moeda e inferir a distribuição usando o [teorema do limite central](https://pt.wikipedia.org/wiki/Teorema_central_do_limite). 
 
-Vamos supor que foram realizados 100 lançamentos de moeda, resultando em 44 caras e 56 coroas. Para efeitos de notação, vamos definir cara como um \[S\]ucesso e coroa como \[F\]racasso. Interpretando esse problema como uma distribuição de Bernoulli, conseguimos chegar a um intervalo o parâmetro $$ p $$ da distribuição.
+Vamos supor que foram realizados 100 lançamentos de moeda, resultando em 44 caras e 56 coroas. Para efeitos de notação, vamos definir cara como um \[S\]ucesso e coroa como \[F\]racasso. Interpretando esse problema como uma distribuição de Bernoulli, conseguimos chegar a um intervalo do parâmetro $$ p $$ da distribuição.
 
 $$
 S = 44 \ F = 56 \\
@@ -64,7 +64,7 @@ Na abordagem frequentista, não temos a ideia do palpite inicial, pois a intepre
 
 ### Simplificando a questão
 
-Antes de abordar o problema original, vamos trabalhar com uma versão simplificada dele. Suponha que fizemos 5 lançamentos de moeda e temos apenas duas duas distribuições candidatas, ao invés de termos uma distribuição honesta e infinitas outras "desonestas". Nesse caso, temos o seguinte problema[^2][^3]:
+Antes de abordar o problema original, vamos trabalhar com uma versão simplificada dele. Suponha que fizemos 5 lançamentos de moeda e temos apenas duas distribuições candidatas, ao invés de termos uma distribuição honesta e infinitas outras "desonestas". Nesse caso, temos o seguinte problema[^2][^3] na abordagem frequentista:
 
 $$
 
@@ -96,7 +96,7 @@ $$
 
 A partir da comparação entre as duas distribuições, podemos inferir que esses resultados são **mais** prováveis partindo de uma moeda honesta do que desonesta. Entretanto, não há uma resposta da **probabilidade** das duas distribuições candidatas.
 
-Sabemos que $$ f(\theta=honesta \mid x=2) > f(\theta=desonesta \mid x=2) $$, mas não sabemos o valor da probabilidade $$ f(\theta=honesta \mid x=2) $$. Lembre-se: o paradigma frequentista não considera $$ P(\theta=honesta) $$ como uma probabilidade, já que nessa abordagem essa questão é tratada como uma grande física no qual só temos dois valores possíveis  $$ \{0,1\} $$
+Sabemos que $$ f(\theta=honesta \mid x=2) > f(\theta=desonesta \mid x=2) $$, mas não sabemos o valor da probabilidade $$ f(\theta=honesta \mid x=2) $$. Lembre-se: o paradigma frequentista não considera $$ P(\theta=honesta) $$ como uma probabilidade, já que nessa abordagem essa questão é tratada como uma grande física no qual só temos dois valores possíveis  $$ \{0,1\} $$.
 
 ### Bayes ao resgate
 
@@ -141,7 +141,7 @@ Com isso, temos uma resposta para $$ P(\theta=honesta \mid x=2) $$ que é $$ .61
 
 Perceba que, usando a abordagem bayesiana, temos uma resposta muito mais clara e informativa para o problema, que é a probabilide da moeda ser honesta.
 
-Um porém, que pode incomodar alguns, é a questão de precisar definir uma probabilidade *a priori* de forma subjetiva. O que é um ponto compreensível, já que [lidar com a priori](https://en.wikipedia.org/wiki/Prior_probability#Uninformative_priors) é umas questões filosóficas dos métodos bayesianos.
+Um porém, que pode incomodar alguns, é a questão de precisar definir uma probabilidade *a priori* de forma subjetiva. O que é um ponto compreensível, já que [lidar com a priori](https://en.wikipedia.org/wiki/Prior_probability#Uninformative_priors) é uma das questões filosóficas dos métodos bayesianos.
 
 Independente dessa (complicada) questão de trabalhar com distribuições *a priori*, acredito que já seja possível ter uma visão mais clara de quais as diferenças práticas e conceituais entre as duas abordagens.
 
@@ -204,7 +204,7 @@ A abordagem bayesiana é mais complexa de se modelar, mas ao obtermos uma distri
 
 ## Conclusão
 
-Espero que esse pequeno exemplo tenha ajudado a entender qual a diferença conceitual entre as duas abordagens, como temos uma resposta mais intuitiva para o problema da moeda ao abordá-lo pela perspectiva bayesiana. Mas que, apesar dessa vantagem interpretativa, modelar os problemas dessa forma é mais complexo como já podemos perceber nesse exemplo e só piora para casos mais complexos.
+Espero que esse pequeno exemplo tenha ajudado a entender qual a diferença conceitual entre as duas abordagens, como temos uma resposta mais intuitiva para o problema da moeda ao abordá-lo pela perspectiva bayesiana. Mas que, apesar dessa vantagem interpretativa, modelar os problemas dessa forma é mais difícil como já podemos perceber nesse exemplo e só piora para casos mais complexos.
 
 Além disso, temos o elefante na sala que é a definição da distribuição *a priori*, mas isso é uma discussão que não me aprofundei pois estaria bem acima do meu conhecimento atual. Intuitivamente, faz sentido para mim trabalhar dessa forma, especialmente se utilizarmos mecanismos como [a priori não informativa](https://en.wikipedia.org/wiki/Prior_probability#Uninformative_priors) que procuram priorizar as informação obtida pelos experimentos em detrimento *a priori*.
 
