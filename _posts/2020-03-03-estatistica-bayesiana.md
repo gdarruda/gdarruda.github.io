@@ -145,7 +145,7 @@ Um porém, que pode incomodar alguns, é a questão de precisar definir uma prob
 
 Independente dessa (complicada) questão de trabalhar com distribuições *a priori*, acredito que já seja possível ter uma visão mais clara de quais as diferenças práticas e conceituais entre as duas abordagens.
 
-### Voltando a questão original
+### Voltando à questão original
 
  Para introduzir a diferença entre uma solução bayesiana e frequentista, usamos uma simplificação do problema original considerando apenas duas distribuições candidatas. Em um caso real, é mais provável que precisemos inferir $$ P(\theta=honesta) $$, sem definir qual seria a distribuição desonesta. Para esse caso mais genérico, precisamos considerar as infinitas distribuições possíveis para uma moeda e trabalhar com o problema de forma contínua.
 
