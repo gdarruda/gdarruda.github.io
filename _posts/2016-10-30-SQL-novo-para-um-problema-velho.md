@@ -6,7 +6,7 @@ description: "Um jeito mais esperto de recuperar a última ocorrência de um his
 keywords: "SQL, Window Functions, Hive, HQL"
 ---
 
-A necessidade de trablhar com históricos é comum para diversos tipos de análise, mas usar históricos via SQL pode ser um tanto "chato" dependendo de como os dados estão estruturados e, mais importante, podem vir a ser consultas bastante pesadas (_e.g._ a visão dos dados de todos os clientes em uma data passada).
+A necessidade de trabalhar com históricos é comum para diversos tipos de análise, mas usar históricos via SQL pode ser um tanto "chato" dependendo de como os dados estão estruturados e, mais importante, podem vir a ser consultas bastante pesadas (_e.g._ a visão dos dados de todos os clientes em uma data passada).
 
 Usando [Window Functions](https://en.wikipedia.org/wiki/Select_(SQL)#Limiting_result_rows) do SQL, é possível resolver alguns problemas na hora de trabalhar com dados históricos, sem apelar desnecessariamente para joins e sub-queries.
 
