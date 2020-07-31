@@ -60,11 +60,11 @@ Eu seria um desses profissionais pouco adaptados a essa dinâmica tradicional, f
 
 Para piorar, também não tenho muito interesse em cursos práticos e menos ainda em certificações Consigo perder essas 60 horas em um curso teórico, com retorno intangível para o meu trabalho atual, mas não consigo dedicar meu tempo às provas de certificação.
 
-Muitos trabalhos se beneficiam mais de um especialista que um generalista, como algo de tiro curto ou evolução de um sistema existente. Se o escopo é fechado, não tem o porquê escolher alguém de conhecimentos gerais ao invés de alguém mais especializado.
+Muitos trabalhos se beneficiam mais de um especialista que um generalista, como algo de tiro curto ou evolução de um sistema existente. Se o escopo é fechado, não tem o porquê escolher um profissional de conhecimentos mais gerais em detrimento a um mais especializado.
 
-Por outro lado, é de se pensar que especialistas deveriam ser exceção e não a regra. Tanto quem contrata quanto quem é contratado ganhariam com essa abordagem, o primeiro com mais pessoas e o segundo com maior variedade de oportunidades.
+Por outro lado, é de se pensar que especialistas deveriam ser exceção e não a regra. Tanto quem contrata quanto quem é contratado ganhariam com essa abordagem, o primeiro com mais opções de profissionais e o segundo com maior variedade de oportunidades.
 
-Acredito que a variedade de experiência também traga um valor intrínseco. É uma opinião sujeita a debates, mas pessoas com experiências em tecnologias diversificadas costumam trazer perspectivas mais amplas. Isso enriquece a tomada de decisão, que em um cenário de muitas tecnologias disponíveis, se torna mais relevante.
+Além do problema de achar candidatos, acredito que a variedade de experiências também traga um valor intrínseco. É uma opinião sujeita a debates, mas pessoas com experiências em tecnologias diversificadas costumam trazer perspectivas mais amplas. Isso enriquece a tomada de decisão, que em um cenário de muitas tecnologias disponíveis, se torna cada vez mais relevante.
 
 O problema é que a experiência genérica quebra as heurísticas dos anos de experiência. Um resumo do meu currículo em termos de "anos de experiência":
 
@@ -75,9 +75,9 @@ O problema é que a experiência genérica quebra as heurísticas dos anos de ex
 * 2 anos como engenheiro de dados (Spark, Hive, etc..)
 * 2 anos como cientista de dados
 
-Usando essas informações, quão bom eu seria como programador Python ou Java? Não é possível deduzir muito para alguém com conhecimento técnico, muito menos para os recrutadores. 
+Usando somente essas informações, como definir quão bom eu seria como programador Python ou Java? Não é possível deduzir muito, mesmo para alguém com conhecimento técnico, muito menos para a primeira etapa de busca que geralmente é conduzida pro recrutadores.
 
-## Evoluindo o processo
+## Novos processos
 
 Acredito (espero) que teria chance em alguns processos de empresas que trabalham com processos mais elaborados, que envolva uma conversa técnica e alguns testes. Empresas populares, como o Stack Overflow, podem ser dar ao luxo de aplicar [processos elaborados](https://stackoverflow.blog/2020/07/03/how-stack-overflow-hires-engineers/) em seus candidatos, que extraem muitas informações dos candidatos em vários aspectos. 
 
@@ -87,7 +87,23 @@ No final, o ajuste de um processo de contratação de profissionais é similar a
 
 Um processo rigoroso e rápido, conseguirá muita precisão e pouca sensibilidade. Ou seja, descartará muitos candidatos mas terá certeza de que os contratados serão bons. Um processo rápido e mais acessível conseguirá muitas pessoas, mas provavelmente nem todas serão boas. 
 
-Só a empresa pode definir onde ela se encaixa, tanto em relação ao quanto ela pode exigir de tempo/esforço dos candidato quanto em relação às prioridades do processo. Mas algumas melhorias acho que são relativamente universais, que poderiam ser implementadas sem grandes custos
+Só a empresa pode definir onde ela se encaixa, tanto em relação ao quanto ela pode exigir de tempo/esforço dos candidato quanto em relação às prioridades do processo. 
+
+## Se adequando à nova realidade
+
+Não acho que seja um problema fácil de resolver, justamente porque não dá para copiar a receita de uma empresa e aplicar. A posição da empresa e o escopo de atuação definem muito do processo, não adianta simplesmente copiar o processo de uma startup e aplicar em uma consultoria. 
+
+Além das empresas, há também a questão dos profissionais a disposição no mercado que são diferentes. Ao aplicar aqueles testes de algoritmos e estrutura de dados, provavelmente você está selecionando pessoas formadas em ciência de computação e não necessariamente os melhores programadores. Uma empresa como o Google pode se dar ao luxo de selecionar dessa forma, já que tem literalmente quase todo mundo disposto a trabalhar para eles, mas para outras provavelmente é só descartar bons candidatos sem motivos.
+
+Acredito que haja alguns aspectos que são universais de melhora, como acabar com descrições de vagas com uma lista de tecnologias por exemplo. Acredito que o básico seja atribuições da vaga, tecnologias utilizadas, conhecimentos esperados e diferenciais. Quando é uma lista simples de tecnologias, é complicado para alguém sem aquela experiência específica avaliar se faz sentido.
+
+Não trabalho com recrutamento, tive experiências pontuais, mas me parece um processo quebrado em muitos lugares. Seria um exagero dizer que migrei para ciência de dados por isso, mas é um incômodo como parece díficil querer trabalhar com tecnologias variadas.
+
+
+
+<!-- 
+
+Mas algumas melhorias acho que são relativamente universais, que poderiam ser implementadas sem grandes custos
 
 ### Descrição de vagas
 
@@ -99,17 +115,24 @@ Uma boa descrição é um custo fixo, a equipe técnica saberá descrever a vaga
 
 ### Testes automatizados
 
-A questão de testes técnicos é polêmica em vários aspectos, o escopo e o formato costumam ser muitos motivos de discussão. Muita gente copia abordagens de empresas renomadas e acabam criando testes que não refletem as necessidades da vaga.
+A questão de testes técnicos é polêmica em vários aspectos, o escopo e o formato costumam ser motivo de muita discussão. Muita gente copia abordagens de empresas renomadas e acabam criando testes que não refletem as necessidades da vaga.
 
-Mas indepedente do escopo teste, acho importante considerar as oportunidades de automatiza-las, mesmo que sejam algumas partes. Plataformas como [HackerRank](https://www.hackerrank.com/) apoiam a construção desses testes, há outras também no mercado.
+Mas indepedente do teste em si, acho importante considerar as oportunidades de automatizá-las, mesmo que seja parcialmente. Plataformas como [HackerRank](https://www.hackerrank.com/) apoiam a construção desses testes, mas há outras com propostas similares.
 
-Por exemplo, para vagas de estágio ou mais junior, acho muito razoável aplicar um teste técnico nos moldes "competição de programação". São relativamente universais e, indepentemente das tecnologias da vaga, a maior exigência deveria ser que a pessoa domine lógica em algum nível. Vagas para níveis mais senior acredito que haja menos oportunidades, questões de arquitetura de software e solução são mais complexas de avaliar com testes por exemplo. 
+Por exemplo, para vagas de estágio ou nível junior, acho muito razoável aplicar um teste técnico nos moldes "competição de programação". São relativamente universais e, considerando que são iniciantes, talvez a prioridade seja um profissional com capacidades mínimas de lógica.
 
-### Novos currículos
+Por outro lado, vagas de níveis mais senior, acredito que haja menos oportunidades de automação. Questões de arquitetura de software e solução são mais complexas de avaliar a partir de testes automatizados e são mais relevantes para esse perfil.
 
-O foco dos currículos costumam ser um descritivo da experiência acadêmica e profissional do candidato. Para pessoas que estão mudando de tecnologia, não faz mais sentido destacar o que se deseja fazer?
+### Estimando o "ramp-up"
 
-Se olharmos aqui uma [lista de sugestões de currículos](https://exame.com/carreira/12-modelos-de-curriculo-para-baixar-e-preencher/), pouco destaque é dado para o objetivo, geralmente resumido ao nome do cargo.
+Ao contratar pessoas com experiências em outras tecnologias, é natural ter um tempo até a pessoa alcançar alguma produtividade. E, no pior dos casos, pode simplesmente nunca acontecer. O maior desafio é quando a vaga é para um cargo de maior senioridade, já que a expectativa é mais alta.
 
+Na entrevista técnica, é possível avaliar o quanto a pessoa está interessada. Em geral, a pessoa já fez algum projeto pessoal ou um curso ao menos. Além da entrevista, é bom avaliar o currículo, pessoas com experiências mais variadas geralmente estão mais acostumadas com a transição.
 
+O risco aqui é inerente, exige um entendimento de quais perfis migram bem. E, por favor, não trate alguém com 10 anos de experiência como um junior unicamente porque desenvolvia sistemas em outra linguagem.
 
+## Não é fácil
+
+A mudança não é fácil, de fato ficou mais complicado lidar com contratações em um mercado que se move mais rápido e se torna cada vez mais heterôgeneo. Aqui eu só comentei do processo, nem falei de outros grandes pontos como a postura dos profissionais e ensino.
+
+Não sei nem dizer o porquê de eu ter escrito esse texto, não é nem que eu realmente lide tanto com contratação, mas é daqueles processos que parecem quebrados. Nunca  -->
