@@ -107,6 +107,8 @@ Em geral, a ideia de copiar os melhores é uma boa receita, mas para recrutament
 
 Acredito que haja melhorias universais para os processos, como melhores descrições de vagas e algum nível de automação, mas boa parte do processo depende das características da empresa, candidatos e vaga. Por mais que eu esteja fazendo os paralelos do processo de seleção com machine learning, [recrutamento Data Driven](https://www.google.com/search?hl=en&q=BIg%20Data%20doesn%27t%20help%20google%20recruiting) não parece ser a panaceia como estão vendendo.
 
+Em algum nível, a forma de contratação molda a área. As empresas consideram as opções de tecnologia, em partes, pela disponibilidade de profissionais. O ensino se molda às demandas do mercado, já que empregabilidade é considerado um critério chave pelos alunos. Até decisões técnicas são influenciadas, já que a expectativa de ter experiência em várias tecnologias gera um incentivo ao overengineering.
+
 Não tenho muita experiência com recrutamento, mas sempre me pareceu um processo sub-otimizado e cada vez mais distante da realidade atual e do futuro. Acredito que os processos tenham melhorado, mas ao custo de mais tempo e esforço, o que talvez seja inevitável nesse novo contexto.
 
 Ironicamente, é um processo especialmente complexo de especificar  e automatizar, a contratação de programadores.
