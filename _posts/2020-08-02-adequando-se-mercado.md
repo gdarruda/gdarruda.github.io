@@ -95,7 +95,7 @@ Só a empresa pode definir onde ela se encaixa, tanto em relação ao quanto ela
 
 A dificuldade em definir um bom processo é justamente porque não dá para aplicar a receita usada em outra empresa. A posição de mercado e o escopo de atuação definem muito do processo, não faz sentido copiar o processo de uma startup e aplicar em uma consultoria. 
 
-O Vale do Silício popularizou testes de algoritmos e estruturas de dados, os méritos dessa abordagem é [muito discutido](https://www.quora.com/Why-do-interviewers-care-so-much-about-algorithm-and-data-structures). Alguns acham desnecessário e elitista enquanto outros acham que avaliam habilidades importantes. Acredito que ambos estão corretos em algum nível, pois avaliam habilidades relevantes, mas acabam descartando desnecessariamente boa parte de candidatos.
+O Vale do Silício popularizou testes de algoritmos e estruturas de dados, os méritos dessa abordagem são [muito discutidos](https://www.quora.com/Why-do-interviewers-care-so-much-about-algorithm-and-data-structures). Alguns acham desnecessário e elitista enquanto outros acham que avaliam habilidades importantes. Acredito que ambos estão corretos em algum nível, pois avaliam habilidades relevantes, mas acabam descartando desnecessariamente boa parte de candidatos.
 
 No final, esses testes acabam filtrando não bons profissionais, mas selecionando formados (recentes) em ciência de computação. Não faz sentido para a grande maioria do mercado, já que nem é uma habilidade realmente necessária para grande parte dos trabalhos de TI.
 
