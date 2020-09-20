@@ -17,7 +17,7 @@ Apesar de estrutura de dados e algoritmos serem o centro do debate, acredito que
 
 ## Linguagens de programação
 
-É normal nas graduações ter alguma matéria chamanda "linguagens de programação" ou algo do gênero, que aborda as ideias por trás delas, como os diferentes paradigmas e tipos de sintaxe. Não cheguei a cursar durante a graduação, acredito que era optativa, mas achei esse [ótimo curso](https://www.coursera.org/learn/programming-languages?) que é basicamente esse tipo de conteúdo em formato de MOOC.
+É normal nas graduações ter alguma matéria chamanda "linguagens de programação" ou algo do gênero, que aborda as ideias por trás delas, como os diferentes paradigmas e tipos de sintaxe. Não cheguei a cursar durante minha graduação, acredito que era optativa, mas achei esse [ótimo curso](https://www.coursera.org/learn/programming-languages?) que é basicamente esse tipo de conteúdo em formato de MOOC.
 
 O curso aborda três linguagens: SML, Racket e Ruby. Exceto no caso do Ruby, não são linguagens populares no mercado. O professor sabe disso, mas são escolhas muito bem justificadas para explicar o conteúdo do curso, já que o ponto é abordar o design de linguagens e não simplesmente aprender a utilizá-las.
 
@@ -40,13 +40,13 @@ O [Apache Spark](https://spark.apache.org/) é uma solução para trabalhar com 
 
 O primeiro ponto na escolha de uma linguagem, seja para o Spark ou para qualquer projeto, é a viabilidade técnica. O que envolve vários aspectos, mas pode ser resumida a uma pergunta: dá para resolver esse problema usando essa linguagem?
 
-Em geral, esse tipo de decisão era menos frequente, já que essa decisão noralmente envolve muito mais coisas que apenas a linguagem de programação.  Quando se fala Java, via de regra não se está falando sobre a linguagem em si, mas de tudo que está ao entorno dela: JDK, servidor de aplicação, bibliotecas, frameworks, etc. Um pacote de coisas, que a linguagem faz parte.
+Em geral, esse tipo de decisão era menos frequente, já que essa decisão noralmente envolve muito mais coisas que apenas a linguagem de programação.  Quando se fala de programar em Java, via de regra não se está falando somente sobre a linguagem em si, mas de tudo que está ao entorno dela: JDK, servidor de aplicação, bibliotecas, frameworks, etc. Um pacote de coisas, que a linguagem faz parte.
 
 Hoje há mais flexibilidade – é possível e razoável usar diversas linguagens dentro de plataformas como JDK e .NET por exemplo – mantendo interoperabilidade (em algum nível) com todo o ecossistema existente. No caso do Spark, ter dois projetos usando linguagens diferentes no mesmo ambiente não costuma ser um grande problema, já que é uma solução desenhada com essa flexibilidade em mente.
 
 Como não era muito comum escolher linguagens, nem sempre é claro onde "começa" e "termina" a linguagem para alguns desenvolvedores. Parece bobo, mas talvez a primeira motivação para aprender sobre linguagens, é justamente entender do que se trata uma.
 
-A dificuldade em compreender o escopo da linguagem dentro da solução, faz com que as pessoas interpretem mal a importância delas em um contexto multi-linguagem. Em geral, sendo possível resolver o problema, não é algo tão crucial para solução Spark a linguagem já que é algo desenhado para suportar múltiplas linguagens.
+A dificuldade em compreender o escopo da linguagem dentro da solução, faz com que as pessoas interpretem mal a importância delas em um contexto multi-linguagem. No caso do Spark, sinto que muitas vezes superestimam a importância. Sendo possível resolver o problema, não costuma ser tão crucial a linguagem para a qualidade da solução. 
 
 ### Qualquer uma então?
 
@@ -58,7 +58,7 @@ Nesse cenário, Scala deveria ser uma decisão *no-brainer* do ponto de vista t�
 
 Entendo o medo de Scala, não é injustificado, mas só eu acho curioso que não existe o mesmo medo com Spark? Saber usar Spark não é sobre conhecer as APIs, mas entender o que está acontecendo embaixo do capô para não cair em problemas de shuffle e falta de memória. Processamento distribuído é um dos tópicos mais complexos de computação, certamente mais complexo que aprender Scala.
 
-Dominando o Spark, não importa tanto a linguagem, são claro os casos em que Pyhton não é uma boa escolha por exemplo. Mas fugir de Scala, vai atrapalhar justamente essa caminhada de dominar o Spark, talvez ser até um barreira. Em outras palavras, é mais díficil saber Spark se não souber Scala.
+Dominando o Spark, não importa tanto a linguagem, fica fácil identificar os casos em que é razoável usar Python ou não por exemplo. Mas fugir de Scala, vai atrapalhar justamente essa caminhada de dominar o Spark, talvez ser até um barreira. Em outras palavras, é mais díficil saber Spark se não souber Scala.
 
 Sabendo os conceitos de linguagem, Scala deixa de ser um bicho papão e se torna apenas mais uma linguagem. Um problema a menos, na díficil jornada de usar Spark.
 
@@ -80,38 +80,40 @@ Em resumo, se eu tivesse feito o curso antes de aprender Scala, eu teria muito m
 
 Mas além de simplesmente facilitar o aprendizado de Scala, entender esses conceitos ajudam a entender melhor os porquês do Spark, afinal a linguagem não foi escolhida por acaso para desenvolver o projeto.
 
-## Formalismos são chatos, mas cruciais
+## Formalismos são chatos, mas úteis
 
-Apesar de se falar muito em programação funcional, não é muito simples definir exatamente do que se trata, explicar diferença entre imperativo e funcional.
+Apesar de se falar muito em programação funcional, não é muito simples definir exatamente do que se trata. São paradigmas que se originaram de diferentes teorias de computação, mas que se misturam nas linguagens e nas soluções práticas.
 
-Esses paradigmas se originaram de teorias diferentes de computação. O imperativo é baseado na máquina de Turing, com base na qual os computadores reais são feitos, enquanto o funcional é baseado em [lambda calculus](https://www.youtube.com/watch?v=eis11j_iGMs). São teorias diferentes, mas [equivalentes entre si](https://www.youtube.com/watch?v=eis11j_iGMs). Ou seja, o que pode ser resolvido em máquina de Turing pode ser resolvido em lambda calculus.
+O paradigma imperativo é baseado na máquina de Turing, com base na qual os computadores reais são feitos, enquanto o funcional é baseado em [lambda calculus](https://www.youtube.com/watch?v=eis11j_iGMs). São teorias diferentes, mas [equivalentes entre si](https://www.youtube.com/watch?v=eis11j_iGMs). Ou seja, o que pode ser resolvido em máquina de Turing pode ser resolvido em lambda calculus.
 
-O paradigma imperativa faz mais sentido, em termos de otimização de baixo nível, já que é uma abstração mais próxima do computador real que utilizamos. Transformar um laço em código de máquina eficiente é mais fácil que transformar uma função recursiva.
+Em termos de otimização de código, o paradigma imperativo faz mais sentido, já que é uma abstração mais próxima do computador real que utilizamos. Por exemplo, transformar um laço em código de máquina eficiente é mais fácil que transformar uma função recursiva.
 
-Por outro lado, em um cenário de paralelismo, as chatices dos conceitos funcionais facilitam identificar o que pode ou não ser paralelizado. A partir das restrições de uma operação de `map`, é possível entender o porquê dele pode ser paralelizado, encadeado e ter a execução postergada. São ideias chaves para o Spark funcionar, que vieram "de graça" da teoria de lambda calculus e linguagens funcionais.
+Por outro lado, em um cenário de paralelismo, alguns conceitos de linguagens funcionais facilitam a identificação do que pode ser paralelizado. A partir das restrições de uma operação de `map`, é possível entender o porquê dele pode ser paralelizado, encadeado e ter a execução postergada. São ideias chaves para o Spark funcionar, que vieram "de graça" da teoria de lambda calculus e linguagens funcionais.
 
-Um exemplo mais extremo e muito bem sucedido dessa estratégia, de aproveitar restrições e formalidades para uma melhor solução, é o SQL. A linguagem é focada em operações de conjuntos, que a torna simples de usar e se adapta muito bem a problemas de dados, basta ver a popularidade dela entre usuários.
+Um exemplo, mais extremo e muito bem sucedido, dessa ideia de aproveitar formalismos para uma melhor solução é o SQL. A linguagem é focada em operações de conjuntos, que a torna simples de usar e se adapta muito bem a problemas de dados, basta ver a popularidade dela entre usuários.
 
-Não se pensa muito nisso mas o escopo limitado do SQL e a fundação teórica em conjuntos, permitem que os otimizadores de SQL façam coisas mágicas. Uma consulta SQL pode ser reescrita pelo otimizador, garantindo o mesmo resultado com maior eficiência. A partir de estatísticas descritivas, tanto do banco de dados em si como da performance do ambiente, uma mesma consulta pode optar por estratégia completamente distintas de busca/junção ao executar uma consulta.
+Não se pensa muito nisso, mas o escopo limitado do SQL e a fundação teórica em conjuntos, permitem que os otimizadores de consultas façam coisas mágicas. A partir de estatísticas descritivas, tanto do banco de dados em si como da performance do ambiente, uma mesma consulta pode optar por estratégia completamente distintas de busca/junção ao executar uma consulta.
 
 É interessante pensar nisso, porque as ideias de programação funcional são instrumentais para o sucesso das soluções de dados, especialmente as que ficam no guarda-chuva da Big Data. O Scala faz muito sentido, ao mesmo tempo que foca na abordagem funcional, se integra muito bem com a realidade corporativa em que a orientação a objetos e Java são muito consolidados.
 
 ## Por que não Scala?
 
-Ao mesmo tempo que o Scala faz muito sentido para desenvolver o Spark, utiliza-lo da melhor forma possível, talvez haja mais motivos para não utiliza-lo.
+Ao mesmo tempo que o Scala faz muito sentido como principal linguagem do Spark, para determinados usos talvez não seja o caso. Inclusive, acredito que haja mais casos em que Scala não é adequado.
 
-Atuando como cientista, prefiro Python e não Scala para usar com Spark. Para análises exploratórias e experimentos, Python tem todo o ecossistema de ciência de dados a disposição e Spark SQL resolve a maioria dos problemas. Sendo uma linguagem de tipos dinâmicos, é mais prática para experimentação que Scala por exemplo.
+Como cientista de dados, entendo Python é quase sempre uma melhor opção. Para análises exploratórias e experimentos, Python tem todo o ecossistema de ciência de dados a disposição e [Spark SQL](https://spark.apache.org/sql/) atende muito da manipulação pesada de dados. Fora as bibliotecas disponíveis, o fato de Python ser uma linguagem dinâmica torna mais agradável o processo de análise.
 
-Por outro lado, se eu precisar colocar um modelo em produção, que integre com sistemas críticos provavelmente optaria por Scala. Para produção, prefiro linguagens com tipos estatísticos, um pouco menos de praticidade que se paga ao meu ver. Depende do tipo de modelo, já que o ecossistemas de Python para ciência de dados é muito mais rico, talvez o modelo ideal para o problema não tenha uma solução em Scala ou Java.
+Por outro lado, se eu precisar colocar um modelo em produção, que integre com sistemas críticos provavelmente optaria por Scala. Para produção, acredito que a perda de praticidade das linguagens estáticas se pagam pelas vantagens. Claro, isso se for possível, talvez eu esteja usando bibliotecas e modelos que só estejam disponíveis em Python.
 
-As escolhas geralmente ficam em Python ou Scala, mas existem outros cenários que outras linguagens fazem sentido. 
+A decisão depende de vários fatores, mas entendendo mais profundamente as implicações das diferenças entre linguagens, é mais provável que se tome uma boa decisão.
+
+Por exemplo, a diferença entre tipos do Scala e Python não costumam ser um fator técnico decisivo, mas é um fator subjetivo relevante. E a relevância dessa diferença depende do seu projeto, mas para isso é bom entender o que exatamente significa tipos estáticos e dinâmicos.
 
 ## Próximo passo para trás
 
 O curso, apesar de discutir muitos conceitos, não se propõe a entrar muito em coisas como teoria das categorias ou lambda calculus. Termos como functors, monoides e mônadas não aparecem no curso e continuam não significando nada para mim. Meu próximo passo, para trás no caso, seria aprender um poucos dessas ideias a partir de um linguagem mais formal como Haskell. 
 
-Ao mexer com desenvolvimento, acredito que essa seja um fluxo comum: primeiro se aprende a usar as ferramentas e resolver os problemas, depois se aprende os conceitos por trás. É o caminho inverso da academia, o que talvez seja o motivo de tanto discussão sobre o currículo delas. Até costumo dizer que, provavelmente, as pessoas achariam mais útil uma se fizessem o curso depois de alguns anos de trabalho.
+Ao mexer com desenvolvimento, acredito que seja comum primeiro aprender a usar as ferramentas e resolver os problemas, e depois entender os conceitos por trás. É o caminho inverso da academia, o que talvez seja o motivo de tanto discussão sobre o currículo das graduações. Até costumo dizer que, provavelmente, as pessoas achariam mais útil uma se fizessem o curso depois de alguns anos de trabalho.
 
-Dar esse passo para trás, entender melhor o que está por trás das coisas, não é algo muito incentivado. Talvez, realmente não faça sentido para todos, mas acho que entender facilita o aprendizado. Mais importante, melhora a tomada de decisão, porque os motivos são mais claros por trás das tecnologias (*e.g* linguagens, frameworks, banco de dados, bibliotecas).
+Dar esse passo para trás, entender melhor o que está por trás das coisas, não é algo muito incentivado [pelo mercado](https://gdarruda.github.io/2020/08/02/adequando-se-mercado.html). Talvez, realmente não faça sentido para todos, mas acho que esse caminho facilita o aprendizado futuro. Mais importante, melhora a tomada de decisão, porque os motivos são mais claros por trás das tecnologias (*e.g* linguagens, frameworks, banco de dados, bibliotecas).
 
-Por fim, acho gratificante simplesmente entender mais algumas coisas.
+Além de tudo, simplesmente acho gratificante entender algumas coisas.
