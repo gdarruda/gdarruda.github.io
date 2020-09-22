@@ -42,7 +42,7 @@ O primeiro ponto na escolha de uma linguagem, para qualquer projeto, é a viabil
 
 Em geral, esse tipo de decisão era menos frequente, já que normalmente envolve muito mais coisas que apenas a linguagem de programação.  Quando se fala de programar em Java, via de regra não se está falando somente da linguagem, mas de tudo que está ao entorno dela: JDK, servidor de aplicação, bibliotecas, frameworks, etc.
 
-Hoje há mais flexibilidade – é possível e razoável usar diversas linguagens dentro de plataformas como JDK e .NET por exemplo – mantendo interoperabilidade (em algum nível) com todo o ecossistema existente. No caso do Spark, ter dois projetos usando linguagens diferentes no mesmo ambiente não costuma ser um grande problema, já que é uma solução desenhada com essa flexibilidade em mente.
+Hoje há mais flexibilidade em relação à linguagem – é possível e razoável usar diversas linguagens dentro de plataformas como JDK e .NET por exemplo – mantendo interoperabilidade (em algum nível) com todo o ecossistema existente. No caso do Spark, ter dois projetos usando linguagens diferentes no mesmo ambiente não costuma ser um grande problema, já que é uma solução desenhada com essa flexibilidade em mente.
 
 Como não era muito comum escolher linguagens, nem sempre é claro onde "começa" e "termina" a linguagem para alguns desenvolvedores. Parece bobo, mas talvez a primeira motivação para aprender sobre linguagens, é justamente entender do que se trata uma.
 
@@ -106,13 +106,13 @@ Para um cientista de dados, normalmente Python é uma melhor opção. Para anál
 
 Por outro lado, se eu precisar colocar um modelo em produção que integre com sistemas críticos, provavelmente optaria por Scala. Para produção, acredito que a perda de praticidade das linguagens estáticas se pagam pelas vantagens. Acesso às bibliotecas Java costuma ser útil também para esse cenário.  Se a decisão final é por um modelo disponível na [MLlib](https://spark.apache.org/docs/latest/ml-guide.html), Scala me parece uma melhor opção.
 
-A decisão da linguagem depende de vários fatores, entendendo melhor as diferenças entre elas, é mais fácil mensurar os *trade-offs* subjetivos dessa escolha. Quando eu falo que Scala é "melhor" para usar Spark, o que isso significa exatamente? Como eu exemplifiquei, há casos em que outras opções são melhores.
+A decisão da linguagem depende de vários fatores, entendendo mais profundamente as diferenças entre elas, é mais fácil mensurar os *trade-offs* dessa escolha. Quando eu falo que Scala é "melhor" para usar Spark, o que isso significa exatamente? Não são apenas decisões técnicas, há muitos pontos subjetivos e dependentes do contexto (*e.g* projeto, conhecimento do time, tempo) que só os envolvidos conseguem avaliar.
 
 ## Próximo passo para trás
 
 O curso, apesar de discutir muitos conceitos, não se propõe a entrar muito em tópicos como teoria das categorias ou lambda calculus. Coisas como functors, monoides e mônadas não aparecem no curso e continuam não significando nada para mim. Meu próximo passo, para trás no caso, seria aprender um poucos dessas ideias a partir de um linguagem mais formal como Haskell. 
 
-Ao mexer com desenvolvimento, acredito que seja comum essa ideia primeiro aprender a usar as ferramentas e resolver os problemas, e depois entender os conceitos por trás. É o caminho inverso da academia, o que talvez seja o motivo de tanto discussão sobre o currículo das graduações. Até costumo dizer que, provavelmente, as pessoas achariam mais útil uma se fizessem o curso depois de alguns anos de trabalho.
+Ao mexer com desenvolvimento, acredito que seja comum essa ideia primeiro aprender a usar as ferramentas e resolver os problemas, para depois entender os conceitos por trás. É o caminho inverso da academia, o que talvez seja o motivo de tanto discussão sobre o currículo das graduações. Até costumo dizer que, provavelmente, as pessoas achariam mais útil uma se fizessem o curso depois de alguns anos de trabalho.
 
 Dar esse passo para trás, entender melhor o que está por trás das coisas, não é algo muito incentivado [pelo mercado](https://gdarruda.github.io/2020/08/02/adequando-se-mercado.html). Talvez, realmente não faça sentido para todos, mas acho que esse caminho facilita o aprendizado futuro. Mais importante, melhora a tomada de decisão, porque os motivos são mais claros por trás das tecnologias (*e.g* linguagens, frameworks, banco de dados, bibliotecas).
 
