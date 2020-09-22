@@ -9,9 +9,9 @@ keywords: "Programação Funcional, Linguagens, Conceitos"
 
 Uma discussão comum na área de programação é a relevância das graduações –  especialmente as que seguem os currículos tradicionais – em um mercado que evolui rapidamente e se torna mais heterogêneo.
 
-Um dos pontos mais debatidos são os tópicos de estruturas de dados, que talvez seja o conteúdo mais simbólico dos cursos de computação. É um tópico que resume bem a questão central do debate: qual a importância de entender como é implementado, saber se aquele comando `get` do banco de dados faz uma busca em árvore ou tabela hash?
+Um dos pontos mais debatidos são os tópicos de estruturas de dados, que talvez seja o conteúdo mais simbólico dos cursos de computação. É um assunto que resume bem a questão central do debate: qual a importância de entender como é implementado, saber se aquele comando `get` do banco de dados faz uma busca em árvore ou tabela hash?
 
-Não acho que haja uma reposta simples, como é comum nessas discussões intermináveis. A utilidade prática depende muito do escopo do trabalho, não é igual para todo programador. Há até um certo esnobismo misturado nessa discussão, uma ideia de que programdores "de verdade" precisam entender de estrutura de dados. Para completar, entra também uma questão muito pessoal e subjetiva, que é a forma de aprender e trabalhar de cada um.
+Não acho que haja uma reposta simples, como é a regra nessas discussões intermináveis. A utilidade prática depende muito do escopo do trabalho, não é igual para todo programador. Há até um certo esnobismo misturado nessa discussão, uma ideia de que programdores "de verdade" precisam entender de estrutura de dados. Para completar, entra também uma questão muito pessoal e subjetiva, que é a forma de aprender e trabalhar de cada um.
 
 Apesar de estrutura de dados e algoritmos serem o centro do debate, existe um outro tópico de computação que acho mais relevante, mas que ao mesmo tempo é menos foco de interesse. No caso, estou falando dos conceitos de linguagens de programação.
 
@@ -21,14 +21,14 @@ Apesar de estrutura de dados e algoritmos serem o centro do debate, existe um ou
 
 O curso aborda três linguagens: SML, Racket e Ruby. Exceto no caso do Ruby, não são linguagens populares no mercado. O instrutor sabe disso, mas são escolhas muito bem justificadas para explicar o conteúdo do curso, já que o ponto é abordar o design de linguagens e não simplesmente aprender a utilizá-las.
 
-Essa abordagem reflexiva é justamente o que torna o curso bom, veja alguns pontos interessantes debatidos durante o curso:
+Essa abordagem é justamente o que torna o curso bom, veja alguns pontos interessantes debatidos durante o curso:
 
 * Qual a diferença entre "tipagem" estática e dinâmica? 
 * Qual a relação entre tipos e classes?
 * Qual o ponto da imutabilidade?
 * Como abordar um problema pela perspectiva funcional e orientada à objetos?
 
-Discutir essas questões não é necessário para programar, entram no mesmo tipo de discussão em relação a estrutura de dados. Entretanto, argumento que lidar com esses conceitos são problemas comuns a todos os programadores, mais presentes no dia-a-dia que tópicos de estrutura de dados inclusive.
+Discutir essas questões não é necessário para programar nessas linguagens, entram no mesmo tipo de discussão em relação a estrutura de dados. Entretanto, argumento que lidar com esses conceitos são problemas comuns a todos os programadores, mais presentes no dia-a-dia que tópicos de estrutura de dados inclusive.
 
 Sempre foi importante conhecer um pouco sobre isso, mas pelas últimas tendências de mercado, responder a esses tipos de questão se tornou muito mais relevante.
 
@@ -50,9 +50,9 @@ A dificuldade em compreender o escopo da linguagem dentro da solução, faz com 
 
 ### Qualquer uma então?
 
-Pela início do meu argumento, parece que para usar Spark não importa a linguagem utilizada. Em algum nível sim, mas por que não se usa Scala sempre que possível?
+Pela início do meu argumento, parece que para usar Spark não importa a linguagem utilizada. Em algum nível é isso, mas por que não usar Scala sempre que possível?
 
-Imagine um processo novo de ETL dentro de um ambiente Hadoop, em que a maioria das tecnologias é baseada na JDK. Usando Scala, é garantido que o acesso a API do Spark será o mais amplo e com a melhor performance, se for necessário alguma integração com ferramentas do ambiente (*e.g.* HDFS, YARN, ZooKeeper) não deve ser um problema pela interoperabilidade de Scala com Java. 
+Imagine um processo novo de ETL dentro de um ambiente Hadoop, em que a maioria das tecnologias é baseada na JDK. Usando Scala, é garantido que o acesso a API do Spark será o mais amplo e com a melhor performance. Se for necessário alguma integração com ferramentas do ambiente (*e.g.* HDFS, YARN, ZooKeeper), não deve ser um problema pela interoperabilidade de Scala com Java. 
 
 Nesse cenário, Scala deveria ser uma decisão *no-brainer* do ponto de vista técnico. Mas o elefante na sala é justamente usar Scala, uma linguagem [díficil de aprender](https://www.quora.com/Why-is-Scala-so-hard-to-learn) por ser muito complexa em sua proposta multi-paradigma. 
 
@@ -66,11 +66,11 @@ Sabendo os conceitos de linguagens de programação, Scala deixa de ser um bicho
 
 ## Linguagem são conceitos aplicados
 
-Uma linguagem é um "catado" de recursos, e Scala é uma que procura implementar muitos deles. O *slogan* da linguagem é combinar recursos de orientação a objetos e funcional, o criador considera que são conceitos ortogonais e podem ser combinados.
+Uma linguagem é um "catado" de recursos, e Scala é uma que procura implementar muitos deles. O *slogan* da linguagem é combinar recursos de orientação a objetos e funcional, o criador considera que são conceitos ortogonais e podem ser integrados.
 
-Pode-se dizer que foi uma proposta de sucesso, não chega a ser uma linguagem popular, mas há projetos relevantes em Scala como Akka e o próprio Spark. Linguagens populares de mercado adotaram alguns conceitos funcionais, como é o caso de Java e C#, corroborando que é possível fazer essa mistura de paradigmas.
+Pode-se dizer que foi uma proposta de sucesso, não chega a ser uma linguagem popular, mas há projetos relevantes em Scala como Akka e o próprio Spark. Linguagens muito populares no mercado adotaram alguns conceitos funcionais, como é o caso de Java e C#, corroborando que é possível fazer essa mistura de paradigmas.
 
-O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Optar por implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema que o desenvolvedor precisa compreender. Por outro lado, as possibilidades e a flexbilidade são justamente as vantagens de Scala.
+O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Optar por implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema. Por outro lado, as possibilidades e a flexbilidade são justamente as vantagens de Scala.
 
 Sabendo os conceitos de linguagens de programação, é mais fácil navegar nessas possibilidades e aproveitá-las da melhor forma. O curso não aborda Scala, mas debate conceitos chaves dela a partir de outras linguagens. 
 
@@ -80,7 +80,7 @@ Além de SML e Racket para explicar programação funcional, orientação a obje
 
 Se eu tivesse feito o curso antes de aprender Scala, seria muito mais fácil evoluir nela e os códigos teriam maior qualidade. Por outro lado, é verdade que eu me virei, entendendo muito dessas ideias de forma superficial e por analogias. Por exemplo, interpretar o `map` como um `loop` que retorna sempre o resultado da última linha.
 
-Mas além de simplesmente facilitar o aprendizado de Scala, entender esses conceitos ajudam a entender melhor os porquês do Spark, afinal a linguagem não foi escolhida por acaso para desenvolver o projeto.
+Mas além de simplesmente facilitar o aprendizado de Scala, entender esses conceitos ajudam a compreender melhor os porquês do Spark, afinal a linguagem não foi escolhida por acaso para desenvolver o projeto.
 
 ## Formalismos são chatos, mas úteis
 
