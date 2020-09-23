@@ -34,27 +34,27 @@ Sempre foi importante conhecer um pouco sobre isso, mas pelas últimas tendênci
 
 No trabalho anterior, lidei muito com Spark em diversos casos de uso: processos de ETL, análise exploratória e implantação de modelos. Acredito que seja interessante o caso do Spark, porque os diferentes casos de uso trazem respostas diferentes para a pergunta que eu sempre ouvia no começo de todo projeto: a gente vai usar qual linguagem?
 
-O [Apache Spark](https://spark.apache.org/) é uma solução para trabalhar com manipulação de dados massivos em paralelo. Ele é desenvolvido em [Scala](https://scala-lang.org/), mas tem APIs para diversas outras como Python, Java e R por exemplo. Por isso, é uma questão comum definir qual linguagem a ser utilizada em um projeto com Spark.
+Para quem desconhece, o [Apache Spark](https://spark.apache.org/) é uma solução para trabalhar com manipulação de dados massivos em paralelo. Ele é desenvolvido em [Scala](https://scala-lang.org/), mas tem APIs para diversas outras como Python, Java e R por exemplo. Por isso, é uma questão comum definir qual linguagem a ser utilizada em um projeto com Spark.
 
 ## Quanto importa a linguagem?
 
 O primeiro ponto na escolha de uma linguagem, para qualquer projeto, é a viabilidade técnica. O que envolve vários aspectos, mas pode ser resumida a uma pergunta: dá para resolver esse problema usando essa linguagem?
 
-Em geral, esse tipo de decisão era menos frequente, já que normalmente envolve muito mais coisas que apenas a linguagem de programação.  Quando se fala de programar em Java, via de regra não se está falando somente da linguagem, mas de tudo que está ao entorno dela: JDK, servidor de aplicação, bibliotecas, frameworks, etc.
+Em geral, esse tipo de decisão era menos frequente, já que normalmente envolve muito mais coisas que apenas a linguagem de programação.  Quando se fala de programar em Java, via de regra, não se está falando somente da linguagem, mas de tudo que está ao entorno dela: JDK, servidor de aplicação, bibliotecas, frameworks, etc.
 
 Hoje há mais flexibilidade em relação à linguagem – é possível e razoável usar diversas linguagens dentro de plataformas como JDK e .NET por exemplo – mantendo interoperabilidade (em algum nível) com todo o ecossistema existente. No caso do Spark, ter dois projetos usando linguagens diferentes no mesmo ambiente não costuma ser um grande problema, já que é uma solução desenhada com essa flexibilidade em mente.
 
 Como não era muito comum escolher linguagens, nem sempre é claro onde "começa" e "termina" a linguagem para alguns desenvolvedores. Parece bobo, mas talvez a primeira motivação para aprender sobre linguagens, é justamente entender do que se trata uma.
 
-A dificuldade em compreender o escopo da linguagem dentro da solução, faz com que as pessoas interpretem mal a importância delas em um contexto multi-linguagem. No caso do Spark, sinto que muitas vezes superestimam a importância. Em geral, se a linguagem tem acesso às APIs necessárias para o projeto, ele funcionará bem em Java, Python ou Scala.
+A dificuldade em compreender o escopo da linguagem dentro da solução, faz com que as pessoas interpretem mal a importância delas em um contexto multi-linguagem. No caso do Spark, sinto que muitas vezes superestimam a importância. Em geral, se a linguagem tem acesso às APIs Spark necessárias para o projeto, ele funcionará bem em Java, Python ou Scala.
 
 ### Qualquer uma então?
 
-Pela início do meu argumento, parece que para usar Spark não importa a linguagem utilizada. Em algum nível é isso, mas por que não usar Scala sempre que possível?
+Pela início do meu argumento, parece que para usar Spark não importa a linguagem utilizada. Em algum nível, é isso mesmo, mas por que não usar Scala sempre que possível?
 
 Imagine um processo novo de ETL dentro de um ambiente Hadoop, em que a maioria das tecnologias é baseada na JDK. Usando Scala, é garantido que o acesso a API do Spark será o mais amplo e com a melhor performance. Se for necessário alguma integração com ferramentas do ambiente (*e.g.* HDFS, YARN, ZooKeeper), não deve ser um problema pela interoperabilidade de Scala com Java. 
 
-Nesse cenário, Scala deveria ser uma decisão *no-brainer* do ponto de vista técnico. Mas o elefante na sala é justamente usar Scala, uma linguagem [díficil de aprender](https://www.quora.com/Why-is-Scala-so-hard-to-learn) por ser muito complexa em sua proposta multi-paradigma. 
+Nesse cenário, Scala deveria ser uma decisão *no-brainer* do ponto de vista técnico. Mas o elefante na sala é justamente usar Scala, uma linguagem pouca popular e com fama de [díficil de aprender](https://www.quora.com/Why-is-Scala-so-hard-to-learn), por ser muito complexa em sua proposta multi-paradigma. 
 
 Entendo o medo de Scala, não é injustificado, mas só eu acho curioso que não existe o mesmo medo com Spark? Saber usar Spark não é sobre conhecer as APIs, mas entender o que está acontecendo embaixo do capô para não cair em problemas de shuffle e falta de memória. Processamento distribuído é um dos tópicos mais complexos de computação, certamente mais complexo que aprender Scala.
 
@@ -70,15 +70,15 @@ Uma linguagem é um "catado" de recursos, e Scala é uma que procura implementar
 
 Pode-se dizer que foi uma proposta de sucesso, não chega a ser uma linguagem popular, mas há projetos relevantes em Scala como Akka e o próprio Spark. Linguagens muito populares no mercado adotaram alguns conceitos funcionais, como é o caso de Java e C#, corroborando que é possível fazer essa mistura de paradigmas.
 
-O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Optar por implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema. Por outro lado, as possibilidades e a flexbilidade são justamente as vantagens de Scala.
+O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema que a linguagem possibilita. Por outro lado, as possibilidades e a flexbilidade são justamente as vantagens de Scala.
 
 Sabendo os conceitos de linguagens de programação, é mais fácil navegar nessas possibilidades e aproveitá-las da melhor forma. O curso não aborda Scala, mas debate conceitos chaves dela a partir de outras linguagens. 
 
-Das linguagens abordadas no curso, talvez SML seja a que mais lembra Scala em ideias como inferência de tipo, pattern-matching, options e currying. Questões mais gerais como recursão, funções de alta-ordem e closures – presentes em Scala e qualquer outra linguagem funcional – também são apresentadas no curso.
+Das linguagens abordadas, talvez SML seja a que mais lembra Scala em ideias como inferência de tipo, pattern-matching, options e currying. Questões mais gerais como recursão, funções de alta-ordem e closures – presentes em Scala e qualquer outra linguagem funcional – também são apresentadas no curso.
 
 Além de SML e Racket para explicar programação funcional, orientação a objetos também é discutida usando Ruby. No final do curso, um mesmo problema é abordado usando SML e Ruby, para exemplificar a diferença dos paradigmas. Um ponto muito interessante para quem usa Scala, que abraça as duas abordagens: como decidir qual é a melhor para o seu problema?
 
-Se eu tivesse feito o curso antes de aprender Scala, seria muito mais fácil evoluir nela e os códigos teriam maior qualidade. Por outro lado, é verdade que eu me virei, entendendo muito dessas ideias de forma superficial e por analogias. Por exemplo, interpretar o `map` como um `loop` que retorna sempre o resultado da última linha.
+Se eu tivesse feito o curso, antes de aprender Scala, seria muito mais fácil evoluir nela e os códigos teriam maior qualidade. Por outro lado, é verdade que eu me virei, entendendo muito dessas ideias de forma superficial e por analogias. Por exemplo, interpretar o `map` como um `loop` que retorna sempre o resultado da última linha.
 
 Mas além de simplesmente facilitar o aprendizado de Scala, entender esses conceitos ajudam a compreender melhor os porquês do Spark, afinal a linguagem não foi escolhida por acaso para desenvolver o projeto.
 
@@ -90,21 +90,21 @@ O paradigma imperativo é baseado na máquina de Turing, com base na qual os com
 
 Em termos de otimização de código, o paradigma imperativo faz mais sentido, já que é uma abstração mais próxima do computador real que utilizamos. Transformar um laço em código de máquina eficiente é mais fácil, por exemplo, que transformar uma função recursiva.
 
-Por outro lado, ao lidar com paralelismo, alguns conceitos de linguagens funcionais facilitam o trabalho. A partir das restrições de uma operação de `map`, é possível entender o porquê dele pode ser paralelizado, encadeado e ter a execução postergada. São ideias chaves para o Spark funcionar, que vieram "de graça" da teoria de lambda calculus e linguagens funcionais.
+Por outro lado, ao lidar com paralelismo, alguns conceitos de linguagens funcionais facilitam o trabalho. A partir das restrições de uma operação de `map`, é possível entender o porquê dele poder ser paralelizado, encadeado e ter a execução postergada. São ideias chaves para o Spark funcionar, que vieram "de graça" da teoria de lambda calculus e linguagens funcionais.
 
 Um exemplo dessa ideia, de aproveitar conceitos da linguagem para uma melhor solução prática, é o SQL. A linguagem é focada em operações de conjuntos, que a torna simples de usar e se adapta muito bem a problemas de dados.
 
 Não se pensa muito nisso, mas o escopo limitado do SQL e a fundação teórica em conjuntos, permitem que os otimizadores de consultas façam coisas mágicas. A partir de estatísticas descritivas, tanto do banco de dados em si como da performance do ambiente, uma mesma consulta SQL pode optar por estratégia completamente distintas de busca/junção para chegar ao resultado de forma mais eficiente.
 
-É interessante pensar nisso, porque as ideias de programação funcional são instrumentais para o sucesso das soluções de dados, especialmente as que ficam no guarda-chuva da Big Data. O Scala faz muito sentido nesse contexto pois, ao mesmo tempo que foca na abordagem funcional, se integra muito bem com a realidade de sistemas corporativos em que a orientação a objetos e Java são muito consolidados.
+É interessante pensar nisso, porque as ideias de programação funcional são instrumentais para o sucesso das soluções de dados, especialmente as que ficam sob o guarda-chuva da Big Data. O Scala faz muito sentido nesse contexto, pois ao mesmo tempo que foca na abordagem funcional, se integra muito bem com a realidade de sistemas corporativos em que a orientação a objetos e Java são muito consolidados.
 
 ## Por que não Scala?
 
 Ao mesmo tempo que o Scala faz muito sentido como principal linguagem do Spark, para usá-lo nem sempre é o caso. Talvez, até haja mais casos em que Scala não é a melhor linguagem para se usar Spark.
 
-Para um cientista de dados, normalmente Python é uma melhor opção. Para análises exploratórias e experimentos, Python possui todo um ecossistema de ciência de dados a disposição e [Spark SQL](https://spark.apache.org/sql/) atende muito da manipulação pesada de dados. Fora essas questões técnicas, sendo uma linguagem dinâmica, é muito prática para desenvolver esse trabalho de experimentação.
+Para um cientista de dados, normalmente Python é uma melhor opção. Para análises exploratórias e experimentos, Python possui todo um ecossistema de ciência de dados a disposição e [Spark SQL](https://spark.apache.org/sql/) atende muito da manipulação pesada de dados. Fora essas questões práticas, sendo uma linguagem dinâmica, é muito prática para desenvolver esse trabalho de experimentação.
 
-Por outro lado, se eu precisar colocar um modelo em produção que integre com sistemas críticos, provavelmente optaria por Scala. Para produção, acredito que a perda de praticidade das linguagens estáticas se pagam pelas vantagens. Acesso às bibliotecas Java costuma ser útil também para esse cenário.  Se a decisão final é por um modelo disponível na [MLlib](https://spark.apache.org/docs/latest/ml-guide.html), Scala me parece uma melhor opção.
+Por outro lado, se eu precisar colocar um modelo em produção que integre com sistemas críticos, provavelmente optaria por Scala. Pessoalmente, eu prefiro linguagens com tipos estáticos para códigos críticos, que me fornecem garantias maiores. Ter acesso às bibliotecas Java e a API completa do Spark são diferenciais interessantes também. Se a decisão final é por um modelo disponível na [MLlib](https://spark.apache.org/docs/latest/ml-guide.html), Scala me parece uma melhor opção.
 
 A decisão da linguagem depende de vários fatores, entendendo mais profundamente as diferenças entre elas, é mais fácil mensurar os *trade-offs* dessa escolha. Quando eu falo que Scala é "melhor" para usar Spark, o que isso significa exatamente? Não são apenas decisões técnicas, há muitos pontos subjetivos e dependentes do contexto (*e.g* projeto, conhecimento do time, tempo) que só os envolvidos conseguem avaliar.
 
