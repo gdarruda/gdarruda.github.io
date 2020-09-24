@@ -70,11 +70,11 @@ Uma linguagem é um "catado" de recursos, e Scala é uma que procura implementar
 
 Pode-se dizer que foi uma proposta de sucesso, não chega a ser uma linguagem popular, mas há projetos relevantes em Scala como Akka e o próprio Spark. Linguagens muito populares no mercado adotaram alguns conceitos funcionais, como é o caso de Java e C#, corroborando que é possível fazer essa mistura de paradigmas.
 
-O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema que a linguagem possibilita. Por outro lado, as possibilidades e a flexbilidade são justamente as vantagens de Scala.
+O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema que a linguagem possibilita. Por outro lado, essas possibilidades e a flexbilidade são justamente as vantagens de Scala.
 
 Sabendo os conceitos de linguagens de programação, é mais fácil navegar nessas possibilidades e aproveitá-las da melhor forma. O curso não aborda Scala, mas debate conceitos chaves dela a partir de outras linguagens. 
 
-Das linguagens abordadas, talvez SML seja a que mais lembra Scala em ideias como inferência de tipo, pattern-matching, options e currying. Questões mais gerais como recursão, funções de alta-ordem e closures – presentes em Scala e qualquer outra linguagem funcional – também são apresentadas no curso.
+Das linguagens abordadas, talvez SML seja a que mais lembra Scala em ideias como inferência de tipo, pattern-matching, options e currying. Questões mais gerais como recursão, funções de alta ordem e closures – presentes em Scala e qualquer outra linguagem funcional – também são apresentadas no curso.
 
 Além de SML e Racket para explicar programação funcional, orientação a objetos também é discutida usando Ruby. No final do curso, um mesmo problema é abordado usando SML e Ruby, para exemplificar a diferença dos paradigmas. Um ponto muito interessante para quem usa Scala, que abraça as duas abordagens: como decidir qual é a melhor para o seu problema?
 
@@ -106,7 +106,9 @@ Para um cientista de dados, normalmente Python é uma melhor opção. Para anál
 
 Por outro lado, se eu precisar colocar um modelo em produção que integre com sistemas críticos, provavelmente optaria por Scala. Pessoalmente, eu prefiro linguagens com tipos estáticos para códigos críticos, que me fornecem garantias maiores. Ter acesso às bibliotecas Java e a API completa do Spark são diferenciais interessantes também. Se a decisão final é por um modelo disponível na [MLlib](https://spark.apache.org/docs/latest/ml-guide.html), Scala me parece uma melhor opção.
 
-A decisão da linguagem depende de vários fatores, entendendo mais profundamente as diferenças entre elas, é mais fácil mensurar os *trade-offs* dessa escolha. Quando eu falo que Scala é "melhor" para usar Spark, o que isso significa exatamente? Não são apenas decisões técnicas, há muitos pontos subjetivos e dependentes do contexto (*e.g* projeto, conhecimento do time, tempo) que só os envolvidos conseguem avaliar.
+Essa decisão sobre a linguagem para o projeto depende de vários fatores, entendendo mais profundamente as diferenças entre elas, é mais fácil mensurar os *trade-offs* dessa escolha. Quando eu falo que Scala é "melhor" para usar Spark, o que isso significa exatamente? 
+
+Não são apenas decisões técnicas, há muitos pontos subjetivos e dependentes do contexto (*e.g* projeto, conhecimento do time, tempo) que só os envolvidos conseguem avaliar.
 
 ## Próximo passo para trás
 
