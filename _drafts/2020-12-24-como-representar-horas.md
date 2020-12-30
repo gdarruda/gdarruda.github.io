@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Como representar horas em modelagem?"
+title: "Como representar horas?"
 comments: true
 mathjax: true
 description: "Discutindo formas de representar horas"
@@ -78,4 +78,34 @@ Em resumo, não houve mudanças no resultado do classificador, com os parâmetro
 
 ## Agrupamento
 
-Os resultados obtidos na classificação nos levam ao ponto em que a representação circular pode ser mais útil, que são algoritmo de agrupamento não-supervisionado.
+Os algoritmos de classificação mais poderosos conseguem contornar as diferenças entre as representações, mas para tarefas de agrupamento a questão é mais crítica. Não tendo uma função objetivo bem definida, uma representação pior pode simplesmente concluir a piores conclusões, como uma escolha errada do número de clusters por exemplo.
+
+Não tenho muita experiência com algoritmos de agrupamento, então vou me restringir a comparar dois dos mais simples: $$k$$-means e Gaussian Mixture Models (GMM). 
+
+Para avaliar, eu rodei os algoritmos 50 vezes com inicialização aleatória e 3 grupos. A ideia é que, com uma melhor representação, seja mais fácil para os algoritmos de agrupamento chegarem próximos ao processo de origem dos dados. Em outras palavras, que os grupos estejam próximo de meia-noite, 6 horas e 21 horas.
+
+O $$k$$-means consegiu bons resultados com ambas as representações, posicionado os centróides próximo da média das distribuições originais. Entretanto, na representação linear o grupo que deveria ficar centralizado à meia-noite, acaba ficando deslocado algumas horas para cima "puxado" pelo grupo de 6 horas.
+
+<figure>
+  <img src="{{site.url}}/assets/images/variaveis-circulares/centroides_kmeans.svg"/>
+  <figcaption>Figura 4 – Centróides do k-means</figcaption>
+</figure>
+
+Curiosamente, o GMM teve mais difculdades, a despeito dos dados terem sido gerados usando uma distribuição análoga à gaussiana. Na representação linear, as médias não ficaram estáveis, algumas médias ficaram longe do que foi usado para gerar os dados.
+
+<figure>
+  <img src="{{site.url}}/assets/images/variaveis-circulares/medias_gmm.svg"/>
+  <figcaption>Figura 4 – Médias do GMM</figcaption>
+</figure>
+
+Em ambos os casos, a representação circular facilitou o trabalho do algoritmo de agrupamento, possibilitando que eles chegassem próximos da média usada para gerar os dados. Na representação linear, ambos se perderam, mas o GMM em especial ficou bem caótico.
+
+## Conclusão
+
+Após esse breve estudo, não encontrei motivos para não usar representação circular quando necessário. É uma transformação bem simples – conceitualmente e computacionalmente – que não gera distorções em dados próximo aos extremos do ciclo.
+
+Enxergo como uma questão similar ao uso de sequências numéricas para representar dados categóricos: provavelmente vai funcionar, mas não é bom adicionar uma relação de ordem inexistente à representação. Nesse caso, provavelmente vai funcionar usando representação linear no lugar da circular, mas não é bom ignorar o caráter circular da variável.
+
+Talvez eu esteja chovendo no molhado, mas não vejo muitos códigos prontos em bibliotecas e não lembro de ter visto esse debate em aulas introdutórias de ciência de dados. Achei válidos fazer esses experimentos, porque apesar de intuitivamente fazer sentido, queria validar se a representação circular realmente faz mais sentido.
+
+Mais detalhes de comos os experimentos foram realizados, estão nesse notebook. Recomendo dar uma olhada, porque essa implementação ensejou outro debate: como desenvolver códigos usando a abordagem vetorial. Nesse outro post, tem uma discussão mais abstrata sobre orientação a objetos e funcional, com algumas dicas práticas de como se adaptar a esse modelo muito comum em ciência de dados.
