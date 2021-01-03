@@ -70,7 +70,7 @@ Uma linguagem é um "catado" de recursos, e Scala é uma que procura implementar
 
 Pode-se dizer que foi uma proposta de sucesso, não chega a ser uma linguagem popular, mas há projetos relevantes em Scala como Akka e o próprio Spark. Linguagens muito populares no mercado adotaram alguns conceitos funcionais, como é o caso de Java e C#, corroborando que é possível fazer essa mistura de paradigmas.
 
-O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema que a linguagem possibilita. Por outro lado, essas possibilidades e a flexbilidade são justamente as vantagens de Scala.
+O problema é que essa mistura torna Scala uma linguagem complexa, porque se multiplicam as possibilidades. Implementar polimorfismo usando classes ou funções de alta ordem, são abordagens bem diferentes para um mesmo problema que a linguagem possibilita. Por outro lado, essas possibilidades e a flexibilidade são justamente as vantagens de Scala.
 
 Sabendo os conceitos de linguagens de programação, é mais fácil navegar nessas possibilidades e aproveitá-las da melhor forma. O curso não aborda Scala, mas debate conceitos chaves dela a partir de outras linguagens. 
 
