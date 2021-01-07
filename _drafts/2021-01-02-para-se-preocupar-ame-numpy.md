@@ -115,15 +115,11 @@ def hour_to_radians(hours):
 
 Não parece muito diferente, porque no final ainda precisamos escrever a função, mas há um detalhe importante se olharmos a implementação vetorizada da transformação de horas em radianos `hour_to_radians`. O atributo `hours` pode ser tanto uma escalar como uma matriz, porque o objetivo do NumPy é deixar a operação de multiplicação transparente para o usuário. 
 
-Não é necessário associar a operação aos objetos, conquanto que seja válida a a operação de multiplicação[^1]. Suponha que temos uma matriz $$ A $$ e uma escalar $$ x $$. Quando escrevemos uma multiplicação entre matriz e escalar, escrevemos $$ xA $$ e não algo como $$ A.multiplicaEscalar(x) $$. O NumPy se parece muito mais com a linguagem matemática, que uma solução orientada a objetos.
+Para alguns tipos de problema, faz mais sentido pensar nas abstrações dessa forma que associando a objetos. Suponha que temos uma matriz $$ A $$ e uma escalar $$ x $$. Quando definimos uma multiplicação entre matriz e escalar, escrevemos da mesma forma que entre duas escalares ou duas matrizes, na forma "$$ xA $$" e não algo como "$$ A.multiplicaEscalar(x) $$". 
 
+Para linguagem matemática, essa abstração do NumPy[^1] da mutplicação me parece mais intuitiva que orientação a objetos. Após anos abstraindo problemas a partir de objetos pode parecer estranho, mas é uma que faz mais sentido dependendo do contexto.
 
 [^1]: infelizmente esse exemplo é meio falho, porque o operador `*` não multiplica duas matrizes por exemplo. Há outros métodos como `matmul` e `dot`, mas a ideia geral da biblioteca é tentar abstrair isso ao máximo.
-
-
-Após anos abstraindo problemas a partir de objetos pode parecer estranho, mas é uma abstração que faz sentido no contexto.
-
-Focando nas operações e não nos objetos envolvidos, a interface do NumPy faz mais sentido que olhando da perspectiva orientada a objetos.
 
 ### Sintaxe: assign e parenteses ao resgate
 
