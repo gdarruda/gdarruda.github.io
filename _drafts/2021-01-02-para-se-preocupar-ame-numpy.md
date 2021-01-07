@@ -113,23 +113,23 @@ def hour_to_radians(hours):
     return (np.pi / 2) - (hours * (np.pi/12))
 ```
 
-Não parece muito diferente, porque no final ainda precisamos escrever a função, mas há um detalhe importante se olharmos a implementação vetorizada da transformação de horas em radianos `hour_to_radians`. O atributo `hours` pode ser tanto uma escalar como uma matriz, porque o objetivo do NumPy é deixar a operação de multiplicação transparente para o usuário. 
+Não parece muito diferente, porque no final ainda precisamos escrever a função, mas há um detalhe importante se olharmos a implementação vetorizada. O atributo `hours` pode ser tanto uma escalar como uma matriz, porque o objetivo do NumPy é deixar a operação de multiplicação transparente para o usuário. 
 
 Para alguns tipos de problema, faz mais sentido pensar nas abstrações dessa forma que associando a objetos. Suponha que temos uma matriz $$ A $$ e uma escalar $$ x $$. Quando definimos uma multiplicação entre matriz e escalar, escrevemos da mesma forma que entre duas escalares ou duas matrizes, na forma "$$ xA $$" e não algo como "$$ A.multiplicaEscalar(x) $$". 
 
-Para linguagem matemática, essa abstração do NumPy[^1] da mutplicação me parece mais intuitiva que orientação a objetos. Após anos abstraindo problemas a partir de objetos pode parecer estranho, mas é uma que faz mais sentido dependendo do contexto.
+Para linguagem matemática, essa abstração do NumPy[^1] da mutplicação me parece mais intuitiva que orientação a objetos. Após anos abstraindo problemas a partir de objetos, pode parecer estranho outra abordagem, mas faz sentido dependendo do contexto.
 
 [^1]: infelizmente esse exemplo é meio falho, porque o operador `*` não multiplica duas matrizes por exemplo. Há outros métodos como `matmul` e `dot`, mas a ideia geral da biblioteca é tentar abstrair isso ao máximo.
 
 ### Sintaxe: assign e parenteses ao resgate
 
-Abordada a questão da abstração, uma outra questão é a sintaxe. Em geral, não gosto muito de discussões sobre sintaxe, porque muitas vezes é uma simples questão de opinião e irrelevante também. Entretanto, apesar de adorar programar em Python puro, me sentia lutando contra a linguagem para lidar com código mais declarativo do paradigma vetorial.
+Abordada a questão da abstração, uma outra questão é a sintaxe. Em geral, não gosto muito de discussões sobre sintaxe, porque normalmente é uma questão de opinião. Entretanto, apesar de adorar programar em Python puro, me sentia lutando contra a linguagem para lidar com código mais declarativo do paradigma vetorial.
 
-Nessa "luta", acho que duas coisas me ajudaram: o método assign dos DataFrame e o uso de parenteses para concatenar comandos. Ainda há alguns percalços, como veremos na solução final, mas essas duas dicas já melhoraram bastante trabalhar com Numpy e pandas.
+Nessa "luta", acho que duas coisas me ajudaram muito: o método assign dos DataFrame e o uso de parenteses para concatenar comandos. Ainda há alguns percalços, como será discutido adiante, mas essas duas dicas já ajudaram bastante na hora de trabalhar com Numpy e pandas.
 
-O [assign](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.assign.html) é a forma padrão de adicionar/modificar colunas do DataFrame, mas algo interessante que eu não sabia era possibilidade de auto-referenciar o DataFrame usando o `lambda`. 
+O [assign](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.assign.html) é a forma padrão de adicionar/modificar colunas do DataFrame, mas algo interessante que eu não sabia, é a possibilidade de auto-referenciar o DataFrame usando `lambda`. 
 
-No exemplo da documentação, podemos ver que uma variável criada no próprio assign é utilizada na criação de outra:
+No exemplo da documentação, podemos ver que uma variável criada no próprio `assign`, pode ser utilizada na criação de outra dentro do mesmo comando:
 
 ```python
 >>> df.assign(temp_f=lambda x: x['temp_c'] * 9 / 5 + 32,
@@ -139,7 +139,7 @@ Portland    17.0    62.6  290.15
 Berkeley    25.0    77.0  298.15
 ```
 
-A despeito de ser possível criar duas variáveis em um comando `assign`, como no exemplo acima, eu prefiro fazer em comandos separados. Isso facilita a depuração, já que posso facilmente comentar trechos e a mim oferece uma relação de ordem mais clara. Colocando esses múltiplos comandos `assign` entre parenteses, consigo encadeá-los sem adicionar o escape (`"\"`) ao final de cada linha, já que tudo dentro dos parenteses é tratado com um único comando.
+A despeito de ser possível criar duas variáveis dependentes em um comando `assign`, prefiro fazer em comandos separados. Isso facilita a depuração, já que posso facilmente comentar a criação e oferece uma relação de ordem mais explícita. Colocando esses múltiplos comandos `assign` entre parenteses, consigo encadeá-los sem adicionar o escape (`"\"`) ao final de cada linha, já que tudo dentro dos parenteses é tratado com um único comando.
 
 Abaixo, a minha solução para a transformação aproveitando essas dicas:
 
@@ -155,11 +155,9 @@ Abaixo, a minha solução para a transformação aproveitando essas dicas:
 # 164 ms ± 5.93 ms per loop (mean ± std. dev. of 7 runs, 15 loops each)
 ```
 
-Em relação ao ganho de desempenho, não tem o que discutir: vai de 5,4 segundos em média para 0,164 segundos, 30 vezes mais rápido.
+Em relação ao ganho de desempenho, não tem o que discutir: vai de 5,4 segundos em média para 0,164 segundos, 30 vezes mais rápido. Em relação às qualidades subjetivas do código, acho que continuou elegante e claro.
 
-Em relação às qualidades subjetivas do código, acho que ficou muito simples de entender.  No contexto de código para notebooks, acho interessante que a implementação fica mais explícita: para alguém que deseja entender o que estou fazendo, o que geralmente não é um caso para código de sistema. Entretanto, toda essa discussão é bem subjetiva.
-
-Infelizmente, para encapsular essa transformação nos moldes da função `datetime_to_coordinates`, precisaria recorrer a uma gambiarra para criar os campos com nomes dinâmicos:
+Infelizmente, para encapsular essa transformação nos moldes da função `datetime_to_coordinates` que criei para a solução orientada a objetos, precisaria recorrer a uma gambiarra, com o método `rename` do pandas, para criar os nomes dos campos dinamicamente:
 
 ```python
 def datetime_to_coordinates(df: pd.DataFrame, column: str):
