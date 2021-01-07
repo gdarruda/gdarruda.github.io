@@ -7,37 +7,30 @@ description: "Abraçando a programação vetorial"
 keywords: "programação vetorial, NumPy, pandas"
 ---
 
-No último texto sobre programação, fiz uma discussão mais ampla sobre o [porquê estudar conceitos de linguagens]({{site.url}}/2020/09/23/linguagens-programacao.html). Agora, pretendo colocar isso de forma mais prática com base no código desenvolvido para [esse estudo]({{site.url}}/2021/01/02/como-representar-dados-circulares.html), falando de como me acostumei a trabalhar com o Numpy.
+Eu demorei um pouco para me acostumar com o Numpy, [programação vetorial](https://en.wikipedia.org/wiki/Array_programming) é bem diferente do estilo mais imperativo e  orientado a objetos do Python puro. Até eu aprender alguns "truques", nunca me sentia muito confortável usando o Numpy.
 
-Mais complicado que entender os conceitos por trás de diferentes paradigmas de programação, é como pensar e estruturar as soluções de forma idiomática. Para uma boa tradução texto, não basta simplesmente saber as regras gramaticas dos idiomas, o mesmo vale para diferentes paradigmas de programação em alguma medida.
-
-Nesse sentido, demorei um pouco para me acostumar com o Numpy, [programação vetorial](https://en.wikipedia.org/wiki/Array_programming) é bem diferente do estilo mais imperativo e  orientado a objetos do Python puro. Até eu aprender alguns "truques", nunca me sentia muito confortável usando o Numpy.
-
-Nesse post, vou abordar um problema a partir de uma abordagem mais imperativa e orientada a objetos em Python puro, para depois implementar uma solução vetorizada com Numpy. Dessa forma, consigo mostrar as diferenças na forma de resolver um problema, quando preciso lidar a partir de uma perspectiva ou outra.
-
+Nesse post, vou abordar um problema inicialmente a partir de uma abordagem mais imperativa e orientada a objetos em Python puro, para depois re-implementar uma solução vetorizada com Numpy. Dessa forma, consigo ilustrar as diferenças, lidando com o mesmo problema a partir de abordagens diferentes.
 
 ## Definindo o problema
 
-O problema que pretendo abordar, é como projetar horas de forma circular para uso em modelos. Esse problema pode ser resolvido com duas transformações bem simples, ideal para a discussão justamente por exigir pouco código e fácil de entender.
-
-Primeiramente, devemos transformar as horas em um arco:
+O problema, que será usado de exemplo, é de representar a hora como um ponto no círculo trigonométrico. Esse problema pode ser resolvido com duas transformações simples. Primeiramente, devemos calcular um arco que a hora gera a partir da meia-noite:
 
 $$
     hora_{r} = \frac{\pi}{2} - \frac{(hora + minutos/60)}{\pi/12}
 $$
 
-Depois, decompor esse arco em duas variáveis (x, y):
+Depois, projetar esse arco no círculo trigonométrico:
 
 $$
     f(hora_{r}) = (cos(hora_{r}), sin(hora_{r})) \\
     x, y = f(hora_{r})
 $$
 
-Os detalhes do porquê e como essa transformação é útil, está no [post original]({{site.url}}/2021/01/02/como-representar-dados-circulares.html). Mas fique tranquilo de seguir nesse post sem entender a motivação ou a matemática, essa transformação pode ser tratada como uma caixa-preta sem prejuízo a essa discussão.
+Os detalhes do porquê e como essa representação é útil, está no [post original]({{site.url}}/2021/01/02/como-representar-dados-circulares.html). Mas fique tranquilo de seguir nesse post sem entender a motivação ou a matemática, essa transformação pode ser tratada como uma caixa-preta sem prejuízo a essa discussão. A ideia é justamente abstrair o que está feito.
 
 ## Solução "a moda OO"
 
-A solução para esse problema, usando orientação a objetos, fica bem elegante. Aproveitando a classe [datetime](https://docs.python.org/3/library/datetime.html#datetime-objects) nativa do Python, podemos criar uma sub-classe que adiciona esses dois métodos: 
+A solução para esse problema, usando orientação a objetos, funciona muito bem. Já existe a classe [datetime](https://docs.python.org/3/library/datetime.html#datetime-objects) nativa do Python, para adicionar esse novo comportamento, foi criada uma sub-classe `datetime_circle` contendo dois novos métodos conforme o código abaixo:
 
 ```python
 from datetime import datetime
@@ -54,7 +47,7 @@ class datetime_circle(datetime):
         return math.cos(radians), math.sin(radians)
 ```
 
-Dessa forma, aproveitamos os métodos pré-existentes na implementação e o usuário pode aproveitar o polimorfismo:
+Dessa forma, adicionamos os métodos novos que precisamos, mas o polimorfismo possibilita que os usuários continuem se aproveitando dos métodos da classe `datetime` como podemos observar no exemplo abaixo:
 
 ```python
 In [2]: datetime_circle.strptime('00:00', '%H:%M').to_coordinates()
@@ -67,11 +60,13 @@ In [4]: datetime_circle.strptime('6:00', '%H:%M').to_coordinates()
 Out[4]: (1.0, 0.0)
 ```
 
-Nenhum problema inerente a essa solução, especialmente se estamos adicionando esses recursos a um sistema pré-existente com vários desenvolvedores envolvidos e códigos baseados na classe `datetime`. Porém, a minha necessidade era outra.
+Nenhum problema inerente a essa solução, especialmente se estamos adicionando esses recursos a uma base de código pré-existente com vários desenvolvedores envolvidos e códigos baseados na classe `datetime`. 
 
-Eu precisei dessa transformação para resolver um problema de agrupamento, que envolve aplicá-la em milhões de linhas em um [DataFrame pandas](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html). Nesse cenário, dois problemas surgem: desempenho e integração desajeitada.
+Porém, a minha necessidade era outra.
 
-Para deixar essa transformação sobre DataFrame mais simples e reaproveitável, optei por encapsular a transformação em uma função auxiliar. Dessa forma, eu consigo usar com o método `apply` em qualquer DataFrame e esconder um pouco da implementação:
+Eu precisei dessa transformação para resolver um problema de agrupamento, que envolve aplicá-la em milhões de linhas em um [DataFrame](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html). Nesse cenário, dois problemas surgem: desempenho e integração desajeitada.
+
+Para deixar essa transformação sobre DataFrame reaproveitável, optei por encapsular a transformação em uma função auxiliar. Dessa forma, eu consigo usar com o método `apply` em qualquer DataFrame e esconder um pouco da implementação:
 
 ```python
 def datetime_to_coordinates(row: pd.Series, column: str):
@@ -81,7 +76,7 @@ def datetime_to_coordinates(row: pd.Series, column: str):
     return row
 ```
 
-O problema é que ficou extremamente lento, demorando em média 5 segundos para ser executado em um DataFrame de 3000 linhas.
+O problema é que ficou extremamente lento, demorando uma média de 5 segundos para ser executado em um DataFrame de somente 3000 linhas.
 
 ```python
 %%timeit -n 15
@@ -91,25 +86,25 @@ df_samples.apply(lambda row: datetime_to_coordinates(row, 'time'), axis=1)
 # 5.39 s ± 92.8 ms per loop (mean ± std. dev. of 7 runs, 15 loops each)
 ```
 
-Ao procurar alguma forma de otimizar isso, certamente a primeira sugestão será transformar seu código em uma [solução vetorizada com NumPy](https://stackoverflow.com/questions/24870953/does-pandas-iterrows-have-performance-issues#24871316). Eu concordo 100%: se você está trabalhando com Dataframes, é sempre recomendável optar por código vetorizado pensando em performance.
-
- A questão é como fazer esse código, mas sem perder em reuso e clareza comparada a solução orientada a objetos em Python puro.
+Ao procurar alguma forma de otimizar isso, certamente a primeira sugestão será transformar seu código em uma [solução vetorizada com NumPy](https://stackoverflow.com/questions/24870953/does-pandas-iterrows-have-performance-issues#24871316). A questão é como fazer esse código, sem perder em reuso e clareza da solução orientada a objetos em Python puro.
 
 ## Solução vetorial: bonita e eficiente
 
-O Python é uma linguagem famosa por [ser lenta](https://hackernoon.com/why-is-python-so-slow-e5074b6fe55b), então não precisa de muito coisa para cair em problemas de performance. Dependendo do problema, a pessoa se enxerga obrigada a implementar em NumPy algo que estava em Python puro.
+O Python é uma linguagem famosa por [ser lenta](https://hackernoon.com/why-is-python-so-slow-e5074b6fe55b), então não precisa de muito coisa para cair em problemas de performance. Quando se fala de análise de dados, não é raro precisar re-implementar algo em NumPy por esse motivo.
 
-Ao menos falando de códigos para análise de dados e modelagem, acredito que faz sentido já pensar de início em solução vetorizada. Não como uma forma de otimização prematura de performance, mas porque programação vetorial é um paradigma pensado para trabalhar com esse tipo de problema.
+Acredito que faz sentido sempre pensar em uma solução vetorizada nesses casos. Não como uma forma de otimização prematura, mas porque programação vetorial é um paradigma pensado para trabalhar com esse tipo de problema.
 
-Sempre é complicado lidar com um paradigma novo. Mesmo que adequado para o problema em questão, de início é desgastante pensar de outra forma e o código simplesmente fica ruim. Essa era minha relação com o NumPy, mas ultimamente me sinto mais confortável em fazer soluções já pensando nele.
+Sempre é complicado lidar com um paradigma novo. Mesmo que adequado para o problema em questão, de início é desgastante pensar de outra forma. Minha relação com o NumPy era justamente essa: preferia fazer o código usando orientação a objetos e Python puro, mas acabava obrigado a transformar em NumPy para ter uma performance aceitável.
+
+Depois de aprender alguns conceitos e alguns truques de sintaxe, minha relação com o NumPy melhorou.
 
 ### Pense em modelar operações, não objetos
 
-Um dos melhores insights sobre as diferenças entre os paradigmas funcional e orientado a objetos, é entender que eles lidam com os problemas de [perspectivas perfeitamente opostas](https://www.coursera.org/learn/programming-languages-part-c/lecture/mKEXO/oop-versus-functional-decomposition). Dessa forma, é mais simples pensar em como modelar um mesmo problema usando duas abordagens diferentes.
+Um dos melhores insights sobre as diferenças entre os paradigmas funcional e orientado a objetos, é entender que eles lidam com os problemas de [perspectivas perfeitamente opostas](https://www.coursera.org/learn/programming-languages-part-c/lecture/mKEXO/oop-versus-functional-decomposition).
 
-Em orientação a objetos, é normal pensarmos nas responsabilidades dos objetos. Em nosso problema, adicionamos ao objeto `datetime` a capacidade de apresentar as horas arco com o método `to_radians`. Na abordagem vetorial, pensamos em como transformar horários em radianos.
+Em orientação a objetos, é normal pensarmos nas nas características dos objetos (atributos) e seus comportamentos (métodos). Na solução apresentada, adicionei ao objeto `datetime` o comportamento de apresentar as horas na forma de um arco com o método `to_radians`. 
 
-Não parece muito diferente, porque realmente é parecido, mas há um detalhe importante se olharmos a implementação vetorizada da transformação de horas em radianos `hour_to_radians`:
+Na abordagem vetorial, que lembra a funcional nesse aspecto, pensamos apenas na transformação sem associá-la ao comportamento de um objeto:
 
 ```python
 import numpy as np
@@ -118,11 +113,15 @@ def hour_to_radians(hours):
     return (np.pi / 2) - (hours * (np.pi/12))
 ```
 
-O atributo hours pode ser tanto uma escalar como uma matriz, porque o objetivo do NumPy é deixar a operação de multiplicação transparente para o usuário. Não importa os objetos, conquanto que seja válido multiplicá-los[^1]. Após anos abstraindo problemas a partir de objetos pode parecer estranho, mas é uma abstração que faz sentido no contexto.
+Não parece muito diferente, porque no final ainda precisamos escrever a função, mas há um detalhe importante se olharmos a implementação vetorizada da transformação de horas em radianos `hour_to_radians`. O atributo `hours` pode ser tanto uma escalar como uma matriz, porque o objetivo do NumPy é deixar a operação de multiplicação transparente para o usuário. 
+
+Não é necessário associar a operação aos objetos, conquanto que seja válida a a operação de multiplicação[^1]. Suponha que temos uma matriz $$ A $$ e uma escalar $$ x $$. Quando escrevemos uma multiplicação entre matriz e escalar, escrevemos $$ xA $$ e não algo como $$ A.multiplicaEscalar(x) $$. O NumPy se parece muito mais com a linguagem matemática, que uma solução orientada a objetos.
+
 
 [^1]: infelizmente esse exemplo é meio falho, porque o operador `*` não multiplica duas matrizes por exemplo. Há outros métodos como `matmul` e `dot`, mas a ideia geral da biblioteca é tentar abstrair isso ao máximo.
 
-Suponha que temos uma matriz $$ A $$ e uma escalar $$ x $$. Quando escrevemos uma multiplicação entre matriz e escalar, escrevemos $$ xA $$ e não algo como $$ A.multiplicaEscalar(x) $$. O NumPy se parece muito mais com a linguagem matemática, que uma solução orientada a objetos.
+
+Após anos abstraindo problemas a partir de objetos pode parecer estranho, mas é uma abstração que faz sentido no contexto.
 
 Focando nas operações e não nos objetos envolvidos, a interface do NumPy faz mais sentido que olhando da perspectiva orientada a objetos.
 
