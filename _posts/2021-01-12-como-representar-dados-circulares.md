@@ -115,4 +115,4 @@ Após esse breve estudo, não encontrei motivos para não usar representação c
 
 É um problema similar ao uso de sequências numéricas para representar dados categóricos: provavelmente vai funcionar, mas não é bom adicionar uma relação de ordem inexistente à representação. Nesse caso, provavelmente vai funcionar usando representação linear, mas não é bom ignorar o caráter circular da variável.
 
-Mais detalhes de como os experimentos foram realizados, estão nesse notebook. Recomendo dar uma olhada, porque essa implementação ensejou outra discussão que abordei nesse post: como desenvolver códigos usando a abordagem vetorial.
+Mais detalhes de como os experimentos foram realizados, estão [nesse notebook](https://github.com/gdarruda/representacao_circular/blob/main/estudo.ipynb). Recomendo dar uma olhada, porque essa implementação ensejou outra discussão que abordei em [outro post]({{site.url}}/2021/01/12/para-se-preocupar-ame-numpy.html): como desenvolver códigos usando a abordagem vetorial.

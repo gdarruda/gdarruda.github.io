@@ -13,7 +13,7 @@ Para mostrar os meus aprendizados nesse processo de adaptação, vou abordar um 
 
 ## Definindo o problema
 
-O objetivo do post é contrastar uma mesma solução em dois paradigmas diferentes, então usarei um problema simples como base. A ideia é projetar informação de hora como um ponto no círculo trigonométrico, os detalhes do porquê disso e como essa representação é útil,  está em [outro post ]({{site.url}}/2021/01/02/como-representar-dados-circulares.html). 
+O objetivo do post é contrastar uma mesma solução em dois paradigmas diferentes, então usarei um problema simples como base. A ideia é projetar informação de hora como um ponto no círculo trigonométrico, os detalhes do porquê disso e como essa representação é útil,  está em [outro post]({{site.url}}/2021/01/12/como-representar-dados-circulares.html).
 
 O leitor pode ficar tranquilo de seguir nesse post sem entender a motivação prática ou a matemática, essa transformação pode ser tratada como uma "caixa-preta" sem prejuízos à discussão. 
 
