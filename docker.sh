@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# docker image rm blog
+docker container rm blog
 
 docker run \
     --detach \
