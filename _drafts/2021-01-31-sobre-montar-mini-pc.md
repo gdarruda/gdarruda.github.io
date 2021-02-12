@@ -79,8 +79,6 @@ Eu optei pelo antiquado [CooleMaster Elite 110](https://www.coolermaster.com/br/
 
 A grande vantagem desse gabinete, é suportar fontes convencionais ATX que são muito mais acessíveis no Brasil: metade do preço de uma SFX. Por outro lado, o espaço extra de fonte ATX acaba limitando bastante as opções de refrigeração, a altura máximo do cooler é 76mm com um fluxo de ar horrível.
 
-A melhor opção, é um AIO de 120mm. Se as necessidades de refrigeração forem maiores que essa, recomendo fugir desse design de cubo. 
-
 Vale citar que a montagem é trabalhosa, especialmente para organizar cabos da fonte, mas o painel frontal ajuda na tarefa.
 
 Para quem deseja uma configuração básica ou intermediária, o Elite 110 é uma ótima opção no Brasil. Uma alternativa com design similar, mais compacta e com suporte a GPUs maiores, é o [Silverstone SG13](https://www.silverstonetek.com/product.php?pid=536&area=en).
@@ -98,44 +96,84 @@ Infelizmente, só encontrei conteúdo estrangeiro (em vídeo) bom para avaliar e
 
 ### Fonte: fator Brasil
 
-A questão da fonte é basicamente financeira, todos os modelos SFX com mais de 400W possuem preço inicial na faixa dos R$1000,00. São todas high-end, com altos valores de eficiência, cabos modulares e garantia de 7-10 anos.
+A questão da fonte é basicamente financeira, todos os modelos SFX com mais de 400W possuem preço inicial na faixa dos R$1000,00. São todas high-end, com altos valores de eficiência, modulares e garantia de 7-10 anos.
 
 Nesse segmento, a recomendação padrão são as Corsair da [linha SF](https://www.corsair.com/br/pt/Categorias/Produtos/Unidades-de-fonte-de-alimenta%C3%A7%C3%A3o/Unidades-de-fonte-de-alimenta%C3%A7%C3%A3o-avan%C3%A7adas/SF-Series/p/CP-9020186-WW). Acompanhando os fóruns, parece ser disparada a fonte mais popular para SFFPCs high-end. 
 
-Uma alternativa do mercado brasileiro, é optar por fontes SFX usadas da Seasonic, facilmente encontradas no Mercado Livre. É uma marca reconhecida e esses modelos são encontrados em computadores corporativos, entretanto não passam de 300W.
+Uma alternativa do mercado brasileiro, é optar por fontes SFX usadas da Seasonic, facilmente encontradas no Mercado Livre. É uma marca reconhecida e esses modelos são usados em computadores corporativos, entretanto não passam de 300W.
 
-Se o gabinete suportar ATX, acredito que seja interessante comprar uma modular/semi-modular e compacta. Esses cabos de fonte inutilizados cabos são horríveis de organizar em gabinetes pequenos, podendo comprometer a ventilação.
+Se o gabinete suportar ATX, acredito que seja interessante considerar uma modular/semi-modular e compacta. Cabos de fonte são horríveis de organizar em gabinetes pequenos, podendo comprometer a ventilação.
 
-Eu optei por uma semi-modular, a [Masterwatt 450 TUF Gaming](https://www.coolermaster.com/br/pt-br/catalog/power-supplies/masterwatt/masterwatt-450-tuf-gaming-edition/) da CoolerMaster. É relativamente acessível e a ventoinha fica desligada em uso regular e mesmo quando ativa é pouca ruidosa.
+Eu optei por uma semi-modular, a [Masterwatt 450 TUF Gaming](https://www.coolermaster.com/br/pt-br/catalog/power-supplies/masterwatt/masterwatt-450-tuf-gaming-edition/) da CoolerMaster. É relativamente acessível e a ventoinha fica desligada em baixo consumo e mesmo quando ativa é pouca ruidosa.
 
-Além de priorizar modulares, acredito que não haja nada de especial em escolher uma fonte ATX para SFFPCs. Elas só estão em segundo no ranking de importância, pelos preços no Brasil.
+Além de priorizar modulares, acredito que não haja nada de especial em escolher uma fonte ATX para SFFPCs. Elas só estão em segundo na ordem de prioridade, pelos preços altíssimos no Brasil dos modelos compactos.
 
 ### Refrigeração: o seu limite
 
-Os gabinetes com formatos diferentes costumam limitar bastante as opções de refrigeração, então é bom verificar as opções disponíveis. Além do espaço físico para o cooler do processador, o fluxo de ar também pode ser limitado.
+Os gabinetes com layouts diferentes costumam limitar bastante as opções de refrigeração, então é bom verificar com cuidado a compatibilidade. Além do espaço físico para o cooler do processador, o fluxo de ar interno também pode ser limitado.
 
-A minha prioridade ao montar o computador era reduzir o barulho, nesse cenário eu investi em um [AIO 120mm da CoolerMaster](https://www.coolermaster.com/br/pt-br/catalog/coolers/cpu-liquid-coolers/masterliquid-ml120l-v2-rgb/). É possível optar por coolers menores de 76cm, mas o fluxo de ar limitados atrapalha muito, como mostram os resultados [desse experimento](https://www.youtube.com/watch?v=vPDBENpbzJ4).
+A minha prioridade ao montar o computador era reduzir o barulho, por isso investi em um [AIO 120mm da CoolerMaster](https://www.coolermaster.com/br/pt-br/catalog/coolers/cpu-liquid-coolers/masterliquid-ml120l-v2-rgb/). Um cooler de baixo perfil bom sairia por um preço alto e, como mostram os resultados [desse experimento](https://www.youtube.com/watch?v=vPDBENpbzJ4), provavelmente teriam um desempenho térmico pior.
 
 Talvez tenha sido um exagero, mas foi um sucesso. Usando apenas uma ventoinha de 120mm em 1000RPM, meu processador (Core i5 10400F) fica em torno de 60C rodando teste de stress em 4.1Ghz.
 
-É bem complicado avaliar refrigeração, porque depende de muitas variáveis. Para piorar, há questões subjetivas como o ruído gerado e a temperatura máxima. Em teoria, a temperatura é um critério objetivo, mas há muita discussão e pessoas que não gostam de processadores funcionando a 80C. Por fim, há muitas pessoas que não gostam de refrigeração líquida, que costumam ser mais fácil de acomodar nesses gabinetes.
+É bem complicado avaliar refrigeração, porque depende de muitas variáveis. Para piorar, há questões subjetivas como o ruído gerado e a temperatura máxima. Em teoria, a temperatura é um critério objetivo, mas há muita discussão e pessoas que não gostam de processadores funcionando a 80C. 
 
-Não vou entrar nessas polêmicas, mas esteja antento às dificuldades e necessidades de refrigeração em um gabiente pequeno, especialmente se tiver um layou muito diferente de torre.
+Além da dificuldade em estimar a relação desempenho/ruído, há outras pontos como a questão estética do gabinete e pessoas que não gostam de refrigeração líquida, o que restringe ainda mais as opções já limitadas.
 
+Não vou entrar nessas polêmicas, mas esteja antento às dificuldades e necessidades de refrigeração em um gabiente pequeno, especialmente se tiver um layout diferente do padrão torre.
 
 ### Placa de Vídeo: barato saiu caro
 
 A única questão específica em relação a GPU, é ser compatível com o gabinete escolhido. O único ponto de atenção, é que isso normalmente significa optar por modelos mais básicos, com sistemas de refrigeração mais limitados.
 
-Assumi que não era um problema para mim: primeiro porque optei por uma GTX 1650 porque é uma placa de baixo consumo, que nem exige conector adicional de energia[^2]. Segundo, pretendo usar muito eventualmente, não jogo nada regularmente há anos.
+Assumi que não era um problema para mim: primeiro porque optei por uma GTX 1650 porque é uma placa de baixo consumo, que nem exige conector adicional de energia[^2]. Segundo, porque pretendo usar muito eventualmente, não jogo nada regularmente há anos.
 
 [^2]: A maioria dos modelos do mercado exige o conector de 6 pinos, inclusive a que comprei e dizia que não na [especificação](https://www.gigabyte.com/Graphics-Card/GV-N1650IXOC-4GD/sp#sp) ¯\\_(ツ)_/¯.
 
-O problema é que a [GTX 1650 da Gigabyte](https://www.gigabyte.com/Graphics-Card/GV-N1650IXOC-4GD) compacta limita seu cooler a 68% da velocidade, que são incríveis 1800RPM. Parece algo comum em placas baratas, que usam coolers mais simples que não trabalham em velocidades menores e bloqueiam isso.
+O problema é que a [GTX 1650 da Gigabyte](https://www.gigabyte.com/Graphics-Card/GV-N1650IXOC-4GD) limita seu cooler a 68% da velocidade, que são incríveis 1800RPM. Parece uma característica comum em placas baratas, que usam coolers mais simples que não trabalham em velocidades menores e bloqueiam isso.
 
-Para os meus padrões, era um barulho simplesmente insuportável e uma das minhas prioridades era justamente ter um sistema silencioso. Entre tentar editar a BIOS e fazer o que chamam de [deshroud da GPU](https://www.youtube.com/watch?v=QUaZVpN51Po), optei pela segunda opção. A substituição do hardware foi simples, mas conseguir controlar esse cooler com base na temperatura da GPU foi um inferno.
+Para os meus padrões, era um barulho simplesmente insuportável. Entre tentar editar a BIOS e fazer o que chamam de [deshroud da GPU](https://www.youtube.com/watch?v=QUaZVpN51Po), optei pela segunda opção. A substituição do hardware foi simples, mas conseguir controlar esse cooler com base na temperatura da GPU foi um inferno.
 
-Em resumo, além da questão do tamanho, tome cuidado com placas que não desligam o cooler. Não sabia que existia isso e quase desisti de resolver, fique atento se o ruído for uma questão relevante.
+Em resumo, além da questão do tamanho, tome cuidado com placas que não desligam o cooler. Se eu não tivesse conseguido contornar fazendo "deshroud", o projeto seria um fracasso, já que uma das minhas prioridades era reduzir o ruído.
+
+### Armazenamento: M.2 sempre que possível
+
+A quantidade e o tipo de armazenamento depende completamente do tipo de uso, mas é natural que o uso de armazenamento no formato M.2 faça sentido para SFFPCs. Para alguns layouts é indiferente, no Elite 110 pode comprometer a ventilação usar discos de 2,5 ou 3,5 polegadas, tanto por precisar ter mais cabos de energia quanto pelo posicionamento das baias.
+
+Acho que a questão de priorizar M.2 é relativamente óbvia, mas uma dica importante é considerar M.2 no padrão SATA: custam um valor parecido com os SSDs SATAs de 2,5 polegadas, mas podem ser instalados no M.2 como os modelos mais caros PCI Express. Só verifique se a placa-mãe suporta o protocolo, nem todo M.2 tem essa flexibilidade.
+
+Complementando essa dica, reflita se vale a pena mesmo investir em soluções mais caras PCI Express. As diferenças dos números não parecem [refletir na experiência final](https://www.youtube.com/watch?v=4DKLA7w9eeA). Eu estou muito satisfeito com meu [A400 SATA](https://www.kingston.com/br/ssd/a400-solid-state-drive), mesmo o meu notebook usando um PCI Express muito mais rápido.
+
+### Placa-mãe: só aceita
+
+As placas-mãe de SFFPC são as no formato ITX, que são as menores com apenas 17x17 cm. Elas normalmente são mais caras que modelos equivalentes maiores e nem sempre existem opções de entrada.
+
+Não tem muito o que falar, é um custo extra sem muita escapatória. Eu acabei optando por Intel e não AMD, muito pelas opções de placa-mãe que no momento da copra eram muito mais acessíveis e variadas.
+
+Investi em um [ASUS ROG STRIX H470-I](https://rog.asus.com/motherboards/rog-strix/rog-strix-h470-i-gaming-model/). Ela vem com Bluetooth 5, que uso bastante nos meus periféricos. O software da ASUS, de BIOS e Windows, parece ser um dos melhores do mercado. Por fim, possibilita um upgrade para a próxima geração.
+
+A escolha de placa-mãe não foge do padrão para qualquer computador, mas saiba que o custo extra aqui é inevitável.
+
+### Processador: cuidado com TDP
+
+Não há muito o que falar, só reiterar que a capacidade de refrigeração pode ser o limite do seu processador.
+
+## Montagem
+
+A montagem do computador foi bem trabalhosa, algo em torno de 3 horas, por uma séries de fatores:
+
+* Faltou de prática, nunca montei um PC completo anteriormente.
+* AIO é chato em qualquer gabinete, pior nos pequenos.
+* O gabinete não tem acesso inferior.
+* Organizar os cabos é possível, mas exige muita abraçadeira e paciência.
+
+Apesar de um pouco frustante e demorado, acho que é o de menos comparado a todo o processo anterior de escolha de peças. Se o processo de montagem preocupa, gabinetes melhores e mais modernos, são melhores de montar que o Elite 110.
+
+## Super gratificante
+
+Depois de anos sem montar PCs, precisei dedicar muito tempo para me atualizar e escolher as peças. A montagem foi complexa e a GPU barulhenta por pouco não fez o projeto fracassar, mas no final fiquei bem satisfeito.
+
+Não é nada demais a configuração, longe disso. 
 
 
 <!-- ### Restrições
