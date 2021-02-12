@@ -8,9 +8,9 @@ keywords:
 
 Eu tenho usado notebooks como computador pessoal há uns 10 anos, mais especificamente MacBooks. Não jogo absolutamente nada, um processador razoável e 16GB de memória são plenamente suficientes para todos os meus usos: desenvolvimento, análise de dados e edição de fotos. 
 
-Meu notebook atual contiua atendendo perfeitamente, mas mesmo assim decidi montar um PC nesse começo de ano. Algumas coisas me incomodam no meu notebook — especialmente barulho e temperatura — mas o grande motivo foi mesmo o tédio do isolamento durante a pandemia.
+Meu notebook atual continua atendendo perfeitamente, mas mesmo assim decidi montar um PC nesse começo de ano. Algumas coisas me incomodam no notebook — especialmente barulho e temperatura — mas o grande motivo foi mesmo o tédio do isolamento durante a pandemia.
 
-Suponho que montar computadores não seja o jeito mais convencional (ou barato) de lidar com o tédio do isolamento, mas curiosamente acho divertido o processo de fazer a curadoria de peças: equilibrar preço, necessidade e possibilidades futuras. Consegui deixar mais "divertido" ainda ao definir como meta montar um PC compacto, os chamados "Small Form Factor PC" ([SFFPC](https://en.wikipedia.org/wiki/Small_form_factor_(desktop_and_motherboard))).
+Suponho que montar computadores não seja o jeito mais convencional (ou barato) de lidar com o tédio do isolamento, mas curiosamente acho divertido o processo de fazer a curadoria de peças: equilibrar preço, necessidade e possibilidades futuras. Para mais diversão ainda, defini como meta montar um PC compacto, os chamados "Small Form Factor PC" ([SFFPC](https://en.wikipedia.org/wiki/Small_form_factor_(desktop_and_motherboard))).
 
 Em geral, procuro escrever aqui conteúdo que considero útil e da forma mais concisa possível. Esse post é bem diferente, mais um relato desprentesioso e informal de um "hobby" marginalmente relacionado com tópicos como desenvolvimento ou ciência de dados.
 
@@ -18,17 +18,19 @@ Independente da motivação fraca, eu fiz uma pesquisa bem extensa e trabalhosa 
 
 ## Você deveria investir em um SFF?
 
-Por padrão, a reposta é não. Para a maioria dos casos de uso, é uma solução pato: é mais caro e limitado em opções de peças comparado a um computador regular, mas não costuma chegar nem próximo da portabilidade e praticidade de um notebook.
+Por padrão, a reposta é não. Para a maioria dos casos de uso, é uma solução pato: é mais caro e limitado comparado a um computador regular, mas não costuma chegar nem próximo da portabilidade e praticidade de um notebook.
 
-Um bom motivo é falta de espaço, por isso é muito comum pensar em SFF para [HTPC](https://en.wikipedia.org/wiki/Home_theater_PC) ou jogar na sala. Mas se houver opção para usar um gabinete padrão pequeno — os chamados Mini Tower — você terá mais opções de hardware, custos menores e (provavelmente) será muito mais simples o processo de montagem e manutenção.
+Para alinhar conceitos: não existe um definição objetiva de SFFPC, vou usar a definição de que não devem ultrapassar dos 20 litros de volume.
 
-Eu teria espaço para um gabinete Mini Tower, meu motivo para investir tempo/dinheiro em um SFFPC pode ser resumido em algo como "quando um fã da Apple decide montar um desktop". 
+Um motivo legítimo é falta de espaço, por isso é muito comum pensar em SFF para [HTPC](https://en.wikipedia.org/wiki/Home_theater_PC) ou jogar na sala. Mas se houver a possibilidade de usar um gabinete ATX compacto — os chamados Mini Tower — você terá mais opções de hardware, custos menores e (provavelmente) será muito mais simples o processo de montagem e manutenção.
 
-A estética minimalista e discreta dos Macs, que aprecio, é praticamente a antítese do que se encontra em PCs gamer. Em geral, os gabinetes SFFPCs ofereces mais opções com visual mais discreto, mesmo os mais em conta.
+Eu poderia ter optado por um Mini Tower, meu motivo para investir tempo/dinheiro em um SFFPC pode ser resumido em algo como "quando um fã da Apple decide montar um desktop". 
 
-O desperdício de espaço dos gabinetes tipo torre me incomoda, foi uma decepção quando abri um gabinete pela primeira vez e encontrei todo aquele espaço sem uso. Prefiro ver espaço bem utlizado, que espaço extra que não pretendo usar como expansão PCI Express ou múltiplas baias para HD 3.5.
+A estética minimalista e discreta dos Macs, é praticamente a antítese do que se encontra em PCs gamer. Em geral, os gabinetes SFFPCs têm mais opções com visual discreto, mais Apple e menos Alienware por assim dizer.
 
-Se dinheiro não fosse problema, meu gabinete certamente seria um [FormdD T1](https://formdworks.com/products/t1) ou [Louqe Ghost S1](https://www.amazon.com/LOUQE-Ghost-Limestone-Mini-ITX-Computer/dp/B088QTJMKW/ref=sr_1_1?dchild=1&keywords=LOUQE&qid=1612651341&sr=8-1). É gratificante ver tanto hardware em um espaço tão reduzido e bem pensado:
+Fora estética, o desperdício de espaço dos gabinetes tipo torre me incomoda, foi uma decepção quando abri um gabinete pela primeira vez e encontrei todo aquele espaço vazio. É frescura pura, mas prefiro ter espaço bem utlizado, que espaço extra para coisas que não pretendo usar.
+
+Se dinheiro não fosse problema, meu gabinete certamente seria um [FormdD T1](https://formdworks.com/products/t1) ou [Louqe Ghost S1](https://www.amazon.com/LOUQE-Ghost-Limestone-Mini-ITX-Computer/dp/B088QTJMKW/ref=sr_1_1?dchild=1&keywords=LOUQE&qid=1612651341&sr=8-1).
 
 <iframe 
     width="560" 
@@ -39,27 +41,29 @@ Se dinheiro não fosse problema, meu gabinete certamente seria um [FormdD T1](ht
     allowfullscreen>
 </iframe>
 
-Alguém pragmático não veria sentido algum: gastar mais de $200,00 em um gabinete que vem desmontado, limitaria escolhas de hardware e seria um horror para montar e atualizar as peças. Limitação bônus: sem I/O na frente e com botão de ligar escodindo na parte traseira.
+Alguém pragmático, não veria sentido algum: gastar mais de $200,00 em um gabinete que vem desmontado, limitaria escolhas de hardware e seria um horror para montar e atualizar. Limitação bônus: sem I/O na frente e com botão de ligar escodindo na parte traseira.
 
-No final, para encarar um SFFPC por vontade, é preciso ser uma mistura peculiar de usuário Apple e Arch Linux.
+Não discuto, mas ilustra bem a ideia: para encarar um SFFPC por vontade e não por necessidade, é preciso ser uma mistura peculiar de usuário Apple e Arch Linux.
 
-De um lado, querer um hardware estilo Apple, com design industrial meio obsessivo ao ponto de poder incorrer em [dificuldades desnecessárias](https://9to5mac.com/wp-content/uploads/sites/6/2019/06/Magic-Mouse-problem.jpeg?quality=82&strip=all), [limitações](https://www.theverge.com/2017/4/4/15175994/apple-mac-pro-failure-admission) e [overengineering](https://www.ifixit.com/Teardown/Mac+Pro+2019+Teardown/128922). De outro, é estar disposto a seguir um [caminho bem tortuoso](https://wiki.archlinux.org/index.php/Arch_Linux#User_centrality) para ter as coisas exatamente do seu jeito.
+De um lado, querer um hardware estilo Apple, com design industrial meio obsessivo e desnecesário ao ponto de poder incorrer em [dificuldades desnecessárias](https://9to5mac.com/wp-content/uploads/sites/6/2019/06/Magic-Mouse-problem.jpeg?quality=82&strip=all), [limitações](https://www.theverge.com/2017/4/4/15175994/apple-mac-pro-failure-admission) e [overengineering](https://www.ifixit.com/Teardown/Mac+Pro+2019+Teardown/128922). De outro, é estar disposto a seguir um [caminho bem tortuoso](https://wiki.archlinux.org/index.php/Arch_Linux#User_centrality) para chegar ao objetivo.
 
-## Escolhendo as peças
+## A (difícil) escolha de peças
 
-Montar um SFFPC é inegavelmente mais caro, mas a grande dificuldade é combinar as peças. A "taxa ITX" que paguei — montando em plena pandemia com falta de peças no mundo todo e dólar nas alturas — estimo em 20%.  O maior custo, foi o tempo de pesquisa e tomada de decisão, sobre quais peças escolher.
+Montar um SFFPC é inegavelmente mais caro, mas a grande dificuldade é combinar as peças. A "taxa ITX" que paguei — montando em plena pandemia com falta de peças no mundo todo e dólar nas alturas — estimo em 20%.  O custo maior é o tempo de pesquisa e tomada de decisão, diria que é mais do que dobrado.
 
 Para ilustrar isso, nada melhor que a "série" ([1](https://www.youtube.com/watch?v=Fpe5wDBXpOI), [2](https://www.youtube.com/watch?v=ywgEEYDtsSE), [3](https://www.youtube.com/watch?v=x0pL5P3AIbw&t=530s) e [4](https://www.youtube.com/watch?v=9g4u88nfM1U)) sobre um PC ITX para jogar na sala do canal [Peperaio Hardware](https://www.youtube.com/user/PeperaioHardwareBR). 
 
-Para resumir: inicialmente ficou com temperaturas muito altas, usar um cooler melhor não resolveu, trocou-se por um gabinete "melhor" e depois a fonte queimou nesse novo gabinete [^1]. 
+Resumo da história: inicialmente o processador ficou com temperaturas muito altas, usar um cooler melhor não resolveu. O hardware foi movido para um gabinete "melhor" e depois a fonte queimou nesse novo gabinete [^1]. 
 
-[^1]:  Em relação a fonte, pode ser que tenha sido apenas um azar, mas ela foi montada invertida para funcionar como exaustor do processador...que me pareceu bem temerário e sem embasamento. Não vou assumir incompetência nessa série, porque esses problemas são "legais" para um canal do YouTube, além disso as peças parecem ter sido enviadas pelos parceiros e não escolhidas.
+Usando as mesmas peças do primeiro vídeo, em um gabinete comum, provavelmente não haveria problema algum. 
 
-Usando essas mesmas peças, não haveria problema nenhum se fosse um gabinete torre comum. Para um SFFPC, deveria ter feito uma escolha mais criteriosa dos componentes.
+[^1]:  Em relação a fonte, pode ser que tenha sido apenas um azar, mas ela foi montada invertida para funcionar como exaustor do processador...que me pareceu bem temerário e sem embasamento. Não vou assumir incompetência nessa série, porque esses problemas são "legais" para um canal do YouTube, além disso as peças parecem ter sido enviadas pelos parceiros e não escolhidas. 
 
-Em ordem de prioridade, vou discutir os pontos de atenção na escolha de cada componente.
+A configuração que montei é bem equivalente em um gabinete do mesmo tamanho, zero problemas de temperatura e ruído no final. Não foi livre de erros e problemas, mas a escolha de peaças reduziu muitos custos extras e dores de cabeça.
 
-### Gabinete: o ponto de partida
+Colocada a importância da escolha de peças, vou discutir os pontos de atenção na escolha de cada componente, em ordem de prioridade.
+
+### 1. Gabinete: o ponto de partida
 
 Um gabinete pequeno tem limitações, é invevitável. O ponto é escolher quais limitações você prefere, que geralmente estão relacionados às opções de refrigeração, fonte, tamanho da GPU e armazenamento. 
 
@@ -71,11 +75,13 @@ Essas limitações geram um efeito cascata em várias outras decisões:
 
 Nesse cenário, quanto mais simples for sua necessidade, mais opções de gabinete.
 
-Eu optei pelo antiquado [CooleMaster Elite 110](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/elite110/?_escaped_fragment_=&_escaped_fragment_=#image-Item1), um modelo de 2014 e relativamente barato, focado em opções de armazenamento. Bem adequado para meu uso, mas não recomendo para configurações high-end, usando processadores de alto TDP e GPUs com mais de 21cm.
+Eu optei pelo antiquado [CooleMaster Elite 110](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/elite110/?_escaped_fragment_=&_escaped_fragment_=#image-Item1), um modelo de 2014 e relativamente barato, focado em opções de armazenamento. Bem adequado para meu uso, mas não recomendado para configurações high-end, usando processadores de alto TDP e GPUs com mais de 21cm.
 
-A grande vantagem desse gabinete, é suportar fontes convencionais ATX que são muito mais acessíveis no Brasil: metade do preço de uma SFX. Por outro lado, a fonte enorme acaba limitando bastante as opções de refrigeração, a altura máximo do cooler é 76mm com um fluxo de ar horrível.
+A grande vantagem desse gabinete, é suportar fontes convencionais ATX que são muito mais acessíveis no Brasil: metade do preço de uma SFX. Por outro lado, o espaço extra de fonte ATX acaba limitando bastante as opções de refrigeração, a altura máximo do cooler é 76mm com um fluxo de ar horrível.
 
-A melhor opção para refrigerar processador, é um AIO de 120mm. Se as necessidades de refrigeração forem maiores que essa, recomendo fugir desse design de cubo. Vale citar que a montagem é trabalhosa, especialmente para organizar cabos da fonte, mas o painel frontal ajuda na tarefa.
+A melhor opção, é um AIO de 120mm. Se as necessidades de refrigeração forem maiores que essa, recomendo fugir desse design de cubo. 
+
+Vale citar que a montagem é trabalhosa, especialmente para organizar cabos da fonte, mas o painel frontal ajuda na tarefa.
 
 Para quem deseja uma configuração básica ou intermediária, o Elite 110 é uma ótima opção no Brasil. Uma alternativa com design similar, mais compacta e com suporte a GPUs maiores, é o [Silverstone SG13](https://www.silverstonetek.com/product.php?pid=536&area=en).
 
@@ -83,7 +89,7 @@ Para quem está querendo montar algo bem simples e barato, com processador de ba
 
 Há gabinetes acessíveis e compactos focados no mercado empresarial, como os da [kmex](http://www.k-mex.com.br/produtos.asp?pag=Produtos&parent=gabinetes1&chave=130&tsb=Mini-ITX) por exemplo. O mercado de usados pode ser uma opção também, já que empresas com Dell e Lenovo costumam oferecer SFFPCs para uso em escritório.
 
-Se o plano é montar uma configuração high-end, no Brasil acho que temos basicamente três opções: [Lian Li Pc-tu150 (1)](https://lian-li.com/product/pc-tu150/), [NZXT (2)](https://www.nzxt.com/products/h200i-matte-white) e [CoolerMaster NR200 (3)](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/masterbox-nr200/). 
+Por outro lado, se o plano é montar uma configuração high-end, no Brasil acho que temos basicamente três opções: [Lian Li Pc-tu150 (1)](https://lian-li.com/product/pc-tu150/), [NZXT (2)](https://www.nzxt.com/products/h200i-matte-white) e [CoolerMaster NR200 (3)](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/masterbox-nr200/). 
 
 Os três suportam GPUs grandes, cooler maiores e AIOs de 240mm. Entretanto, há vários detalhes a se considerar nessa faixa de preço, acredito que a melhor recomendação que posso dar é recorrer a reviews e comparações detalhadas. 
 
@@ -98,17 +104,30 @@ Nesse segmento, a recomendação padrão são as Corsair da [linha SF](https://w
 
 Uma alternativa do mercado brasileiro, é optar por fontes SFX usadas da Seasonic, facilmente encontradas no Mercado Livre. É uma marca reconhecida e esses modelos são encontrados em computadores corporativos, entretanto não passam de 300W.
 
-Se o gabinete suportar ATX, acredito que seja interessante considerar uma modular/semi-modular e compacta. Esses cabos de fonte inutilizados cabos são horríveis de organizar em gabinetes pequenos, acho que vale muito a pena pagar o custo adicional.
+Se o gabinete suportar ATX, acredito que seja interessante comprar uma modular/semi-modular e compacta. Esses cabos de fonte inutilizados cabos são horríveis de organizar em gabinetes pequenos, podendo comprometer a ventilação.
 
 Eu optei por uma semi-modular, a [Masterwatt 450 TUF Gaming](https://www.coolermaster.com/br/pt-br/catalog/power-supplies/masterwatt/masterwatt-450-tuf-gaming-edition/) da CoolerMaster. É relativamente acessível e a ventoinha fica desligada em uso regular e mesmo quando ativa é pouca ruidosa.
 
-Além de priorizar modulares, acredito que não haja nada de especial em escolher uma fonte ATX para SFFPCs.
+Além de priorizar modulares, acredito que não haja nada de especial em escolher uma fonte ATX para SFFPCs. Elas só estão em segundo no ranking de importância, pelos preços no Brasil.
+
+### Refrigeração: o seu limite
+
+Os gabinetes com formatos diferentes costumam limitar bastante as opções de refrigeração, então é bom verificar as opções disponíveis. Além do espaço físico para o cooler do processador, o fluxo de ar também pode ser limitado.
+
+A minha prioridade ao montar o computador era reduzir o barulho, nesse cenário eu investi em um [AIO 120mm da CoolerMaster](https://www.coolermaster.com/br/pt-br/catalog/coolers/cpu-liquid-coolers/masterliquid-ml120l-v2-rgb/). É possível optar por coolers menores de 76cm, mas o fluxo de ar limitados atrapalha muito, como mostram os resultados [desse experimento](https://www.youtube.com/watch?v=vPDBENpbzJ4).
+
+Talvez tenha sido um exagero, mas foi um sucesso. Usando apenas uma ventoinha de 120mm em 1000RPM, meu processador (Core i5 10400F) fica em torno de 60C rodando teste de stress em 4.1Ghz.
+
+É bem complicado avaliar refrigeração, porque depende de muitas variáveis. Para piorar, há questões subjetivas como o ruído gerado e a temperatura máxima. Em teoria, a temperatura é um critério objetivo, mas há muita discussão e pessoas que não gostam de processadores funcionando a 80C. Por fim, há muitas pessoas que não gostam de refrigeração líquida, que costumam ser mais fácil de acomodar nesses gabinetes.
+
+Não vou entrar nessas polêmicas, mas esteja antento às dificuldades e necessidades de refrigeração em um gabiente pequeno, especialmente se tiver um layou muito diferente de torre.
+
 
 ### Placa de Vídeo: barato saiu caro
 
 A única questão específica em relação a GPU, é ser compatível com o gabinete escolhido. O único ponto de atenção, é que isso normalmente significa optar por modelos mais básicos, com sistemas de refrigeração mais limitados.
 
-Assumi que não era um problema para mim: primeiro porque optei por uma GTX 1650 porque é uma placa de baixo consumo, que nem exige conector adicional de energia[^2]. Segundo, que acho um exagero essa preocupação com temperatura, a não ser que você esteja minerando criptomoedas.
+Assumi que não era um problema para mim: primeiro porque optei por uma GTX 1650 porque é uma placa de baixo consumo, que nem exige conector adicional de energia[^2]. Segundo, pretendo usar muito eventualmente, não jogo nada regularmente há anos.
 
 [^2]: A maioria dos modelos do mercado exige o conector de 6 pinos, inclusive a que comprei e dizia que não na [especificação](https://www.gigabyte.com/Graphics-Card/GV-N1650IXOC-4GD/sp#sp) ¯\\_(ツ)_/¯.
 
@@ -117,6 +136,7 @@ O problema é que a [GTX 1650 da Gigabyte](https://www.gigabyte.com/Graphics-Car
 Para os meus padrões, era um barulho simplesmente insuportável e uma das minhas prioridades era justamente ter um sistema silencioso. Entre tentar editar a BIOS e fazer o que chamam de [deshroud da GPU](https://www.youtube.com/watch?v=QUaZVpN51Po), optei pela segunda opção. A substituição do hardware foi simples, mas conseguir controlar esse cooler com base na temperatura da GPU foi um inferno.
 
 Em resumo, além da questão do tamanho, tome cuidado com placas que não desligam o cooler. Não sabia que existia isso e quase desisti de resolver, fique atento se o ruído for uma questão relevante.
+
 
 <!-- ### Restrições
 
