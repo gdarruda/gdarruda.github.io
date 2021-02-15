@@ -54,7 +54,7 @@ De um lado, querer um hardware estilo Apple, com design industrial meio obsessiv
 
 Montar um SFFPC é inegavelmente mais caro e trabalhoso, mas o maior problema é combinar as peças. 
 
-Em termos financeiras — montando em plena pandemia com falta de peças no mundo todo e dólar nas alturas — estimo em 15% a mais de custo comparado a uma configuração similar em um gabinete padrão. Por outro lado, o custo em tempo de pesquisa e tomada de decisão, estimo em mais que o dobro para SFF.
+Em termos financeiros — montando em plena pandemia, com falta de peças no mundo todo e dólar nas alturas — estimo em 15% a mais de custo, comparado a uma configuração similar em um gabinete padrão. Por outro lado, o custo em tempo de pesquisa e tomada de decisão, estimo em mais que o dobro para SFF.
 
 Para ilustrar isso, nada melhor que a "série" ([1](https://www.youtube.com/watch?v=Fpe5wDBXpOI), [2](https://www.youtube.com/watch?v=ywgEEYDtsSE), [3](https://www.youtube.com/watch?v=x0pL5P3AIbw&t=530s) e [4](https://www.youtube.com/watch?v=9g4u88nfM1U)) sobre um PC compacto para jogar na sala, do canal [Peperaio Hardware](https://www.youtube.com/user/PeperaioHardwareBR). 
 
@@ -132,7 +132,7 @@ Fora priorizar modelos modulares e compactos, acredito que não haja nada de esp
 
 Os gabinetes com layouts diferentes costumam limitar bastante as opções de refrigeração, então é bom verificar com cuidado a compatibilidade. Além do espaço físico disponível, o fluxo de ar interno também pode ser limitado.
 
-O Elite 110 suporta coolers de apenas 76cm e o fluxo de ar é bem ruim. Poderia usar o cooler box da Intel, mas como minha prioridade ao montar o computador era reduzir o barulho, investi em um de [AIO 120mm](https://www.coolermaster.com/br/pt-br/catalog/coolers/cpu-liquid-coolers/masterliquid-ml120l-v2-rgb/) da Cooler Master.
+O Elite 110 suporta coolers de apenas 76cm e o fluxo de ar é bem ruim. Poderia usar o cooler box da Intel, mas como minha prioridade ao montar o computador era reduzir o barulho, investi em um de [AIO de 120mm](https://www.coolermaster.com/br/pt-br/catalog/coolers/cpu-liquid-coolers/masterliquid-ml120l-v2-rgb/) da Cooler Master.
 
 Um cooler de baixo perfil bom sairia por um preço alto e, como mostram os resultados [desse experimento](https://www.youtube.com/watch?v=vPDBENpbzJ4), provavelmente teriam um desempenho térmico pior. Ao meu ver, nesses gabinetes com design de cubo, é melhor partir para um AIO direto se for para trocar o cooler box.
 
@@ -158,9 +158,9 @@ Assumi que não era um problema para mim esse *trade-off*: primeiro porque optei
 
 O problema é que a [GTX 1650 da Gigabyte](https://www.gigabyte.com/Graphics-Card/GV-N1650IXOC-4GD) limita a velocidade mínima da ventoinha em 68%, que são incríveis 1800RPM. Pesquisando sobre a placa, descobri que é uma característica comum em placas baratas: coolers que não trabalham em baixa velocidade.
 
-Para os meus padrões, era um barulho simplesmente insuportável a ventoinha travada nessa velocidade. 
+Para os meus padrões, era um barulho simplesmente insuportável, a ventoinha travada nessa velocidade. 
 
-Entre tentar editar a VBIOS e fazer o que chamam de [deshroud da GPU](https://www.youtube.com/watch?v=QUaZVpN51Po), optei pela segunda opção. A substituição do hardware foi simples, mas para conseguir controlar esse cooler pela placa-mãe com base na temperatura da GPU, foi um pequeno inferno no Linux.
+Entre tentar editar a VBIOS e fazer o que chamam de [deshroud da GPU](https://www.youtube.com/watch?v=QUaZVpN51Po), optei pela segunda opção. A substituição do hardware foi simples, mas para conseguir controlar esse cooler pela placa-mãe usando a temperatura da GPU, foi um pequeno inferno no Linux.
 
 <img class="big-images" 
      src="{{site.url}}/assets/images/pc/DSCF7305.jpg"/>
@@ -174,9 +174,9 @@ As minhas necessidades de armazenamento são mínimas, então não pensei muito 
 
 Para alguns layouts é indiferente a posição das unidades, mas no Elite 110 pode comprometer a ventilação usar unidades de 2,5 ou 3,5, tanto por precisar ter mais cabos de energia quanto pelo posicionamento das baias.
 
-Acho que a questão de priorizar M.2 é relativamente óbvia para SFF, mas uma dica importante é considerar M.2 no padrão SATA: custam um valor parecido com os SSDs SATAs de 2,5 polegadas, mas podem ser instalados no M.2. Não é necessário investir em armazenamento high-end para dispensar os conectores SATA.
+Acho que a questão de priorizar M.2 é relativamente óbvia para SFF, mas uma dica importante é considerar M.2 no padrão SATA: custam um valor parecido com os SSDs SATAs de 2,5 polegadas, mas podem ser instalados no M.2. Não é necessário investir em armazenamento high-end para dispensar os conectores SATA de dados e energia.
 
-Optei por usar um [A400 SATA M.2 480GB](https://www.kingston.com/br/ssd/a400-solid-state-drive), já que não preciso de grandes velocidades ou muito espaço.
+Optei por usar um [Kingston A400 SATA M.2 480GB](https://www.kingston.com/br/ssd/a400-solid-state-drive), já que não preciso de grandes velocidades ou muito espaço.
 
 
 <img class="big-images" 
@@ -186,7 +186,7 @@ Optei por usar um [A400 SATA M.2 480GB](https://www.kingston.com/br/ssd/a400-sol
 
 ### <a name="mobo"> Placa-mãe: só aceita </a>
 
-As placas-mãe para a SFFPC são as ITX, que medem 17x17 cm. Elas normalmente são mais caras que modelos equivalentes ATX e têm menos opções. É um custo extra sem muita escapatória. Acabei optando por Intel e não AMD, muito pelo custo da placa-mãe, que acabou sendo o componente mais caro do computador.
+As placas-mãe para SFFPC são as ITX, que medem 17x17 cm. Elas normalmente são mais caras que modelos equivalentes ATX e têm menos opções. É um custo extra sem muita escapatória. Acabei optando por Intel e não AMD, muito pelo custo da placa-mãe, que acabou sendo o componente mais caro do computador.
 
 Investi em uma [ASUS ROG STRIX H470-I](https://rog.asus.com/motherboards/rog-strix/rog-strix-h470-i-gaming-model/). Ela vem com Bluetooth 5, que uso bastante nos meus periféricos. Possui dois slots para armazenamento M.2. Por fim, o software da ASUS, de BIOS e Windows, parece ser um dos melhores do mercado.
 
@@ -195,9 +195,13 @@ Investi em uma [ASUS ROG STRIX H470-I](https://rog.asus.com/motherboards/rog-str
 
 Não tem muito o que adicionar: só reiterar que a capacidade de refrigeração pode ser o limite do seu processador.
 
-Eu optei por um processador de entrada, o Core i5 10400F com 65W de TDP. Não confie muito nessa métrica de TDP, pois ela se refere a dissipação no clock base do processador, mas naturalmente processadores com menos núcleos e clocks mais baixos exigem menos refrigeração.
+Eu optei por um modelo de entrada, o Core i5 10400F com 65W de TDP. Não confie muito nessa métrica de TDP, pois ela se refere a dissipação no clock base do processador, mas naturalmente processadores com menos núcleos e clocks mais baixos exigem menos refrigeração.
 
-O ideal é dar uma olhada nos reviews, para entender as demandas de refrigeração e energia de cada processador. Mas exceto para casos extremos, a escolha do processador não é algo que muda muito por ser SFF ou não.
+O ideal é dar uma olhada nos reviews, para entender as demandas de refrigeração e energia de cada processador. Mas exceto para casos extremos e overclock, a escolha do processador não é algo que muda muito por ser SFF ou não.
+
+Algo que vale citar, é a possibilidade de fazer "undervolting" de processador, que é reduzir a tensão do processador sem reduzir o clock. A ideia é queimar um pouco de gordura da configuração padrão, reduzir o consumo de energia e geração de calor, mas sem gerar instabilidade. É algo que pode ser feito em GPUs também.
+
+Se for por esse caminho, é bom verificar se o modelo de processador e placa-mãe suportam esses ajustes. Não destaquei essa alternativa antes, pois acho algo que a maioria não estará disposta e só faz sentido para casos específicos.
 
 ### <a name="memoria"> Memória: low-profile </a>
 
@@ -210,12 +214,12 @@ Essa questão da memória ficou para o final da lista, porque esse cooler é mui
 
 A montagem do computador foi bem trabalhosa, algo em torno de 3-4 horas, por uma séries de fatores:
 
-* Faltou de prática, nunca montei um PC completo anteriormente.
+* Faltou prática, nunca montei um PC completo anteriormente.
 * AIO é chato em qualquer gabinete, pior nos pequenos.
 * Não é possível remover a parte inferior do Elite 110.
-* Organizar os cabos é possível, mas exige muita abraçadeira e paciência no Elite 110.
+* Organizar bem os cabos é possível, mas exige muita abraçadeira e paciência no Elite 110.
 
-Apesar de um pouco frustante e demorado, acho que ainda foi o de menos comparado a todo o processo anterior de escolha de peças. Se o processo de montagem preocupa, considere gabinetes mais modernos, são melhores de montar que o Elite 110.
+Apesar de um pouco frustante e demorado, acho que ainda foi o de menos comparado a todo o processo anterior de escolha de peças. Se o processo de montagem preocupa, considere gabinetes mais modernos, são melhores de montar normalmente.
 
 Para não dizer que não ajudei nessa parte, uma dica de ouro: instale tudo que possível na placa-mãe antes de colocá-la dentro do gabinete. Fora isso, só posso recomendar paciência mesmo.
 
