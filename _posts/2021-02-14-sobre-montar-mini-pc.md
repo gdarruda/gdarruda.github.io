@@ -46,7 +46,7 @@ Fora estética, o desperdício de espaço dos gabinetes tipo torre me incomoda, 
 
 Alguém pragmático, não veria sentido algum: gastar mais de $200,00 em um gabinete que vem desmontado, limitaria escolhas de hardware e seria um horror para montar e atualizar. Limitação bônus: sem I/O na frente e com botão de ligar escondido na parte traseira.
 
-São questões válidas, que ilustram bem a ideia: para encarar um SFFPC por vontade e não por necessidade, é preciso ser uma mistura peculiar de usuário Apple e Arch Linux.
+São questões válidas, que ilustram bem a ideia: para encarar um SFFPC, por vontade e não por necessidade, é preciso ser uma mistura peculiar de usuário Apple e Arch Linux.
 
 De um lado, querer um hardware estilo Apple, com design industrial meio obsessivo e desnecesário ao ponto de poder incorrer em [dificuldades desnecessárias](https://9to5mac.com/wp-content/uploads/sites/6/2019/06/Magic-Mouse-problem.jpeg?quality=82&strip=all), [limitações](https://www.theverge.com/2017/4/4/15175994/apple-mac-pro-failure-admission) e [overengineering](https://www.ifixit.com/Teardown/Mac+Pro+2019+Teardown/128922). De outro, é estar disposto a seguir um [caminho bem tortuoso](https://wiki.archlinux.org/index.php/Arch_Linux#User_centrality) para chegar a esse objetivo.
 
@@ -62,11 +62,11 @@ Resumo da história: inicialmente o processador ficou com temperaturas muito alt
 
 Usando as mesmas peças da primeira montagem, em um gabinete comum, provavelmente não teria ocorrido problema algum. 
 
-[^1]:  Em relação a fonte, pode ser que tenha sido apenas um azar, mas ela foi montada invertida para funcionar como exaustor do processador...que me pareceu bem temerário e sem embasamento. Não vou assumir incompetência nessa série, porque esses problemas são "legais" para um canal do YouTube, além disso as peças parecem ter sido enviadas pelos parceiros e não escolhidas. 
+[^1]:  Em relação a fonte, pode ser que tenha sido apenas um azar, mas ela foi montada invertida para funcionar como exaustor do processador...que me pareceu bem temerário e sem embasamento. Não quero criticar no texto, porque eu não cheguei a uma conclusão. 
 
 A configuração que montei é bem equivalente, colocada em um gabinete do mesmo tamanho: zero problemas de temperatura e ruído. Não foi livre de problemas, mas a escolha cuidadosa de peças reduziu muitos custos extras e dores de cabeça.
 
-Colocada a importância da escolha de peças, vou discutir os pontos de atenção na escolha de cada componente, em ordem de prioridade:
+Destacada a importância da escolha de peças, vou discutir os pontos de atenção na escolha de cada componente, em ordem de prioridade:
 
 1. [Gabinete: o ponto de partida](#gabinete)
 2. [Fonte: fator Brasil](#fonte)
@@ -109,7 +109,7 @@ Para quem está querendo montar algo bem básico, com processador de baixo TDP e
 
 Por outro lado, se o plano é montar uma configuração high-end, no Brasil acho que temos basicamente três opções de gabinete: [Lian Li Pc-tu150 (1)](https://lian-li.com/product/pc-tu150/), [NZXT (2)](https://www.nzxt.com/products/h200i-matte-white) e [Cooler Master MasterBox NR200 (3)](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/masterbox-nr200/). 
 
-Os três suportam GPUs grandes, cooler maiores e AIOs maiores. Entretanto, há vários detalhes a se considerar nessa faixa de preço, acredito que a melhor recomendação que posso dar é recorrer a reviews e comparações detalhadas. 
+Os três suportam GPUs grandes e mais opções de refrigeração. Entretanto, há vários detalhes a se considerar nessa faixa de preço, acredito que a melhor recomendação que posso dar é recorrer a reviews e comparações detalhadas. 
 
 Infelizmente, só encontrei conteúdo estrangeiro bom para avaliar esses gabinetes. No caso, os vídeos do Optimum Tech([1](https://www.youtube.com/watch?v=N5O6WZKERZ8), [2](https://www.youtube.com/watch?v=LqdcwwkGtpY&t=187s), [3](https://www.youtube.com/watch?v=8k1B2tai1yg&t=6s)) e Hardware Canucks ([1](https://www.youtube.com/watch?v=c3HcbOw1_YQ), [2](https://www.youtube.com/watch?v=AbDtYkmFzzU), [3](https://www.youtube.com/watch?v=aMP3-881X5o)).
 
@@ -142,7 +142,9 @@ Um cooler de baixo perfil bom sairia por um preço alto e, como mostram os resul
 
 Talvez tenha sido um exagero para minhas necessidades, mas funcionou muito bem. Usando apenas uma ventoinha de 120mm em 1000RPM, meu processador (Core i5 10400F) fica em torno de 60C rodando teste de stress em 4.1Ghz.
 
-É bem complicado avaliar refrigeração *a priori*, porque depende de muitas variáveis: TDP dos componentes, fluxo de ar do gabinete e ruído. Para piorar, há aspectos subjetivas no que seria ideal para refrigeração: nível de ruído, estética e temperatura máxima. Em teoria, a temperatura é um critério objetivo, mas há muita discussão sobre a temperatura ideal que os componentes devem ficar.
+É bem complicado avaliar refrigeração *a priori*, porque depende de muitas variáveis: TDP dos componentes, fluxo de ar do gabinete e ruído. Para piorar, há aspectos subjetivos no que seria ideal para refrigeração: nível de ruído, estética e temperatura máxima. 
+
+Em teoria, a temperatura é um critério objetivo, mas há muita discussão sobre a temperatura ideal que os componentes devem ficar.
 
 Não vou entrar nessas polêmicas todas, mas esteja atento às dificuldades e necessidades de refrigeração em um gabinete pequeno.
 
@@ -170,7 +172,7 @@ Em resumo, além da questão do tamanho, tome cuidado com placas que não deslig
 
 As minhas necessidades de armazenamento são mínimas, então não pensei muito nisso. Mas caso sua demanda por armazenamento seja alta, envolvendo múltiplas unidades ou discos de 3,5 polegadas, recomendo avaliar bem as possibilidades do gabinete.
 
-Para alguns layouts é indiferente a posição dos discos, mas no Elite 110 pode comprometer a ventilação ao usar discos de 2,5 ou 3,5 polegadas, tanto por precisar ter mais cabos de energia quanto pelo posicionamento das baias.
+Para alguns layouts é indiferente a posição das unidades, mas no Elite 110 pode comprometer a ventilação usar unidades de 2,5 ou 3,5, tanto por precisar ter mais cabos de energia quanto pelo posicionamento das baias.
 
 Acho que a questão de priorizar M.2 é relativamente óbvia para SFF, mas uma dica importante é considerar M.2 no padrão SATA: custam um valor parecido com os SSDs SATAs de 2,5 polegadas, mas podem ser instalados no M.2. Não é necessário investir em armazenamento high-end para dispensar os conectores SATA.
 
@@ -184,7 +186,7 @@ Optei por usar um [A400 SATA M.2 480GB](https://www.kingston.com/br/ssd/a400-sol
 
 ### <a name="mobo"> Placa-mãe: só aceita </a>
 
-As placas-mãe para a SFFPC são as ITX, que medem 17x17 cm. Elas normalmente são mais caras que modelos equivalentes ATX e têm menos opções de modelo. É um custo extra sem muita escapatória. Acabei optando por Intel e não AMD, muito pelo custo da placa-mãe, que acabou sendo o componente mais caro do computador.
+As placas-mãe para a SFFPC são as ITX, que medem 17x17 cm. Elas normalmente são mais caras que modelos equivalentes ATX e têm menos opções. É um custo extra sem muita escapatória. Acabei optando por Intel e não AMD, muito pelo custo da placa-mãe, que acabou sendo o componente mais caro do computador.
 
 Investi em uma [ASUS ROG STRIX H470-I](https://rog.asus.com/motherboards/rog-strix/rog-strix-h470-i-gaming-model/). Ela vem com Bluetooth 5, que uso bastante nos meus periféricos. Possui dois slots para armazenamento M.2. Por fim, o software da ASUS, de BIOS e Windows, parece ser um dos melhores do mercado.
 
