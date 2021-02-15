@@ -15,7 +15,7 @@ Meu maior incômodo com os últimos MacBooks, é como ficam quentes e são barul
 
 Mas sem tentar me enganar, o real motivo é que eu simplesmente gostei da ideia de montar um PC no meio desse ócio pandêmico. Mesmo em um cenário de escassez de peças e dólar disparado, que talvez seja o pior momento das últimas décadas para fazer isso.
 
-Suponho que montar computadores não seja o jeito mais convencional (ou barato) de lidar com o tédio do isolamento, mas curiosamente acho divertido o processo de curadoria das peças: equilibrar preço, necessidade e possibilidades futuras. Para mais "diversão", defini como meta montar um PC compacto, os chamados Small Form Factor PC ([SFFPC](https://en.wikipedia.org/wiki/Small_form_factor_(desktop_and_motherboard))).
+Suponho que montar computadores não seja o jeito mais convencional (ou barato) de lidar com o tédio do isolamento, mas curiosamente acho divertido o processo de curadoria das peças: equilibrar preço, necessidade e possibilidades futuras. Para mais "diversão", defini como meta montar um PC compacto, os chamados Small Form Factor PCs ([SFFPCs](https://en.wikipedia.org/wiki/Small_form_factor_(desktop_and_motherboard))).
 
 Independente da motivação duvidosa, eu fiz uma pesquisa bem extensa e trabalhosa sobre o assunto. Há bastante informação em [fóruns](https://www.reddit.com/r/sffpc) e [canais](https://www.youtube.com/channel/UCRYOj4DmyxhBVrdvbsUwmAA), mas guias de compra e preço são quase inúteis na realidade brasileira. Nesse cenário, acho que pode ser útil discutir como montar um SFFPC com peças disponíveis no Brasil.
 
@@ -31,7 +31,7 @@ Um motivo legítimo para optar por um SFFPC é falta de espaço, por isso é mui
 
 Eu poderia ter optado por um Mini Tower. Meu motivo, para investir tempo/dinheiro em um SFF, pode ser resumido em algo como "quando um fã da Apple decide montar um desktop". 
 
-A estética, minimalista e discreta dos Macs, é praticamente a antítese do que se encontra em PCs gamer. Em geral, os gabinetes SFFPCs têm mais opções com visual discreto, mais Apple e menos Alienware por assim dizer.
+A estética, minimalista e discreta dos Macs, é praticamente a antítese do que se encontra em PCs gamer. Em geral, os gabinetes SFF têm mais opções com visual discreto, mais Apple e menos Alienware por assim dizer.
 
 Fora estética, o desperdício de espaço dos gabinetes tipo torre me incomoda, especialmente para hardware simples como o meu. É frescura pura e até irracional, mas prefiro ter espaço bem otimizado que espaço extra sem uso. Se dinheiro não fosse problema, meu gabinete certamente seria um [FormdD T1](https://formdworks.com/products/t1) ou [Louqe Ghost S1](https://www.amazon.com/LOUQE-Ghost-Limestone-Mini-ITX-Computer/dp/B088QTJMKW/ref=sr_1_1?dchild=1&keywords=LOUQE&qid=1612651341&sr=8-1).
 
@@ -48,7 +48,7 @@ Alguém pragmático, não veria sentido algum: gastar mais de $200,00 em um gabi
 
 São questões válidas, que ilustram bem a ideia: para encarar um SFFPC, por vontade e não por necessidade, é preciso ser uma mistura peculiar de usuário Apple e Arch Linux.
 
-De um lado, querer um hardware estilo Apple, com design industrial meio obsessivo e desnecesário ao ponto de poder incorrer em [dificuldades desnecessárias](https://9to5mac.com/wp-content/uploads/sites/6/2019/06/Magic-Mouse-problem.jpeg?quality=82&strip=all), [limitações](https://www.theverge.com/2017/4/4/15175994/apple-mac-pro-failure-admission) e [overengineering](https://www.ifixit.com/Teardown/Mac+Pro+2019+Teardown/128922). De outro, é estar disposto a seguir um [caminho bem tortuoso](https://wiki.archlinux.org/index.php/Arch_Linux#User_centrality) para chegar a esse objetivo.
+De um lado, querer um hardware estilo Apple, com design industrial meio obsessivo e desnecessário ao ponto de poder incorrer em [dificuldades](https://9to5mac.com/wp-content/uploads/sites/6/2019/06/Magic-Mouse-problem.jpeg?quality=82&strip=all), [limitações](https://www.theverge.com/2017/4/4/15175994/apple-mac-pro-failure-admission) e [overengineering](https://www.ifixit.com/Teardown/Mac+Pro+2019+Teardown/128922). De outro, é estar disposto a seguir um [caminho bem tortuoso](https://wiki.archlinux.org/index.php/Arch_Linux#User_centrality) parar chegar ao objetivo, ao invés de simplesmente comprar um Mac ou outra solução pronta.
 
 ## A (difícil) escolha de peças
 
@@ -60,11 +60,11 @@ Para ilustrar isso, nada melhor que a "série" ([1](https://www.youtube.com/watc
 
 Resumo da história: inicialmente o processador ficou com temperaturas muito altas, trocar o cooler por um melhor não resolveu. O hardware foi movido para um gabinete "melhor", mas mesmo assim a fonte queimou nesse novo gabinete [^1]. 
 
-Usando as mesmas peças da primeira montagem, em um gabinete comum, provavelmente não teria ocorrido problema algum. 
+Usando as mesmas peças da primeira montagem, em um gabinete comum, provavelmente não teria ocorrido problemas. 
 
 [^1]:  Em relação a fonte, pode ser que tenha sido apenas um azar, mas ela foi montada invertida para funcionar como exaustor do processador...que me pareceu bem temerário e sem embasamento. Não quero criticar no texto, porque eu não cheguei a uma conclusão. 
 
-A configuração que montei é bem equivalente, colocada em um gabinete do mesmo tamanho: zero problemas de temperatura e ruído. Não foi livre de problemas, mas a escolha cuidadosa de peças reduziu muitos custos extras e dores de cabeça.
+A configuração que montei é bem equivalente, colocada em um gabinete do mesmo tamanho: tenho zero problemas de temperatura e ruído. Não foi livre de problemas, mas a escolha cuidadosa de peças reduziu muitos custos extras e dores de cabeça posteriores.
 
 Destacada a importância da escolha de peças, vou discutir os pontos de atenção na escolha de cada componente, em ordem de prioridade:
 
@@ -107,7 +107,7 @@ Para quem deseja uma configuração básica ou intermediária, o Elite 110 é um
 
 Para quem está querendo montar algo bem básico, com processador de baixo TDP e GPU integrada, pode fazer sentido considerar soluções voltadas para o mercado corporativo. Há gabinetes acessíveis e compactos focados no mercado empresarial, como os da [K-MEX](http://www.k-mex.com.br/produtos.asp?pag=Produtos&parent=gabinetes1&chave=130&tsb=Mini-ITX) por exemplo. 
 
-Por outro lado, se o plano é montar uma configuração high-end, no Brasil acho que temos basicamente três opções de gabinete: [Lian Li Pc-tu150 (1)](https://lian-li.com/product/pc-tu150/), [NZXT (2)](https://www.nzxt.com/products/h200i-matte-white) e [Cooler Master MasterBox NR200 (3)](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/masterbox-nr200/). 
+Por outro lado, se o plano é montar uma configuração high-end, no Brasil acho que temos basicamente três opções de gabinete: [Lian Li Pc-tu150 (1)](https://lian-li.com/product/pc-tu150/), [NZXT H210 (2)](https://www.nzxt.com/products/h200i-matte-white) e [Cooler Master MasterBox NR200 (3)](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/masterbox-nr200/). 
 
 Os três suportam GPUs grandes e mais opções de refrigeração. Entretanto, há vários detalhes a se considerar nessa faixa de preço, acredito que a melhor recomendação que posso dar é recorrer a reviews e comparações detalhadas. 
 
@@ -124,7 +124,7 @@ Uma opção para configurações simples, é optar por fontes SFX usadas da Seas
 
 Se o gabinete suportar ATX, acredito que seja interessante optar por um modelo de fonte com cabos modulares/semi-modulares e compacto. Cabos de fonte são horríveis de organizar em gabinetes pequenos, podendo inclusive comprometer a ventilação.
 
-Eu optei por uma semi-modular, a [Masterwatt 450 TUF Gaming Edition](https://www.coolermaster.com/br/pt-br/catalog/power-supplies/masterwatt/masterwatt-450-tuf-gaming-edition/) da Cooler Master. É relativamente acessível, além de funcionar com a ventoinha desligada, quando o consumo de energia é baixo.
+Eu optei por uma ATX semi-modular, a [Masterwatt 450 TUF Gaming Edition](https://www.coolermaster.com/br/pt-br/catalog/power-supplies/masterwatt/masterwatt-450-tuf-gaming-edition/) da Cooler Master. É relativamente acessível, além de funcionar com a ventoinha desligada, quando o consumo de energia é baixo.
 
 Fora priorizar modelos modulares e compactos, acredito que não haja nada de especial em escolher uma fonte para SFF. A fonte só está em segundo nessa lista, devido aos preços altíssimos dos modelos SFX no Brasil.
 
@@ -152,7 +152,7 @@ Não vou entrar nessas polêmicas todas, mas esteja atento às dificuldades e ne
 
 As placas de vídeos têm ficados cada vez maiores, então é preciso avaliar se o modelo escolhido cabe em um gabinete compacto. Ao contrário das demais peças, as versões menores de GPU normalmente são mais baratas, já que possuem soluções de refrigeração piores.
 
-Assumi que não era um problema para mim esse *trade-off*: primeiro porque optei por uma GTX 1650 que é uma placa de baixo consumo, nem exige conector adicional de energia[^2]. Segundo, porque pretendo usar muito eventualmente, não jogo nada regularmente há anos para me preocupar com altas temperaturas.
+Assumi que não era um problema para mim esse *trade-off*: primeiro porque optei por uma GTX 1650 que é uma placa de baixo consumo, nem exige conector adicional de energia[^2]. Segundo, porque pretendo usar muito eventualmente, não jogo nada regularmente há anos para me preocupar com altas temperaturas por longos períodos.
 
 [^2]: A maioria dos modelos do mercado exige o conector de 6 pinos, inclusive a que comprei e dizia que não na [especificação](https://www.gigabyte.com/Graphics-Card/GV-N1650IXOC-4GD/sp#sp) ¯\\_(ツ)_/¯.
 
