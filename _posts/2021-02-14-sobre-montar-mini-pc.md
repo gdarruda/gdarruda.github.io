@@ -77,6 +77,8 @@ Destacada a importância da escolha de peças, vou discutir os pontos de atenç�
 6. [Processador: cuidado com TDP](#processador)
 7. [Memória: low-profile](#memoria)
 
+A ideia desse guia é que você tenha em mente as configurações e necessidades, mas ainda esteja avaliando o custo e a complexidade de colocar essa configuração em um gabinete compacto. Um guia completo ficaria muito extenso, incompleto e rapidamente desatualizado. 
+
 ### <a name="gabinete"> Gabinete: o ponto de partida </a>
 
 Um gabinete pequeno tem limitações, é inevitável. O ponto é escolher quais limitações você prefere, que normalmente estão relacionados às opções de refrigeração, tipo de fonte, tamanho da GPU e armazenamento. 
