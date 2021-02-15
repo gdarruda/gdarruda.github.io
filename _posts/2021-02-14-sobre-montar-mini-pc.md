@@ -9,7 +9,7 @@ keywords:
 <img class="big-images" 
      src="{{site.url}}/assets/images/pc/DSCF7293.jpg"/>
 
-Eu tenho usado notebooks como computador pessoal há uns 10 anos, são suficientes para minhas necessidades. Não jogo, então um processador razoável e 16GB de memória, atendem plenamente todos os meus usos: desenvolvimento, análise de dados e edição de fotos. Mesmo assim, decide montar um PC.
+Eu tenho usado notebooks como computador pessoal há uns 10 anos, são suficientes para minhas necessidades. Não jogo, então um processador razoável e 16GB de memória, atendem plenamente todos os meus usos: desenvolvimento, análise de dados e edição de fotos. Mesmo assim, decidi montar um PC.
 
 Meu maior incômodo com os últimos MacBooks, é como ficam quentes e são barulhentos para tarefas triviais. Além desse incômodo, eventualmente sinto falta de ter um computador de backup, com Windows instalado.
 
@@ -60,9 +60,9 @@ Para ilustrar isso, nada melhor que a "série" ([1](https://www.youtube.com/watc
 
 Resumo da história: inicialmente o processador ficou com temperaturas muito altas, trocar o cooler por um melhor não resolveu. O hardware foi movido para um gabinete "melhor", mas mesmo assim a fonte queimou nesse novo gabinete [^1]. 
 
-Usando as mesmas peças da primeira montagem, em um gabinete comum, provavelmente não teria ocorrido problemas. 
-
 [^1]:  Em relação a fonte, pode ser que tenha sido apenas um azar, mas ela foi montada invertida para funcionar como exaustor do processador...que me pareceu bem temerário e sem embasamento. Não quero criticar no texto, porque eu não cheguei a uma conclusão. 
+
+Usando as mesmas peças da primeira montagem, em um gabinete comum, provavelmente não teriam ocorrido problemas. 
 
 A configuração que montei é bem equivalente, colocada em um gabinete do mesmo tamanho: tenho zero problemas de temperatura e ruído. Não foi livre de problemas, mas a escolha cuidadosa de peças reduziu muitos custos extras e dores de cabeça posteriores.
 
