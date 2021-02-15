@@ -9,7 +9,7 @@ keywords:
 <img class="big-images" 
      src="{{site.url}}/assets/images/pc/DSCF7293.jpg"/>
 
-Eu tenho usado notebooks como computador pessoal há uns 10 anos, são suficientes para minhas necessidades. Não jogo, então um processador razoável e 16GB de memória, atendem plenamente todos os meus usos: desenvolvimento, análise de dados e edição de fotos. 
+Eu tenho usado notebooks como computador pessoal há uns 10 anos, são suficientes para minhas necessidades. Não jogo, então um processador razoável e 16GB de memória, atendem plenamente todos os meus usos: desenvolvimento, análise de dados e edição de fotos. Mesmo assim, decide montar um PC.
 
 Meu maior incômodo com os últimos MacBooks, é como ficam quentes e são barulhentos para tarefas triviais. Além desse incômodo, eventualmente sinto falta de ter um computador de backup, com Windows instalado.
 
@@ -19,7 +19,7 @@ Suponho que montar computadores não seja o jeito mais convencional (ou barato) 
 
 Independente da motivação duvidosa, eu fiz uma pesquisa bem extensa e trabalhosa sobre o assunto. Há bastante informação em [fóruns](https://www.reddit.com/r/sffpc) e [canais](https://www.youtube.com/channel/UCRYOj4DmyxhBVrdvbsUwmAA), mas guias de compra e preço são quase inúteis na realidade brasileira. Nesse cenário, acho que pode ser útil discutir como montar um SFFPC com peças disponíveis no Brasil.
 
-Em geral, procuro escrever aqui conteúdo que considero útil e da forma mais concisa possível. Esse post é um pouco diferente, mais um relato despretensioso e informal de um projeto pessoal, que pode ser útil a alguém.
+Em geral, procuro escrever aqui conteúdo que considero útil e da forma mais concisa possível. Esse post é um pouco diferente, mais um relato despretensioso e informal de um projeto pessoal, que talvez seja útil para alguém.
 
 ## Você deveria investir em um SFF?
 
@@ -52,7 +52,7 @@ De um lado, querer um hardware estilo Apple, com design industrial meio obsessiv
 
 ## A (difícil) escolha de peças
 
-Montar um SFFPC é inegavelmente mais caro e chato de montar, mas o maior problema é combinar as peças. 
+Montar um SFFPC é inegavelmente mais caro e trabalhoso, mas o maior problema é combinar as peças. 
 
 Em termos financeiras — montando em plena pandemia com falta de peças no mundo todo e dólar nas alturas — estimo em 15% a mais de custo comparado a uma configuração similar em um gabinete padrão. Por outro lado, o custo em tempo de pesquisa e tomada de decisão, estimo em mais que o dobro para SFF.
 
@@ -89,7 +89,7 @@ Essas limitações geram um efeito cascata em várias outras decisões:
 
 Nesse cenário, quanto mais simples for a necessidade, mais opções de gabinete.
 
-Eu optei pelo antiquado [Cooler Master Elite 110](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/elite110/?_escaped_fragment_=&_escaped_fragment_=#image-Item1), um modelo de 2014 e relativamente barato, focado em opções de armazenamento. Mostrou-se bem adequado para minhas necessidades, mas não recomendado para configurações high-end, usando processadores de alto TDP e GPUs com mais de 21cm.
+Eu optei pelo antiquado [Cooler Master Elite 110](https://www.coolermaster.com/br/pt-br/catalog/cases/mini-itx/elite110/?_escaped_fragment_=&_escaped_fragment_=#image-Item1), um modelo de 2014 e relativamente barato, focado em opções de armazenamento. Mostrou-se bem adequado para minhas necessidades, mas não recomendo para configurações high-end, que usem processadores de alto TDP e GPUs com mais de 21cm.
 
 <img class="big-images" 
      src="{{site.url}}/assets/images/pc/DSCF7210.jpg"/>
@@ -124,7 +124,7 @@ Uma opção para configurações simples, é optar por fontes SFX usadas da Seas
 
 Se o gabinete suportar ATX, acredito que seja interessante optar por um modelo de fonte com cabos modulares/semi-modulares e compacto. Cabos de fonte são horríveis de organizar em gabinetes pequenos, podendo inclusive comprometer a ventilação.
 
-Eu optei por uma semi-modular, a [Masterwatt 450 TUF Gaming Edition](https://www.coolermaster.com/br/pt-br/catalog/power-supplies/masterwatt/masterwatt-450-tuf-gaming-edition/) da Cooler Master. É relativamente acessível, além de funcionar com a ventoinha desligada quando o consumo de energia é baixo.
+Eu optei por uma semi-modular, a [Masterwatt 450 TUF Gaming Edition](https://www.coolermaster.com/br/pt-br/catalog/power-supplies/masterwatt/masterwatt-450-tuf-gaming-edition/) da Cooler Master. É relativamente acessível, além de funcionar com a ventoinha desligada, quando o consumo de energia é baixo.
 
 Fora priorizar modelos modulares e compactos, acredito que não haja nada de especial em escolher uma fonte para SFF. A fonte só está em segundo nessa lista, devido aos preços altíssimos dos modelos SFX no Brasil.
 
@@ -132,7 +132,7 @@ Fora priorizar modelos modulares e compactos, acredito que não haja nada de esp
 
 Os gabinetes com layouts diferentes costumam limitar bastante as opções de refrigeração, então é bom verificar com cuidado a compatibilidade. Além do espaço físico disponível, o fluxo de ar interno também pode ser limitado.
 
-O Elite 110 suporta coolers de apenas 76cm e o fluxo de ar é bem ruim. Poderia testar usando o cooler box, mas como minha prioridade ao montar o computador era reduzir o barulho, investi em um de [AIO 120mm](https://www.coolermaster.com/br/pt-br/catalog/coolers/cpu-liquid-coolers/masterliquid-ml120l-v2-rgb/) da Cooler Master.
+O Elite 110 suporta coolers de apenas 76cm e o fluxo de ar é bem ruim. Poderia usar o cooler box da Intel, mas como minha prioridade ao montar o computador era reduzir o barulho, investi em um de [AIO 120mm](https://www.coolermaster.com/br/pt-br/catalog/coolers/cpu-liquid-coolers/masterliquid-ml120l-v2-rgb/) da Cooler Master.
 
 Um cooler de baixo perfil bom sairia por um preço alto e, como mostram os resultados [desse experimento](https://www.youtube.com/watch?v=vPDBENpbzJ4), provavelmente teriam um desempenho térmico pior. Ao meu ver, nesses gabinetes com design de cubo, é melhor partir para um AIO direto se for para trocar o cooler box.
 
@@ -197,7 +197,7 @@ Não tem muito o que adicionar: só reiterar que a capacidade de refrigeração 
 
 Eu optei por um processador de entrada, o Core i5 10400F com 65W de TDP. Não confie muito nessa métrica de TDP, pois ela se refere a dissipação no clock base do processador, mas naturalmente processadores com menos núcleos e clocks mais baixos exigem menos refrigeração.
 
-Recomendo olhar os reviews para entender a questão térmica, mas processador é uma escolha que não muda muito por ser SFF ou não.
+O ideal é dar uma olhada nos reviews, para entender as demandas de refrigeração e energia de cada processador. Mas exceto para casos extremos, a escolha do processador não é algo que muda muito por ser SFF ou não.
 
 ### <a name="memoria"> Memória: low-profile </a>
 
