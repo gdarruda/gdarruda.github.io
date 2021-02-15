@@ -8,6 +8,7 @@ keywords:
 
 <img class="big-images" 
      src="{{site.url}}/assets/images/pc/DSCF7293.jpg"/>
+<figcaption>Lata de 410ml para escala</figcaption>
 
 Eu tenho usado notebooks como computador pessoal há uns 10 anos, são suficientes para minhas necessidades. Não jogo, então um processador razoável e 16GB de memória, atendem plenamente todos os meus usos: desenvolvimento, análise de dados e edição de fotos. Mesmo assim, decidi montar um PC.
 
