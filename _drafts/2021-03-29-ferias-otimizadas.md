@@ -86,13 +86,13 @@ calendar = [Work,Saturday,Sunday,Work,Work,Work,Work,Work,Saturday,Sunday,Work,W
 leave_days = 30;
 intervals = 3;
 ```
-O calendário não está definido da uma forma fácil de ler, mas para a otimização basicamente só podemos trabalhar com vetores numéricos. O enum `DAYTYPE` já é um *syntax sugar* oferecido pelo MiniZinc, já que são apenas apelidos para um vetor de inteiros.
+O calendário não está definido da uma forma fácil de ler, mas para a otimização basicamente só podemos trabalhar com vetores numéricos. O enum `DAYTYPE` já é um *syntax sugar* oferecido pelo MiniZinc, já que são apenas apelidos para números inteiros.
 
-## Variáveis de decisão
+## Representação das férias
 
 A estrutura de dados usada para representar o problema é muito importante, impacta muito na forma de escrever a solução e na velocidade em que o solver chega na solução.
 
-Inicialmente, estava considerando as férias como um conjunto de dias. Após dificuldades em codificar algumas restrições, optei por uma matriz com o ínicio e fim de cada período:
+Inicialmente, estava considerando as férias como um conjunto de dias. Após dificuldades em codificar algumas restrições, optei por usar uma matriz, com o dia de início e fim de cada período de férias:
 
 ```minizinc
 enum LEAVE = {Start, End};
@@ -100,5 +100,54 @@ enum LEAVE = {Start, End};
 array[1..intervals, LEAVE] of var 1..length(calendar): leave;
 ```
 
+Criei outras variáveis, para validar restrições e calcular a função de otimização, mas todas elas são derivadas de algum cálculo sobre essa estrutura base.
 
-<!-- No começo da pandemia, acabei me envolvendo em um projeto (dos vários) que estava tentando modelar a progressão da pandemia no Brasil com [modelos de compartimento](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology) e a situação dos leitos com [simulação de evento discretos](https://pt.wikipedia.org/wiki/Simula%C3%A7%C3%A3o_de_eventos_discretos). Um ano depois — com a crise em seu pior estado e os hospitais colapsados — estou pensando em um otimizador de férias. -->
+## Implementando as restrições
+
+As restrições codificadas estão abaixo, com comentários explicando a motivação de cada uma: 
+
+```minizinc
+%Os intervalos estão ordenados e com distância mínima
+constraint forall(i in 2..intervals)(leave[i-1, End] < leave[i, Start]);
+
+%Os intervalos tem começo e fim consistentes
+constraint forall(i in 1..intervals)(leave[i, Start] < leave[i, End]);
+
+%Um intervalo tem mais de 15 dias
+constraint exists(i in 1..intervals)(leave[i, End] - leave[i, Start] + 1 >= 14);
+
+%Todos intervalos tem mais de 5 dias
+constraint forall(i in 1..intervals)(leave[i, End] - leave[i, Start] + 1 >= 5);
+
+%O total de dias é igual ao disponível
+constraint sum(i in 1..intervals)(leave[i, End] - leave[i, Start] + 1) == leave_days;
+
+%Garante que não começa antes de um feriado/fds
+constraint forall(i in 1..intervals)(calendar[leave[i, Start]] == Work 
+                                     /\ calendar[leave[i, Start] + 1] == Work
+                                     /\ calendar[leave[i, Start] + 2] == Work);
+
+%Garante que não termina um dia antes de outra folga 
+constraint forall(i in 1..intervals)(calendar[leave[i, End] + 1] != Work);
+```
+
+A restrição para ordenação é apenas para facilitar o código, saber que estão em sequência simplifica o código.
+
+Coloquei uma restrição adicional ao final, para evitar que as férias terminem próximo de uma véspera de final de semana ou feriado, uma quinta-feira por exemplo. A função objetivo deve mitigar esse tipo de coisa, mas percebo que muitos acham uma situação muito ruim, então optei por definir como restrição.
+
+## Calculando o objetivo
+
+Calcular o objetivo, foi a parte mais complicada da modelagem. Tive que mudar alguns cálculos para evitar exponenciação e divisões, que não funcionam para determinadas operações. Além de simples falta de costume, de como lidar com determinados problemas em um problema de otimização.
+
+### Calculando o descanso total
+
+O principal ponto da omitização é aumentar os dias de folga. Para realizar esse cálculo, contei dias que são folgas previstas ou que estão no período de férias:
+
+```minizinc
+var int : total_leisure = sum([1 | day in 1..length(calendar) 
+                               where calendar[day] != Work \/ 
+                                     exists(i in 1..intervals)(day >= leave[i, Start] 
+                                                               /\ day <= leave[i, End])]);
+```
+
+O conceito de "comprehension"
