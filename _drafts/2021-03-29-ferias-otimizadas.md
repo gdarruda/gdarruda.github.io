@@ -6,13 +6,13 @@ description: "Brincando de otimizar férias em tempos de pandemia"
 keywords: 
 ---
 
-Organizar férias pode ser divertida, mesmo que seja entremeado de algumas tarefas chatas. Em tempos de pandemia, talvez sobre apenas a parte chata, caso não haja planos de viagens e afins. Nesse caso, vire apenas uma questão de otimizar a duração/formato das folgas.
+Organizar férias pode ser divertida, mesmo que seja entremeado de algumas tarefas chatas. Em tempos de pandemia, talvez sobre apenas a parte chata, caso não haja planos de viagens e afins. Vira apenas uma questão de otimizar a duração/formato das folgas.
 
-Pensando dessa forma, organizar férias vira um típico problema a ser resolvido com [programação por restrição](https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_por_restri%C3%A7%C3%B5es): é possível definir uma função objetivo, as regras são bem definidas e há várias soluções possíveis.
+Nesse contexto, "organizar" férias vira um típico problema a ser resolvido com [programação por restrição](https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_por_restri%C3%A7%C3%B5es): é possível definir uma função objetivo, as regras são bem definidas e há várias soluções possíveis.
 
-Para uma única pessoa, resolver esse problema com otimização é claramente  *overengineering*. Talvez faça sentido modelar, pensando em organizar férias de um time com dezenas ou centenas de pessoas, mas para uma única pessoa é mais simples perder alguns minutos e resolver manualmente.
+Para uma única pessoa, resolver esse problema com otimização é claramente  *overengineering*. Talvez faça sentido modelar alguns casos, como organizar férias de um time com dezenas ou centenas de pessoas, mas para uma única pessoa é mais simples perder alguns minutos e resolver manualmente.
 
-Deixado claro que é somente um exercício, vamos partir para a definição e solução do problema.
+Deixado claro que é somente um exercício, vamos partir para a definição do problema.
 
 ## Definindo restrições
 
@@ -26,13 +26,13 @@ As regras de férias são bem claras e definidas pela CLT, o que facilita a defi
 
 * O funcionário pode vender até 10 dias de férias no máximo para o empregador.
 
-A organização das férias é prerrogativa do empregador, então na prática é possivel que haja mais regras, mas por lei temos apenas essas regras até onde levantei. Em geral, as pessoas também tem várias restrições, como viagens/evento e período de férias de amigos e familiares. 
+A organização das férias é prerrogativa do empregador, então na prática é possivel que haja mais regras, mas por lei são essas até onde eu pude levantar. Na prática, costuma haver restrições adicionais, seja do empregador ou do empregado.
 
-Considerando um cenário mais realista, com essas restrições, o problema de otimização se torna mais irrelevante: o espaço de busca é pequeno, basta uma olhada no calendário para organizar.
+Considerando um cenário mais realista, com restrições adicionais, o problema de otimização se torna mais irrelevante: o espaço de busca é pequeno, basta uma olhada no calendário para resolvê-lo.
 
 ## Definindo a função objetivo
 
-A função objetivo não é bem definida como as regras, cada pessoa tem suas prioridades, apesar de haver alguns padrões e premissas universais. Como é apenas um exercício, vou usar o que considero padrão:
+A função objetivo não é bem definida como as regras, cada pessoa tem suas prioridades, apesar de haver alguns padrões e premissas comum a maioria das pessoas. Como é apenas um exercício, vou usar o que considero padrão:
 
 1. Otimizar a quantidade de folga total, evitando férias que coincidam com feriados e finais de semana.
 
@@ -42,7 +42,19 @@ A função objetivo não é bem definida como as regras, cada pessoa tem suas pr
 
 Diferente das restrições, numerei os objetivos, porque nesse caso a ordem importa. Se eu alterar a ordem ou peso, preciso alterar a função objetivo utilizada.
 
-Pensando em uma pessoa somente, talvez essa seja a parte mais complexa: as prioridades são subjetivas e individuais, não é fácil generalizar como as restrições. Por outro lado, para o caso de uma empres que organiza as férias de seus funcionários, é até interessante que essa função seja matematicamente definida.
+Pensando em uma pessoa somente, talvez essa seja a parte menos práticas: as prioridades são subjetivas e individuais, não é fácil generalizar como as restrições. Por outro lado, para o caso de uma empresa que organiza as férias de seus funcionários, é até interessante que essa função seja matematicamente definida.
 
+## Usando o MiniZinc
 
+O [MiniZinc](https://www.minizinc.org) é uma linguagem de alto nível, desenhada para descrever problemas de otimização e de restrições. A ideia é escrever o modelo nela, a integração com os (múltiplos) solver é um problema de linguagem. 
+
+Aprendi um pouco da linguagem em um curso [introdutório de otimização](https://www.coursera.org/learn/basic-modeling). Desconheço outras linguagens desenhadas para esse tipo de problema, então vou utilizá-la. 
+
+Definido o problema e a ferrramenta, agora é hora de escrever o modelo de otimização.
+
+## Representando o problema
+
+A estrutura de dados usadas para representar o problema é muito importante, impacta muito na forma de escrever a solução e na velocidade em que o solver chega na solução.
+
+Como entrada do problema, define quatro 
 <!-- No começo da pandemia, acabei me envolvendo em um projeto (dos vários) que estava tentando modelar a progressão da pandemia no Brasil com [modelos de compartimento](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology) e a situação dos leitos com [simulação de evento discretos](https://pt.wikipedia.org/wiki/Simula%C3%A7%C3%A3o_de_eventos_discretos). Um ano depois — com a crise em seu pior estado e os hospitais colapsados — estou pensando em um otimizador de férias. -->
