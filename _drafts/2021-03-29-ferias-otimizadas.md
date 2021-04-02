@@ -268,21 +268,21 @@ Interval 3: 2021-04-05 - 2021-04-09
 Em uma execução sem feriados, as férias ficam bem espaçadas, como esperado pelo critério de desempate da otimização:
 
 ```
-Início: 12:21:00
-Fim: 12:24:13
+Execution time: 0:03:09.220616
 
 total_leisure = 129
 extra_leisure = 11
 distances = [115, 213]
 mean_distance = 109.333333333334
 variance = 54.6666666666667
+objective = 14010878.6666667
 
-Intervalo 1: 2021-01-04 - 2021-01-08
-Intervalo 2: 2021-05-03 - 2021-05-07
-Intervalo 3: 2021-12-06 - 2021-12-25
+Interval 1: 2021-01-04 - 2021-01-08
+Interval 2: 2021-05-03 - 2021-05-07
+Interval 3: 2021-12-06 - 2021-12-25
 ```
 
-O tempo de execução ficou em torno de 2-3 minutos, usando processamento paralelo (6 processos) e Gecode como solver. A otimização processos não consome muita memória, mas demandam muito processamento e escalam muito bem horizontalmente, usando apenas um processo chegava na faixa dos 20 minutos de execução.
+O tempo de execução ficou em torno d 3 minutos, usando processamento paralelo (6 processos) e Gecode como solver. A otimização processos não consome muita memória, mas demanda muito processamento e escala muito bem horizontalmente. Usando apenas um processo, chegava na faixa dos 20 minutos de execução.
 
 Para contexto, um resumo das configurações do sistema, que utilizei para rodar essas simulações: 
 
