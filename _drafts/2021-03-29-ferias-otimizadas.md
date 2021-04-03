@@ -10,10 +10,9 @@ Organizar férias pode ser divertido, mesmo que seja um processo entremeado de t
 
  Nesse contexto, "organizar" férias vira um típico problema a ser resolvido com [programação por restrição](https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_por_restri%C3%A7%C3%B5es): é possível definir uma função objetivo, as regras são bem definidas e há várias soluções possíveis.
 
-Para uma única pessoa, resolver esse problema com otimização é claramente *overengineering*. Talvez, faça sentido em alguns casos, como organizar férias de um time com centenas de pessoas por exemplo. Para uma única pessoa, é mais simples perder alguns minutos e resolver manualmente.
+Para uma única pessoa, resolver esse problema com otimização é claramente *overengineering*. Talvez, faça sentido em alguns casos, como organizar férias de um time com centenas de pessoas. Para uma única pessoa, é mais simples perder alguns minutos e resolver manualmente.
 
-Não é algo realmente útil, mas achei interessante como exercício. 
-<!-- Nesse post, vou tentar fazer um modelo de otimização para resolver esse questão. -->
+Não é algo realmente útil, mas achei interessante como exercício.
 
 # Especificando o problema
 
@@ -21,7 +20,6 @@ Levantar requisitos do problema é crucial, seja ao desenvolver um software ou m
 
 A depender dos requisitos, pode ser simplesmente impossível modelar ou executá-lo em tempo hábil. Para mim, um leigo no assunto, há muitas coisas que não saberia descrever como um modelo de otimização. Preciso pensar bastante, para conseguir implementar algumas restrições e cálculos, que seriam triviais em programação imperativa. 
 
-<!-- Há exemplos disso, nesse simples exercício, que vou comentar posteriormente na parte da implementação.  -->
 
 Destacada a importância dessa etapa, vamos partir para a especificação.
 
@@ -82,7 +80,7 @@ int : intervals;
 ```
 O enum `DAYTYPE` é para identificar o tipo de dia: útil, sábado, domingo ou feriado. O calendário é uma sequência de dias, que pode ser algum dos `DAYTYPE`s. O parâmetro `leave_days` é a quantidade de dias de férias e `intervals` a quantidade de períodos de férias. 
 
-Os parâmetros podem ser definidos diretamente no código, como no caso do enum `DAYTYPE`, ou a partir de um arquivo texto. Abaixo, um arquivo de exemplo, definindo um calendário de 60 dias, 30 dias de férias e 3 intervalos:
+Os parâmetros podem ser definidos diretamente no código, como no caso do enum `DAYTYPE`, ou a partir de um arquivo texto. Abaixo, um arquivo de exemplo, definindo 60 dias de calendário, 30 dias de férias e 3 intervalos:
 
 ```minizinc
 calendar = [Work,Saturday,Sunday,Work,Work,Work,Work,Work,Saturday,Sunday,Work,Work,Work,Work,Work,Saturday,Sunday,Work,Work,Work,Work,Work,Saturday,Sunday,Holiday,Work,Work,Work,Work,Saturday,Sunday,Work,Work,Work,Work,Work,Saturday,Sunday,Work,Work,Work,Work,Work,Saturday,Sunday,Holiday,Holiday,Work,Work,Work,Saturday,Sunday,Work,Work,Work,Work,Work,Saturday,Sunday,Work];
@@ -136,7 +134,9 @@ constraint forall(i in 1..intervals)(calendar[leave[i, Start]] == Work
 
 ```
 
-Observe que a primeira restrição, referente à ordenação dos períodos, também força que haja ao menos 7 dias de diferença entre eles. Não é uma regra definida pela CLT, mas sem ela é possível separar 10 dias de férias em dois períodos de 5 consecutivos, separados pelo final de semana. Suponho que a maioria das empresas não aceitaria essa "malandragem", que adicionaria 2 dias a mais de férias.
+Observe que a primeira restrição, referente à ordenação dos períodos, também força que haja ao menos 7 dias de diferença entre eles. 
+
+Não é uma regra definida pela CLT, mas sem ela é possível separar 10 dias de férias em dois períodos consecutivos de 5 dias, separados pelo final de semana. Suponho que a maioria das empresas não aceitaria essa "malandragem", que adicionaria 2 dias a mais de férias.
 
 Além das restrições da especificação, optei por adicionar uma nova, referente ao fim das férias. Ela não deve acabar em uma quinta-feira, por exemplo, que tem um dia de trabalho e logo depois outra folga:
 
@@ -182,13 +182,13 @@ Usei o conceito de "list comprehension" nessa parte, em que se poder aplicar fil
 Uma prática, que parece comum ao organizar férias, é emendar férias com feriados prolongados. Para considerar esse aspecto na função objetivo, criei uma variável adicional que consiste em contar os dias "bônus" de descanso, que ficam logo antes e depois das férias:
 
 ```minizinc
-function var int: extra_leisure_after(int: offset, int: leave_seq) = forall(i in 1..offset)
+function var bool: extra_leisure_after(int: offset, int: leave_seq) = forall(i in 1..offset)
                                                                         (if leave[leave_seq, End] + i <= length(calendar) 
                                                                          then calendar[leave[leave_seq, End] + i] != Work 
                                                                          else false endif);
 
 
-function var int: extra_leisure_before(int: offset, int: leave_seq) = forall(i in 1..offset)
+function var bool: extra_leisure_before(int: offset, int: leave_seq) = forall(i in 1..offset)
                                                                              (if leave[leave_seq, Start] - i >= 1
                                                                               then calendar[leave[leave_seq, Start] - i] != Work 
                                                                               else false endif);
@@ -255,23 +255,41 @@ Interval 2: 2021-04-05 - 2021-04-19
 Interval 3: 2021-12-27 - 2021-12-31
 
 ```
-O modelo conseguiu alocou todas as divisões próximo de feriados: aniversário da cidade de São Paulo (25/01), Páscoa (02/04) e Natal (24/12 e 25/12). 
+O modelo conseguiu alocou todas as divisões próximo de feriados: aniversário da cidade de São Paulo (25/01), páscoa (02/04) e natal (24/12 e 25/12). 
+
+Removendo os feriados municipais, aniversário da cidade de São Paulo (25/01) e consciência negra (20/11), o feriado do começo de ano é movido para próximo da proclamação da república (15/11).
+
+```
+Execution time: 0:02:02.274955
+
+total_leisure = 143
+extra_leisure = 11
+distances = [211, 32]
+mean_distance = 81.0
+variance = 89.5
+objective = 15408010.5000001
+
+Interval 1: 2021-04-05 - 2021-04-19
+Interval 2: 2021-11-16 - 2021-11-25
+Interval 3: 2021-12-27 - 2021-12-31
+```
+
 
 Em uma execução sem feriados, as férias ficam bem espaçadas, como esperado pelo critério de desempate da otimização:
 
 ```
-Execution time: 0:03:09.220616
+Execution time: 0:04:00.382011
 
-total_leisure = 129
-extra_leisure = 11
-distances = [115, 213]
-mean_distance = 109.333333333334
-variance = 54.6666666666667
-objective = 14010878.6666667
+total_leisure = 128
+extra_leisure = 2
+distances = [111, 221]
+mean_distance = 110.666666666667
+variance = 55.3333333333334
+objective = 13011011.3333334
 
-Interval 1: 2021-01-04 - 2021-01-08
-Interval 2: 2021-05-03 - 2021-05-07
-Interval 3: 2021-12-06 - 2021-12-25
+Interval 1: 2021-01-06 - 2021-01-14
+Interval 2: 2021-05-05 - 2021-05-20
+Interval 3: 2021-12-27 - 2021-12-31
 ```
 
 O tempo de execução ficou em torno de 3 minutos, usando processamento paralelo (6 processos) e Gecode como solver. A otimização processos não consome muita memória, mas demanda muito processamento e escala muito bem horizontalmente. Usando apenas um processo, chegava na faixa dos 20 minutos de execução.
