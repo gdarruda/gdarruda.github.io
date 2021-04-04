@@ -6,13 +6,13 @@ description: "Brincando de otimizar férias em tempos de pandemia"
 keywords: 
 ---
 
-Organizar férias pode ser divertido, mesmo que seja um processo entremeado de tarefas chatas. Em tempos de pandemia, talvez sobre apenas a parte chata. Caso não haja planos de viagens e afins, vira apenas uma questão de otimizar a duração das folgas.
+Organizar férias pode ser divertido, mesmo que seja um processo entremeado de tarefas chatas. Em tempos de pandemia, talvez sobre apenas a parte chata. Caso não haja planos de viagens e afins, vira apenas uma questão de otimizar a duração das férias.
 
- Nesse contexto, "organizar" férias vira um típico problema a ser resolvido com [programação por restrição](https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_por_restri%C3%A7%C3%B5es): é possível definir uma função objetivo, as regras são bem definidas e há várias soluções possíveis.
+ Nesse contexto, "organizar" férias é um típico problema a ser resolvido com [programação por restrição](https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_por_restri%C3%A7%C3%B5es): é possível definir uma função objetivo, as regras são bem definidas e há várias soluções possíveis.
 
 Para uma única pessoa, resolver esse problema com otimização é claramente *overengineering*. Talvez, faça sentido em alguns casos, como organizar férias de um time com centenas de pessoas. Para uma única pessoa, é mais simples perder alguns minutos e resolver manualmente.
 
-Não é algo realmente útil, mas achei interessante como exercício.
+Não é algo realmente útil, mas achei interessante como exercício, fazer uma otimização de férias.
 
 # Especificando o problema
 
@@ -31,7 +31,7 @@ As regras de férias são bem claras e definidas pela CLT, o que facilita o leva
 
 * O período total é de 30 dias corridos, que devem ser utilizados no período de 12 meses.
 
-* As férias não podem começar próximo de feriados e folgas remuneradas, precisam ser ao menos 3 dias antes.
+* As férias não podem começar próximo de feriados e folgas remuneradas, precisam ser 3 dias antes pelo menos.
 
 * O funcionário pode vender até 10 dias de férias, no máximo, para o empregador.
 
@@ -43,25 +43,25 @@ Considerando um cenário mais realista, com restrições adicionais, o problema 
 
 ## Definindo a função objetivo
 
-A função objetivo não é tão bem definida, como as restrições, já que cada pessoa tem suas prioridades. Como é apenas um exercício, vou usar o que anedoticamente considero as prioridades mais comuns à maioria das pessoas:
+A função objetivo não é tão bem definida como as restrições, já que cada pessoa tem suas prioridades. Como é apenas um exercício, vou usar o que considero — anedoticamente — as prioridades mais comuns à maioria das pessoas:
 
 1. Otimizar a quantidade de folga total, evitando férias que coincidam com feriados e finais de semana.
 
 2. Emendar as férias com algum feriado estendido, aumentado o tempo contíguo de descanso.
 
-3. Ponderar a distância entre elas, para não ficarem muito próximas uma das outras.
+3. Ponderar a distância entre os períodos de férias, para não ficarem muito próximos uns aos outros.
 
-Numerei os objetivos, porque a ordem é importante nessa etapa: a prioridade dos objetivos muda a definição da função.
+Enumerei os objetivos, porque a ordem é importante nessa etapa: a prioridade dos objetivos muda a definição da função.
 
 Pensando em um indivíduo, definir uma função objetivo é a parte mais complicada: as prioridades são subjetivas e individuais, não é fácil generalizar e ponderar prioridades. Por outro lado, para o caso de uma empresa que organiza as férias de seus funcionários, diria que é até recomendável ter as regras definidas matematicamente.
 
 # Resolvendo o problema
 
-Os meus parcos conhecimentos de otimização são todos provenientes de um curso [introdutório de otimização](https://www.coursera.org/learn/basic-modeling). Nesse curso, é utilizada a linguagem MiniZinc para implementar as soluções.
+Os meus parcos conhecimentos do tópico são todos provenientes de um curso [introdutório de otimização](https://www.coursera.org/learn/basic-modeling). Nesse curso, é utilizada a linguagem MiniZinc para implementar as soluções.
 
 O [MiniZinc](https://www.minizinc.org) é uma linguagem de alto nível, desenhada para descrever problemas de otimização e/ou restrições. A ideia é escrever somente o modelo nela, independentemente do solver: um mesmo programa pode rodar em vários solvers.
 
-Não sei dizer se é a melhor ferramenta, mas parece ser uma boa para iniciantes. A linguagem já valida muita coisa na compilação, além de ter uma a sintaxe pensada para descrever esse tipo de problema.
+Não sei dizer se é a melhor ferramenta, mas parece ser uma boa para iniciantes. A linguagem já valida muita coisa na compilação, além de ter uma sintaxe pensada para descrever esse tipo de problema.
 
 Definido o problema e a ferramenta, agora é partir para a solução.
 
@@ -109,7 +109,7 @@ Criei outras variáveis, para validar restrições e calcular a função de otim
 
 ## Implementando as restrições
 
-A definição das restrições é bem intuitiva no MiniZinc, sendo escritas na forma `constraint <expressão booleana>`. As restrições do problema estão codificadas abaixo, com comentários explicando o objetivo de cada uma: 
+A definição das restrições é bem simples no MiniZinc, sendo escritas na forma `constraint <expressão booleana>`. As restrições do problema estão codificadas abaixo, com comentários explicando o objetivo de cada uma: 
 
 ```minizinc
 % Os intervalos estão ordenados e com distância mínima
@@ -157,7 +157,7 @@ Não acho que seja um desejo unânime, mas conheço pessoas que não gostam de v
 
 Infelizmente, desconheço o funcionamento por trás dos algoritmos, para dar uma explicação razoável para tamanha diferença de tempo. Executando o processo com relatório, a única métrica discrepante era o número de "propagations"...que não sei dizer do que se trata.
 
-Um ponto para quem (como eu) defende que as pessoas deveriam procurar estudar mais os conceitos por trás das ferramentas que as ferramentas em si. Uma pena que, dessa vez, estou no lado de quem só aprendeu a usar a ferramenta.
+Um ponto para quem, como eu, argumenta que as pessoas deveriam procurar estudar mais os conceitos por trás das ferramentas que as ferramentas em si. Uma pena que, dessa vez, estou no lado de quem só aprendeu a usar a ferramenta.
 
 ## Definindo o objetivo
 
@@ -213,7 +213,8 @@ Depois de testar várias abordagens, optei por calcular algo parecido com uma va
 ```minizinc
 array[1..intervals-1] of var int : distances = [leave[i, Start] - leave[i-1, End] | i in 2..intervals];
 var float : mean_distance = sum(distances) / intervals;
-var float : variance = sum(i in 1..intervals-1)(abs(distances[i] - mean_distance)) / (intervals - 1);
+var float : variance = if intervals == 1 then 0
+                       else  sum(i in 1..intervals-1)(abs(distances[i] - mean_distance)) / (intervals - 1) endif;
 ```
 
 O solver estava tendo problemas ao lidar com exponenciação e raiz, por isso optei por calcular a diferença absoluta em relação a média, ao invés de variância. Suponho que esse cálculo não tenha validade estatística, mas serviu para mitigar o problema de intervalos muito díspares entre si.
@@ -315,10 +316,8 @@ Além de chamar o modelo, o script Python também gera um arquivo de parâmetros
 
 O modelo final ficou simples, mas não se engane: eu fiquei a semana inteira do lockdown, mexendo e refazendo do zero, até chegar nessa versão. Todo mundo, que aprendeu a programar, é familiar a essa experiência: é simples entender quando alguém explica, mas fazer é outra história.
 
-Otimizar férias não é um problema muito relevante, mas é algo que pude especificar do zero e fácil de entender, foi divertido para treinar programação por restrição. Quem acompanha o blog, deve ter percebido que tenho um leve fascínio por diferentes paradigmas de programação.
+Otimizar férias não é um problema muito relevante, mas é algo que pude especificar do zero e fácil de entender, foi divertido para treinar programação por restrição. Se o problema é pouco importante, o mesmo não pode ser dito de programação por restrição, conceito que tem várias aplicações importantes.
 
-Curioso que, um ano atrás, eu estava envolvido em um projeto para dimensionar filas dos hospitais. Entendendo [modelos de compartimento](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology) e usando um [simulador de eventos discretos](https://en.wikipedia.org/wiki/Discrete-event_simulation) para modelar as filas de UTI.
+Curioso que, um ano atrás, eu estava envolvido em um projeto para dimensionar filas dos hospitais. Entendendo outros conceitos novos como [modelos de compartimento](https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology) e usando um [simulador de eventos discretos](https://en.wikipedia.org/wiki/Discrete-event_simulation) para modelar as filas de UTI.
 
-Um ano depois — no pior estado da pandemia e com hospitais já colapsados — estou usando o tempo de lockdown para organizar as férias na pandemia. Também um problema de logística, mas muito menos nobre.
-
-É para se pensar, o que está acontecendo com o país e com a gente.
+Um ano depois — no pior estado da pandemia e com hospitais já colapsados — estou usando o tempo de lockdown para organizar as férias na pandemia. Também um problema de logística, mas muito menos nobre. É para se pensar, o que está acontecendo com o país e com a gente.
