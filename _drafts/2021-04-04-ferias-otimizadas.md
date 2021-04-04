@@ -16,7 +16,7 @@ Não é algo realmente útil, mas achei interessante como exercício, fazer uma 
 
 # Especificando o problema
 
-Levantar requisitos do problema é crucial, seja ao desenvolver um software ou modelo de machine learning, mas em problemas de otimização os requisitos podem inviabilizar a solução "facilmente". A depender dos requisitos, pode ser simplesmente impossível modelar ou executar a otimização em tempo hábil. 
+Levantar requisitos do problema é crucial, seja ao desenvolver um software ou modelo de machine learning, mas em problemas de otimização os requisitos podem inviabilizar a solução. A depender dos requisitos, pode ser simplesmente impossível modelar ou executar a otimização em tempo hábil. 
 
 Para mim, um leigo no assunto, há muitas coisas que não saberia descrever como um modelo de otimização. Preciso pensar bastante, para conseguir implementar algumas restrições e cálculos, que seriam triviais em programação imperativa. 
 
@@ -33,11 +33,9 @@ As regras de férias são bem claras e definidas pela CLT, o que facilita o leva
 
 * As férias não podem começar próximo de feriados e folgas remuneradas, precisam ser 3 dias antes pelo menos.
 
-* O funcionário pode vender até 10 dias de férias, no máximo, para o empregador.
+* O funcionário pode vender até 10 dias de férias para o empregador.
 
-A organização das férias é prerrogativa do empregador, então é provável que haja mais regras na prática.
-
-Além das regras do empregador, o próprio empregado costuma ter restrições de cunho pessoal: combinar as férias com o restante da família ou estar alinhada com outros eventos (*e.g* viagens, casamentos, mudanças).
+A organização das férias é prerrogativa do empregador, então é provável que haja mais regras na prática. Além das regras do empregador, o próprio empregado costuma ter restrições de cunho pessoal: combinar as férias com o restante da família ou estar alinhada com outros eventos (*e.g* viagens, casamentos, mudanças).
 
 Considerando um cenário mais realista, com restrições adicionais, o problema de otimização se torna ainda menos útil: o espaço de busca se torna tão pequeno, que basta uma olhada no calendário para resolvê-lo.
 
@@ -155,7 +153,7 @@ constraint forall(i in 1..intervals)(if leave[i, End] + 1 <= length(calendar)
 
 Não acho que seja um desejo unânime, mas conheço pessoas que não gostam de voltar para apenas um dia de trabalho. Ademais, depois de colocá-la, tirar não parecia uma boa opção: o tempo de execução, ao adicionar essa restrição, vai de 20 minutos para 3 minutos. 
 
-Infelizmente, desconheço o funcionamento por trás dos algoritmos, para dar uma explicação razoável para tamanha diferença de tempo. Executando o processo com relatório, a única métrica discrepante era o número de "propagations"...que não sei dizer do que se trata.
+Infelizmente, desconheço o funcionamento por trás dos algoritmos, para dar uma explicação razoável para tamanha diferença de tempo. Executando o processo com a flag `--statistics`, a única métrica discrepante era o número de "propagations"...que não sei dizer do que se trata.
 
 Um ponto para quem, como eu, argumenta que as pessoas deveriam procurar estudar mais os conceitos por trás das ferramentas que as ferramentas em si. Uma pena que, dessa vez, estou no lado de quem só aprendeu a usar a ferramenta.
 
@@ -175,7 +173,7 @@ var int : total_leisure = sum([calendar[day] != Work \/
                                                          /\ day <= leave[i, End]) 
                               | day in 1..length(calendar)]);
 ```
-Usei o conceito de "list comprehension" nessa parte, em que se pode aplicar filtros e transformações, retornando uma nova lista. Funciona exatamente da mesma forma que em outras linguagens, como Python e Haskell por exemplo.
+Usei o conceito de "list comprehension", em que se pode aplicar filtros e transformações, retornando uma nova lista. Funciona exatamente da mesma forma que em outras linguagens, como Python e Haskell por exemplo.
 
 ### Calculando o descanso extra
 
@@ -200,13 +198,13 @@ var int : extra_leisure = sum(i in 1..intervals)(sum(j in 1..5)(extra_leisure_af
 
 Foi um cálculo mais complicado de implementar do que eu esperava. Criei duas funções auxiliares, uma para verificar os dias antes do começo da férias e outra para os dias após o término. Para dado `K`, elas calculam se esses `K` dias antes (ou depois) são todos de folga também.
 
-Para esse caso, considerei os próximos 5 dias pensando no Carnaval, que totaliza 5 dias de folgas contíguas para quem não trabalha na quarta-feira de cinzas. Esses dias extras, serão somados como "bônus" de férias.
+Para esse caso, considerei os próximos 5 dias pensando no Carnaval, que totaliza 5 dias de folgas contíguas para quem não trabalha na quarta-feira de cinzas. Esses dias extras serão somados como "bônus" na função objetivo.
 
 ### Calculando a distribuição das férias
 
 Assumindo que temos mais de uma opção ótima, levando em conta dias de descanso e emendas, entendo que uma boa ideia é espaçar os períodos de férias de forma consistente. Em outras palavras, não ficar uma atrás de outra e nem longos períodos sem férias.
 
-A ideia inicial era simplesmente maximizar a distância entre os intervalos, mas acabava sendo válido deixar duas parcelas de férias bem próximas e uma muito distante. 
+A ideia inicial era simplesmente maximizar a distância entre os intervalos, mas acabava sendo válido deixar dois períodos de férias bem próximas e outro muito distante. 
 
 Depois de testar várias abordagens, optei por calcular algo parecido com uma variância, para penalizar intervalos muito diferentes:
 
