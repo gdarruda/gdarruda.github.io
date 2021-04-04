@@ -16,9 +16,9 @@ Não é algo realmente útil, mas achei interessante como exercício.
 
 # Especificando o problema
 
-Levantar requisitos do problema é crucial, seja ao desenvolver um software ou modelo de machine learning, mas em problemas de otimização os requisitos podem inviabilizar a solução "facilmente". 
+Levantar requisitos do problema é crucial, seja ao desenvolver um software ou modelo de machine learning, mas em problemas de otimização os requisitos podem inviabilizar a solução "facilmente". A depender dos requisitos, pode ser simplesmente impossível modelar ou executar a otimização em tempo hábil. 
 
-A depender dos requisitos, pode ser simplesmente impossível modelar ou executá-lo em tempo hábil. Para mim, um leigo no assunto, há muitas coisas que não saberia descrever como um modelo de otimização. Preciso pensar bastante, para conseguir implementar algumas restrições e cálculos, que seriam triviais em programação imperativa. 
+Para mim, um leigo no assunto, há muitas coisas que não saberia descrever como um modelo de otimização. Preciso pensar bastante, para conseguir implementar algumas restrições e cálculos, que seriam triviais em programação imperativa. 
 
 
 Destacada a importância dessa etapa, vamos partir para a especificação.
@@ -91,7 +91,7 @@ O calendário está definido como um array de inteiros, porque uma otimização 
 
 ## Representação das férias
 
-A estrutura de dados, que representa o problema, é muito importante. Ela impacta na forma de escrever a solução e na velocidade em que o solver chega na solução.
+A estrutura de dados, que representa o problema, é muito importante. Ela impacta na forma de escrever a solução e na velocidade em que o solver resolve o problema.
 
 Inicialmente, estava considerando as férias como um conjunto de dias. Após dificuldades em codificar algumas restrições, optei por usar uma matriz, com o dia de início e fim de cada período de férias:
 
@@ -153,9 +153,9 @@ constraint forall(i in 1..intervals)(if leave[i, End] + 1 <= length(calendar)
                                      endif);Work);
 ```
 
-Não acho que seja um desejo unânime, mas conheço pessoas que não gostam de fazer algo assim. Ademais, depois de colocá-la, tirar não parecia uma boa opção: o tempo de execução, ao adicionar essa restrição, vai de 20 minutos para 3 minutos. 
+Não acho que seja um desejo unânime, mas conheço pessoas que não gostam de voltar para apenas um dia de trabalho. Ademais, depois de colocá-la, tirar não parecia uma boa opção: o tempo de execução, ao adicionar essa restrição, vai de 20 minutos para 3 minutos. 
 
-Infelizmente, desconheço o funcionamento por trás dos algoritmos, para dar uma explicação razoável para tamanha diferença de tempo. Executando com estatísticas, a única métrica discrepante era propagations...que não sei dizer do que se trata.
+Infelizmente, desconheço o funcionamento por trás dos algoritmos, para dar uma explicação razoável para tamanha diferença de tempo. Executando o processo com relatório, a única métrica discrepante era o número de "propagations"...que não sei dizer do que se trata.
 
 Um ponto para quem (como eu) defende que as pessoas deveriam procurar estudar mais os conceitos por trás das ferramentas que as ferramentas em si. Uma pena que, dessa vez, estou no lado de quem só aprendeu a usar a ferramenta.
 
@@ -175,7 +175,7 @@ var int : total_leisure = sum([calendar[day] != Work \/
                                                          /\ day <= leave[i, End]) 
                               | day in 1..length(calendar)]);
 ```
-Usei o conceito de "list comprehension" nessa parte, em que se poder aplicar filtros e transformações, retornando uma nova lista. Funciona exatamente da mesma forma que em outras linguagens, como Python e Haskell por exemplo.
+Usei o conceito de "list comprehension" nessa parte, em que se pode aplicar filtros e transformações, retornando uma nova lista. Funciona exatamente da mesma forma que em outras linguagens, como Python e Haskell por exemplo.
 
 ### Calculando o descanso extra
 
@@ -255,7 +255,7 @@ Interval 2: 2021-04-05 - 2021-04-19
 Interval 3: 2021-12-27 - 2021-12-31
 
 ```
-O modelo conseguiu alocou todas as divisões próximo de feriados: aniversário da cidade de São Paulo (25/01), páscoa (02/04) e natal (24/12 e 25/12). 
+O modelo alocou todas as divisões próximo de feriados: aniversário da cidade de São Paulo (25/01), páscoa (02/04) e natal (24/12 e 25/12). 
 
 Removendo os feriados municipais, aniversário da cidade de São Paulo (25/01) e consciência negra (20/11), o feriado do começo de ano é movido para próximo da proclamação da república (15/11).
 
@@ -292,7 +292,7 @@ Interval 2: 2021-05-05 - 2021-05-20
 Interval 3: 2021-12-27 - 2021-12-31
 ```
 
-O tempo de execução ficou em torno de 3 minutos, usando processamento paralelo (6 processos) e Gecode como solver. A otimização processos não consome muita memória, mas demanda muito processamento e escala muito bem horizontalmente. Usando apenas um processo, chegava na faixa dos 20 minutos de execução.
+O tempo médio de execução ficou em torno de 3 minutos, usando processamento paralelo (6 processos) e Gecode como solver. A otimização processos não consome muita memória, mas demanda muito processamento e escala muito bem horizontalmente. Usando apenas um processo, chegava na faixa dos 20 minutos de execução.
 
 Para contexto, um resumo das configurações do sistema, que utilizei para rodar essas simulações: 
 
@@ -300,7 +300,6 @@ Para contexto, um resumo das configurações do sistema, que utilizei para rodar
 OS: Pop!_OS 20.10 x86_64 
 Kernel: 5.11.0-7612-generic 
 CPU: Intel i5-10400F (12) @ 4.300GHz 
-GPU: NVIDIA GeForce GTX 1650 
 Memory: 7902MiB / 15871MiB 
 ```
 
@@ -310,7 +309,7 @@ Para fazer os testes desse modelo, eu fiz um script usando a biblioteca que [int
 
 A biblioteca é basicamente um "wrapper" no entorno da interface de linha de comando do MiniZinc, bem fácil de utilizar. O script `run.py` está em um [repositório](https://github.com/gdarruda/leave-optimization), junto com o modelo (`leave.mzn`) e um Dockerfile para quem desejar testar sem instalar o MiniZinc.
 
-Além de chamar o modelo, o script Python também gera um arquivo de parâmetros `leave.dzb`, para que seja possível executar o modelo pela linha de comando ou IDE. É útil para rodar com outros parâmetros, como estatísticas e soluções parciais por exemplo. 
+Além de chamar o modelo, o script Python também gera um arquivo de parâmetros `leave.dzn`, para que seja possível executar o modelo pela linha de comando ou IDE. É útil para rodar com outros parâmetros, como estatísticas e soluções parciais. 
 
 # Agora é fácil
 
