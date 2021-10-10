@@ -2,6 +2,7 @@
 layout: post
 title: "Criando um corpus do Skoob com Scrapy"
 comments: true
+mathjax: true
 description: "Desenvolendo um crawler para criar um corpus do Skoob com Scrapy"
 keywords: "Skoob, crawler, redes-socias"
 ---

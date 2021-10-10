@@ -8,4 +8,4 @@ RUN bundle install
 
 EXPOSE 4000
 
-CMD ["bundle", "exec", "jekyll", "serve", "--drafts", "--host=0.0.0.0"]
+ENTRYPOINT ["bundle", "exec", "jekyll", "serve", "--drafts", "--host=0.0.0.0"]
