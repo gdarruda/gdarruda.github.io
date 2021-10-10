@@ -36,13 +36,14 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-remote_theme: thelehhman/plainwhite-jekyll
+remote_theme: samarsault/plainwhite-jekyll
 show_excerpts: true
 
 plainwhite:
   name: Gabriel Arruda
   tagline: Cientista de dados
   date_format: "%b %-d, %Y"
+  dark_mode: true
 
   social_links:
     twitter: gdarruda
