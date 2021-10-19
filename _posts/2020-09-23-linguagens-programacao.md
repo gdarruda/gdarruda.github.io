@@ -116,6 +116,6 @@ O curso, apesar de discutir muitos conceitos, não se propõe a entrar muito em 
 
 Ao mexer com desenvolvimento, acredito que seja comum essa ideia primeiro aprender a usar as ferramentas e resolver os problemas, para depois entender os conceitos por trás. É o caminho inverso da academia, o que talvez seja o motivo de tanto discussão sobre o currículo das graduações. Até costumo dizer que, provavelmente, as pessoas achariam mais útil uma se fizessem o curso depois de alguns anos de trabalho.
 
-Dar esse passo para trás, entender melhor o que está por trás das coisas, não é algo muito incentivado [pelo mercado](https://gdarruda.github.io/2020/08/02/adequando-se-mercado.html). Talvez, realmente não faça sentido para todos, mas acho que esse caminho facilita o aprendizado futuro. Mais importante, melhora a tomada de decisão, porque os motivos são mais claros por trás das tecnologias (*e.g* linguagens, frameworks, banco de dados, bibliotecas).
+Dar esse passo para trás, entender melhor o que está por trás das coisas, não é algo muito incentivado [pelo mercado](/2020/08/02/adequando-se-mercado.html). Talvez, realmente não faça sentido para todos, mas acho que esse caminho facilita o aprendizado futuro. Mais importante, melhora a tomada de decisão, porque os motivos são mais claros por trás das tecnologias (*e.g* linguagens, frameworks, banco de dados, bibliotecas).
 
 Além de tudo, simplesmente acho gratificante entender algumas coisas.
