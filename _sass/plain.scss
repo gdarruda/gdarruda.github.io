@@ -257,9 +257,15 @@ main {
 .big-images {
   border-radius: 5px;
 }
+
 figcaption {
   display: block;
   text-align: center;
   font-style: italic;
   font-size: 14px;
+}
+
+table {
+  display: block;
+  overflow-x: auto;
 }
