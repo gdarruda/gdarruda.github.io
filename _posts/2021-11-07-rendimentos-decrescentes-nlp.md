@@ -241,7 +241,7 @@ O dataset completo tem mais de 600.000 palavras no vocabulário, é interessante
 
 Assim como nos métodos *bag-of-words*, não apliquei nenhum pré-processamento sofisticado para a rede neural.
 
-Uma questão adicionar para usar a LSTM, é a necessidade de definir o tamanho da sequência [^2]. Poderia usar o tamanho máximo de amostra no corpus como limite superior, mas seria um problema, já que há resenhas enormes.
+Uma questão adicional para usar a LSTM, é a necessidade de definir o tamanho da sequência [^2]. Poderia usar o tamanho máximo de amostra no corpus como limite superior, mas seria um problema, já que há resenhas enormes.
 
 [^2]: há opção de fazer uma LSTM stateful, mas implicaria em outra arquitetura de rede sem a camada densa.
 
@@ -289,7 +289,7 @@ Usando essa solução de rede neural, foi obtido um resultado similar de acurác
 
 O SVM teve melhor desempenho na classe negativa, com 0,81 de acurácia contra 0,78 da LSTM. Por outro lado, a LSTM teve 0,77 de acurácia para a classe neutra enquanto o SVM chegou em 0,72 apenas.
 
-Olhando esses números, podemos dizer que os resultados são parecidos as duas soluções. 
+Olhando esses números, podemos dizer que os resultados são parecidos nas duas soluções. 
 
 ## Conclusão
 
