@@ -15,7 +15,7 @@ Em outras palavras: melhorar os últimos 5% de um modelo é muito mais difícil 
 
 Nesse post, quero explorar um pouco essa dinâmica em problemas de NLP. Quando vale a pena, pular de uma solução mais simples baseada em *bag of words*, para algo mais sofisticado envolvendo *embeddings* e redes neurais? Aliás, realmente vale a pena fazer esse pulo?
 
-A proposta não é muito inovadora: usando um [corpus do Skoob](/2019/07/27/corpus-skoob.html), a ideia é comparar abordagens em diferentes níveis de complexidade para desenvolvedor um classificador. Um problema comum de se lidar e, até por isso, interessante para fazer essa análise da relação "custo/benefício".
+A proposta não é muito inovadora: usando um [corpus do Skoob](/2019/07/27/corpus-skoob.html), a ideia é comparar abordagens em diferentes níveis de complexidade para desenvolvedor um classificador.
 
 ## Neural NLP 
 
@@ -23,7 +23,7 @@ A área de NLP passou por uma [revolução](https://jmlr.csail.mit.edu/papers/vo
 
 Um dos exemplos de sucesso dessa nova abordagem, são os sistemas de tradução automática. Deixaram de ser sistemas complexos e altamente especializados, para se tornarem modelos de linguagem condicionais, chamados [Seq2seq](https://en.wikipedia.org/wiki/Seq2seq). 
 
-Quando os avanços dependiam de recursos e sistemas sofisticados, com uso de corpus [anotados por linguistas](https://en.wikipedia.org/wiki/Treebank) e [ontologias](https://wordnet.princeton.edu/frequently-asked-questions), era muito díficil adaptar soluções de outros idiomas para língua portuguesa. Um modelo como Seq2seq é muito mais fácil de adaptar para outros idiomas e necessidades, a despeito de trazer outros problemas como a opacidade das redes neurais.
+Quando os avanços dependiam de recursos e sistemas sofisticados, com uso de corpus [anotados por linguistas](https://en.wikipedia.org/wiki/Treebank) e [ontologias](https://wordnet.princeton.edu/frequently-asked-questions), era muito díficil adaptar soluções de outros idiomas para língua portuguesa. Um modelo como Seq2seq por outro lado, é muito mais fácil de adaptar para outros idiomas e necessidades, a despeito de trazer outros problemas como a opacidade das redes neurais.
 
 Nesse novo cenário, de modelos mais agnósticos, podemos seguir por dois caminhos ao lidar com um problema de NLP:
 
@@ -61,7 +61,7 @@ Ou seja, a ideia é emular o que seria um trabalho exploratório, por onde norma
 
 ## Montando o baseline
 
-Para começar um experimento de classificação em NLP, acredito que o caminho mais clássico possível é usar o Naive Bayes. É um classificador simples, que separa as classes baseada na diferença das distribuições de palavras que compõe os textos de cada classe.
+Para começar um experimento de classificação em NLP, acredito que o caminho mais clássico possível é usar o Naive Bayes. É um classificador simples, que separa as classes baseada na diferença das distribuições de palavras que compõe cada uma delas.
 
 Uma limitação desse classificador – que está em seu próprio nome – é a premissa "ingênua" de que as dimensões são independentes. Ou seja, que as ocorrências das palavras dentro de um texto são independentes entre si. Outra limitação, mas essa proveniente da representação *bag of words*, é desconsiderar a ordem das palavras.
 
@@ -82,7 +82,7 @@ vectorizer = CountVectorizer(stop_words=stopwords.words('portuguese'))
 
 Além de remover stopwords, experimentei aplicar o [RSLP](https://www.nltk.org/_modules/nltk/stem/rslp.html), um algoritmo de *stemming* para língua portuguesa. É um pré-processamento custoso de ser executado e acabou tendo pouco impacto nos resultados do classificador.
 
-Infelizmente, não consegui testar com [n-gram](https://en.wikipedia.org/wiki/N-gram) maior que 2, devido a falta de memória no computador. De qualquer forma, os melhores resultados foram obtidos sem o uso de n-grams no Naive Bayes.
+Infelizmente, não consegui testar o modelo com [n-gram](https://en.wikipedia.org/wiki/N-gram) maior que 2, devido a falta de memória no computador. De qualquer forma, os melhores resultados foram obtidos sem o uso de n-grams no Naive Bayes.
 
 Abaixo, os resultados obtidos por esse modelo:
 
@@ -100,13 +100,13 @@ Textos representados como vetores *bag of words* são esparsos e possuem alta di
 
 O treinamento do SVM – que é feito via a otimização distância entre as amostras de diferentes classes – acaba sendo uma boa opção para esse tipo de problema.
 
-No SVM, é possível variar alguns hiperparâmetros, como formulação da otimização e penalização das margens, mas em testes rápidos vi poucas diferenças. Assim como o classificador *Naive Bayes*, optei por usar o SVM com os hiperparâmetros padrão do [LinearSVC](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html):
+No SVM, é possível variar alguns hiperparâmetros, como a formulação da otimização e penalização das margens, mas em testes rápidos vi poucas diferenças. Assim como o classificador *Naive Bayes*, optei por usar o SVM com os hiperparâmetros padrão do [LinearSVC](https://scikit-learn.org/stable/modules/generated/sklearn.svm.LinearSVC.html):
 
 ```python
 clf = LinearSVC()
 ```
 
-Uma possibilidade que interessante do SVM, é utilizá-lo com a representação [tf-idf](https://en.wikipedia.org/wiki/Tf–idf), para destacar as palavras mais importantes do corpus, ao invés de simplesmente fazer a contagem das palavras. É uma representação muito usada em problemas de [information retrieval](https://en.wikipedia.org/wiki/Information_retrieval), mas que também pode ser útil em classificação.
+Uma possibilidade interessante do SVM, é utilizá-lo com a representação [tf-idf](https://en.wikipedia.org/wiki/Tf–idf), para destacar as palavras mais importantes do corpus, ao invés de simplesmente fazer a contagem das palavras. É uma representação muito usada em problemas de [information retrieval](https://en.wikipedia.org/wiki/Information_retrieval), mas que também pode ser útil em classificação.
 
 Além de usar td-idf para construir os vetores *bag-of-words*, o uso de 2-grams ajudou a obter melhores resultados no SVM:
 
@@ -120,7 +120,7 @@ Com essa configuração, já é possível obter ganhos significativos de desempe
   <figcaption>Figura 2 – Resultados SVM </figcaption>
 </figure>
 
-Com esse baseline aprimorado, podemos partir para a solução mais complexa com o uso de redes neurais e embeddings.
+Com esse baseline aprimorado, podemos partir para a solução baseada em redes neurais e *word embeddings*.
 
 ## Usando LSTM e word-embeddings
 
@@ -235,24 +235,24 @@ if USE_EMBEDDING:
 
 Uma limitação importante de destacar é o tamanho do vocabulário, já que não foi possível treinar a rede com ele completo. Foram usadas "apenas" as 200.000 palavras mais comuns no corpus, sendo um total de 136.725 presentes nos embeddings pré-treinados. 
 
-O dataset completo tem mais de 600.000 palavras no vocabulário, é interessante fazer uma investigação posterior, do impacto dessa restrição técnica do desempenho classificador.
+O dataset completo tem mais de 600.000 palavras no vocabulário, é interessante fazer uma investigação posterior, do impacto dessa restrição técnica no desempenho do classificador.
 
 ### Pré-processamento do texto
 
-Assim como nos métodos bag-of-words, não apliquei nenhum pré-processamento sofisticado para a rede neural.
+Assim como nos métodos *bag-of-words*, não apliquei nenhum pré-processamento sofisticado para a rede neural.
 
-Uma questão adicionar para usar a LSTM, é a necessidade de definir o tamanho máximo da sequência [^2]. Poderia usar o tamanho máximo de amostra no corpus como limite superior, mas seria um problema, já que há resenhas enormes.
+Uma questão adicionar para usar a LSTM, é a necessidade de definir o tamanho da sequência [^2]. Poderia usar o tamanho máximo de amostra no corpus como limite superior, mas seria um problema, já que há resenhas enormes.
 
 [^2]: há opção de fazer uma LSTM stateful, mas implicaria em outra arquitetura de rede sem a camada densa.
 
-Pelo histograma, é possível perceber que a maioria está na ordem de centenas de palavras, mas há uma cauda longa:
+Pelo histograma, é possível perceber que a maioria está na ordem de centenas de palavras, mas há resenhas muito maiores:
 
 <figure>
   <img src="{{site.url}}/assets/images/ml-skoob/contagem_palavras.svg"/>
   <figcaption>Figura 3 – Histograma do tamanho das resenhas </figcaption>
 </figure>
 
-Por esses números, optei por deixar um limite de 1000 palavras, já que 99% das resenhas têm 1000 ou menos palavras. Com esse limite, poucas resenhas serão cortadas, devendo impactar pouco no desempenho do modelo.
+Por esses números, optei por deixar um limite de 1.000 palavras, já que 99% das resenhas têm 1.000 ou menos palavras. Com esse limite, poucas resenhas serão cortadas, devendo impactar pouco no desempenho do modelo.
 
 ### Treinamento
 
@@ -268,14 +268,14 @@ A rede acaba convergindo bem rápido, até por ser um dataset bastante grande. A
 
 <figure>
   <img src="{{site.url}}/assets/images/ml-skoob/training.svg"/>
-  <figcaption>Figura 3 – Resultados treinamento </figcaption>
+  <figcaption>Figura 4 – Resultados treinamento </figcaption>
 </figure>
 
 Cada época demorou cerca de 2:20 horas para rodar, usando a seguinte configuração:
 
 <figure>
   <img src="{{site.url}}/assets/images/ml-skoob/neofetch.png"/>
-  <figcaption>Figura 4 – Configuração </figcaption>
+  <figcaption>Figura 5 – Configuração </figcaption>
 </figure>
 
 ### Resultados
@@ -284,20 +284,22 @@ Usando essa solução de rede neural, foi obtido um resultado similar de acurác
 
 <figure>
   <img src="{{site.url}}/assets/images/ml-skoob/LSTM.svg"/>
-  <figcaption>Figura 5 – Resultados LSTM </figcaption>
+  <figcaption>Figura 6 – Resultados LSTM </figcaption>
 </figure>
 
-O SVM teve melhor desempenho na classe negativa, com 0,81 de acurácia contra 0,78 da LSTM. Por outro lado, a LSTM teve 0,77 de acurácia para a classe neutra enquanto o SVM chegou em 0,72. 
+O SVM teve melhor desempenho na classe negativa, com 0,81 de acurácia contra 0,78 da LSTM. Por outro lado, a LSTM teve 0,77 de acurácia para a classe neutra enquanto o SVM chegou em 0,72 apenas.
+
+Olhando esses números, podemos dizer que os resultados são parecidos as duas soluções. 
 
 ## Conclusão
 
-Olhando esses resultados, podemos dizer que os resultados são praticamente o mesmo entre as duas soluções. Não há muito o que ponderar sobre a relação custo/benefício para esse problema, a solução *bag-of-words* é muito mais simples e chegou a resultados similares.
+Não há muito o que ponderar sobre a relação custo/benefício para esse problema, a solução *bag-of-words* é muito mais simples e chegou a resultados comparáveis.
 
-A complexidade da solução é subjetiva em alguns pontos, alguém mais experiente em redes neurais poderia ter desenvolvido essa solução em um fração do tempo que demorei. Entretanto, os limites de hardware e o tempo de treinamento são uma dificuldade extra das redes neurais, especialmente pensando em processos produtivos.
+A "complexidade" da solução é subjetiva em alguns pontos, já que envolve várias dimensões. Alguém mais experiente em redes neurais poderia ter desenvolvido essa solução em um fração do tempo que demorei. Entretanto, os limites de hardware e o tempo de treinamento são dificuldades inerentes das redes neurais.
 
 Há muito que explorar na solução de redes neurais, incluindo aspectos óbvios como aumentar a rede e usar o vocabulário completo. Lembrando também que essa solução não é o estado da arte, longe disso, pretendo testar outras possibilidades como o uso de subword embeddings por exemplo.
 
-Talvez os resultados melhorem bastante com um maior investimento de tempo e mais conhecimento, mas no limite do meu hardware e competência atual, ainda não consegui extrair um resultado muito melhor usando redes neurais e *word embdeddings*.
+Talvez os resultados melhorem bastante com um maior investimento de tempo e mais conhecimento, mas no limite do meu hardware e competência atual, não consegui extrair um resultado muito melhor usando redes neurais e *word embdeddings*.
 
 No final, há mais questões em aberto que respondidas com esse experimento simples, mas a ideia era justamente ver a diferença entre as propostas em um estágio inicial do processo de modelagem.
 
