@@ -66,44 +66,45 @@ Apoio a estratégia de priorizar ferramentas interoperáveis, deixar a implement
 
 Na parte de construção dos pipelines iniciais, acho que é uma tendência seguir e deve ser abraçada pelos engenheiros de software, mas enxergo um grande desafio em tornar essas "ferramentas Unix-like" amigáveis para o usuário.
 
-## Boas práticas de dados não escalam
+## Dificuldades em escalar boas práticas
 
-Uma questão chave para gestão federada, é definir bons critérios de qualidade. A ideia é fomentar que pessoas menos especializadas consigam disponibilizar dados, mas é muito fácil virar uma bagunça: bases sem catalogação adequada, com estrutura física mal desenhada e dados inconsistentes.
-
-O maior desafio é que não é simples automatizar essas garantias, enxergo que nos falta inclusive alguma base mais teórica para lidar com muitos aspectos, isso se aplica para vários pontos do processo de qualidade.
+Uma questão chave para gestão federada, é definir bons critérios de qualidade. Com vários times trabalhando de forma independente, é fácil o Data Lake virar um "Data Swamp": bases sem catalogação adequada, com estrutura física mal desenhada e dados inconsistentes.
 
 ### Catalogação de dados
 
-> There are only two hard things in Computer Science: cache invalidation and naming things. -- Phil Karlton
+Há uma piada sobre existir apenas duas coisas difíceis em computação: invalidação de cache e nomear coisas. A nível corporativo, a tarefa não poderia ser mais complicado.
 
-É normal que empresas tentem definir padrões de nomenclatura, especialmente no processo de modelagem de banco de dados. Os administradores de dados são os guardiões que garantem essa padronização.
-
-No livro, são descritos como *polysemes*.
+Algumas empresas tentam definir padrões de nomenclatura para banco de dados, há diversos nomes para esses padrões, no livro são descritos como *polysemes*.
 
 > Polysemes are shared concepts across different domains. They point to the same entity, with domain-specific attributes. Polysemes represent shared core concepts in a business such as “artist,” “listener,” and “song.”
 
-
-A ideia é simples: vamos padronizar mnemônicos e conceitos, de forma que uma chave de CPF tenha um padrão de dado e nomenclatura na empresa toda. A implementação nem tanto, não de uma forma que eu enxergue o valor prometido. 
-
-Em termos técnicos, usando boas práticas de DevOps, é bem possível fazer validação automática que garantam o uso dos conceitos. Mas a minha questão é anterior: como são organizados esses conceitos?
+Utilizar esteiras automatizadas para validar esses conceitos é bem plausível, mas a minha questão é anterior: como são organizados esses conceitos?
 
 Se o cadastro for centralizado e controlado pelos ADs, podemos criar um gargalo para operação federada. Se liberar o cadastro, é provável que teremos termos repetidos ou pouco expressivos, que pouco servem ao usuário do dado.
 
-Talvez haja e eu desconheço, mas falta teoria para embasar a motivação e utilidade de criar esses vocabulário. Questões ontologias e taxonomia são muito amplas e complexas, fora do domínio da computação e com séculos de estudo, mas o que vejo são soluções intuitivas para o problema.
+Talvez eu simplesmente desconheça, mas ao meu ver falta teoria para embasar a motivação e utilidade de criar esses vocabulário. Questões ontologias e taxonomia são muito amplas e complexas, fora do domínio da computação e com séculos de estudo, mas o que vejo são soluções intuitivas para o problema.
+
+Não vou dizer que acho inútil – seria perfeito um data lake todo padronizado – mas tem camadas de complexidade que hoje são pouco discutidas. Nesse sentido, acabamos com estratégias de padronização bem aquém das expectativas.
+
+### Modelagem de tabelas
+
+Erros de modelagem geram débitos técnicos enormes com juros altíssimos. Uma tabela importante mal modelada pode ser terrível: impacta desenvolvedores da aplicação e usuários do dados; a correção costuma envolver movimentações complexas de dados e refazer boa partes dos sistemas; pode gerar custos extras de armazenamento e processamento.
+
+Nesse contexto, os DBAs e ADs funcionam como um "guardrail" para evitar problemas maiores. Infelizmente, muitos desenvolvedores não se interessam por essa parte o processo de desenvolvimento, então pode ser arriscado montar um processo federado.
+
+Mas diferente da questão de nomenclatura, a teoria para modelagem de dados é muito desenvolvida e estável. Só não é simples de automatizar, pois um modelo depende muito do negócio e da aplicação, não há muitas métricas de "bom modelo de dados" independente do contexto.
+
+## O risco dos eventos
 
 
 
-Ao explorar uma base, eu nunca usei o dicionário de termos para buscar, apenas os utilizei 
+<!-- O problema de modelagem é mais uma questão operacional, questões de modelagem lógica e física possuem soluções maduras, mas que nem todos os desenvolvedores dominam como eu acho que deveriam. -->
 
 
-mas boas descrições em linguagem natural são muito valiosas. Quando não há descrição, uma análise descritiva dos dados é muito mais relevante.
+
+<!-- Desde que eu entrei no mercado, uma questão presente no desenvolvimento de sistemas é a relação difícil entre desenvolvedores e a área responsável pelos bancos de dados em grandes empresas, normalmente composta por ADs e DBAs que precisam aprovar mudanças no banco de dados.
 
 
-### Modelagem de dados
-
-Desde que eu entrei no mercado, uma questão presente no desenvolvimento de sistemas é a relação difícil entre desenvolvedores e a área responsável pelos bancos de dados em grandes empresas, normalmente composta por ADs e DBAs que precisam aprovar mudanças no banco de dados.
-
-Erros de modelagem geram débitos técnicos enormes, que rapidamente se tornam inviáveis se forem implementados no sistema. Uma tabela central mal modelada envolve mudar grandes parte do sistema, implantação arriscada e longa para movimentação de dados e as "dores" impactam boa parte dos desenvolvedores.
 
 Como alguém que trabalhou mais com dados que como desenvolvedor, entendo que é necessário cuidar de seus banco de dados. 
-
+ -->
