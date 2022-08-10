@@ -15,7 +15,7 @@ Nesse contexto, surgiu o Data Mesh: uma proposta "sociotécnica" para compartilh
 
 É um assunto muito recente, a única literatura disponível sobre o assunto é o livro [Data Mesh: Delivering Data-Driven Value at Scale](https://www.oreilly.com/library/view/data-mesh/9781492092384/) da Zhamak Dehghani. Esse livro aborda o problema a partir de uma perspectiva teórica, usando uma empresa fictícia que trabalha com streaming de música. Ou seja, é mais uma proposta que um conjunto de práticas consolidado.
 
-É algo novo e que ainda precisa se provar, mas gostei muito da ideia geral. Se as grandes empresas têm dificuldades em extrair valor dos dados, os problemas devem ser mais fundamentais, a nível de organização e não apenas uma questão de implementação.
+É algo novo e que ainda precisa se provar, mas gostei muito da proposta. Se as grandes empresas têm dificuldades em extrair valor dos dados, os problemas devem ser mais fundamentais, a nível de organização e não apenas uma questão de implementação.
 
 O foco do Data Mesh é a gestão federada dos dados, aumentando agilidade e autonomia de cada domínio em estruturas organizacionais complexas. É uma ideia alinhada tendências do mercado de tecnologia (*e.g* microsserviços, metodologias ágeis, design orientado a eventos, cloud e DevOps), aplicada à questão dos dados.
 
