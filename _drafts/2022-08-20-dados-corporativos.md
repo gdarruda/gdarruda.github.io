@@ -19,16 +19,18 @@ Mesmo sendo algo novo e que ainda precisa se provar, gostei muito da proposta. S
 
 O foco do Data Mesh é a gestão federada dos dados, aumentando agilidade e autonomia de cada domínio em estruturas organizacionais complexas. É uma ideia alinhada com tendências do mercado de tecnologia (*e.g* microsserviços, metodologias ágeis, design orientado a eventos, cloud e DevOps), aplicada à questão dos dados.
 
-O Data Mesh aborda gargalos organizacionais, mas enxergo que algumas barreiras técnicas devem se manter e dificultar o processo. Pretendo discutir esses pontos, onde enxergo dificuldades técnicas para viabilizar uma estratégia de dados federada.
+O Data Mesh aborda gargalos organizacionais, mas enxergo que algumas barreiras técnicas devem dificultar o processo. Pretendo discutir esses pontos, onde enxergo dificuldades técnicas para viabilizar uma estratégia de dados federada.
 
 Esse post não é uma resenha do livro ou uma introdução ao Data Mesh, 
 a autora do livro tem um [post resumo](https://martinfowler.com/articles/data-mesh-principles.html) no blog do Martin Fowler para quem estiver procurando algo nesse sentido.
 
 ## Complexidade das ferramentas como obstáculo a federação
 
-O alvo principal da gestão federada é lidar com os gargalos gerados por um departamento de dados centralizado, responsável pelos pipelines de dados de toda a empresa. Antes de distribuir as responsabilidades, é necessário distribuir capacidade técnica.
+O alvo principal da gestão federada são os gargalos gerados por um departamento de dados centralizado, que é responsável pelos pipelines de dados de toda a empresa.
 
-A autora propõe que a plataforma do Data Mesh considere a facilidade de uso das ferramentas na sua construção, para que "qualquer" engenheiro de software consiga implementar e manter pipelines de dados.
+A ideia é distribuir as responsabilidades sobre esses pipelines entre os domínios de negócio. Mas antes de distribuir as responsabilidades, é necessário distribuir capacidade técnica.
+
+A autora propõe que a plataforma do Data Mesh considere a facilidade de uso das ferramentas na sua construção, para que "qualquer" engenheiro de software sem especialização em dados, consiga implementar e manter os pipelines.
 
 > Incentivizing and enabling generalist developers with experiences, languages, and APIs that are easy to learn is a starting point to lower the cognitive load of generalist developers. To scale out data-driven develop‐ ment to the larger population of practitioners, data mesh platforms must stay relevant to generalist technologists.
 
@@ -42,13 +44,13 @@ Por conta desse cenário, uma melhor abordagem seria privilegiar tecnologias com
 
 > If a data mesh platform wants to realistically scale out sharing data, within and beyond the bounds of an organization, it must wholeheartedly embrace the Unix philosophy and yet adapt it to the unique needs of data management and data sharing. It must design the platform as a set of interoperable services that can be implemented by different vendors with different implementations yet play nicely with the rest of the platform services.
 
-Infelizmente, acho que o problema é basicamente o oposto: os engenheiros de dados, se fazem necessário hoje, pois há muitas peças que precisam ser combinadas. É até uma [piada da área](https://pixelastic.github.io/pokemonorbigdata/), a quantidade de ferramentas que podem ser utilizadas para trabalhar com dados. 
+Infelizmente, acho que o problema é basicamente o oposto: os engenheiros de dados, se fazem necessário hoje, pois há muitas peças que precisam ser combinadas. É até uma [piada da área](https://pixelastic.github.io/pokemonorbigdata/), a quantidade de ferramentas diferentes que podem ser combinadas para trabalhar com dados. 
 
 Soluções proprietárias e verticalizadas trazem uma série problemas, mas normalmente são mais simples de utilizar, ao oferecer um pacote fechado e demandar menos tomadas de decisão técnica pelo usuário.
 
-Por exemplo, em uma solução "clássica" de banco de dados relacional/MPP, todos as consultas SQL passam pelo mesmo motor de processamento: a aplicação conectada via JDBC, as procedures do banco de dados, a ferramenta de BI ou alguém diretamente conectado.
+Por exemplo, em uma solução "clássica" de banco de dados relacional/MPP, todos as consultas SQL passam pelo mesmo motor de processamento: a aplicação conectada via JDBC, as procedures do banco de dados, a ferramenta de BI ou um usuário diretamente conectado.
 
-Em um ambiente Big Data, é comum você ter um *metastore* para catalogar o dados, mas diversas formas diferentes de consultar e manipular o dado: é possível usar uma engine SQL (como Hive) para jobs longos; Presto ou Impala para algo mais tempestivo; Spark para integrar código procedural ou mesmo ler diretamente o storage.
+Em um ambiente Big Data, é comum você ter um *metastore* para catalogar o dados, mas diversas formas diferentes de consultar e manipular o dado: é possível usar uma engine SQL (como Hive) para jobs longos; Presto ou Impala para algo mais tempestivo; Spark para integrar código procedural ou mesmo ler diretamente o storage sem usar ferramentas distribuídas.
 
 Não é óbvio, para alguém menos especializado, como é completamente diferente usar [PySpark](https://spark.apache.org/docs/latest/api/python/index.html) conectado a um cluster ou uma biblioteca como o [Pandas](https://pandas.pydata.org) para acessar o arquivo no storage. São estratégias completamente diferentes, mas que para um leigo é díficil entender as implicações de cada uma delas.
 
@@ -64,7 +66,7 @@ Apesar de mais simples de usar, essas ferramentas normalmente são proprietária
 
 O maior custo para extrair valor dos dados é o conhecimento necessário para utilizá-las e mantê-las, não somente o preço de mercado delas. Peças interoperáveis e especializadas são ótimas na mão de bons engenheiros, mas são pouco amigáveis para quem não domina o funcionamento interno dessas soluções.
 
-Minha preocupação aqui é muito mais com etapa de consumo dos dados, não no processo de disponibilização que normalmente é a etapa mais associada à engenharia de dados.
+Minha preocupação aqui é muito mais com etapa de consumo dos dados, não no processo de disponibilização, que normalmente é a etapa mais associada à engenharia de dados.
 
 Imagino que, para os engenheiros de software generalistas, criar pipelines para disponibilizar e catalogar os dados não seja um grande problema com um plataforma bem desenhada. São pessoas com conhecimento técnico e que devem se preocupar apenas com uma pequena parte da manipulação dos dados.
 
@@ -82,7 +84,7 @@ Algumas empresas definem padrões de nomenclatura para banco de dados a nível c
 
 > Polysemes are shared concepts across different domains. They point to the same entity, with domain-specific attributes. Polysemes represent shared core concepts in a business such as “artist,” “listener,” and “song.”
 
-Utilizar esteiras automatizadas, para validar os *polysemes* na criação e manutenção do *metastore* e serviços, é algo bem plausível de implementar. Entretanto, a minha questão é anterior: como são criados e organizados esses conceitos?
+Utilizar esteiras automatizadas, para validar os *polysemes* na criação e manutenção do *metastore* e serviços, é algo bem plausível de implementar. Entretanto, a minha questão é anterior: como são criados e organizados esses *polysemes*?
 
 Na minha opinião, falta uma boa teoria para embasar a motivação e utilidade de criar esse tipo de vocabulário. Questões de ontologias e taxonomia são muito amplas e complexas, fora do domínio da computação e com séculos de estudo. 
  
@@ -96,7 +98,9 @@ Mas o que é uma "boa" descrição para um atributo? Ela é boa quando atende os
 
 ### Modelagem de dados
 
-Erros de modelagem geram débitos técnicos enormes, com juros altíssimos,  pois rapidamente o problema se tornar inviável de resolver. Uma tabela importante mal modelada gera uma série de problemas:
+Erros de modelagem geram débitos técnicos enormes. Débitos com juros altíssimos, pois rapidamente o problema se tornar inviável de resolver. 
+
+Uma tabela importante mal modelada gera uma série de dificuldades:
 
 * impacta desenvolvedores da aplicação e usuários do dados; 
 * a correção costuma envolver movimentações complexas de dados e refazer boa partes dos sistemas;
@@ -106,11 +110,11 @@ Nesse contexto, estão os DBAs e ADs que aprovam modelos de dados, funcionando c
 
 Diferente da questão de nomenclatura, a teoria para modelagem de dados é muito desenvolvida e estável. Mas, assim como a questão das ferramentas de Big Data, o desafio é escalar esse conhecimento para a empresa sem depender de poucas pessoas especializadas.
 
-Boas práticas, como revisão de código e testes de integração podem mitigar esse problema, mas eles ainda podem ser muito altos, para a empresa abdicar de uma validação centralizada.
+Boas práticas, como revisão de código e testes de integração podem reduzir erros de modelagem. Mas os riscos ainda podem ser altos, para a empresa abdicar do controle centralizado e dar autonomia para os times implementarem seus próprios processos de modelagem.
 
 ### Testes automatizados
 
-Os testes sempre tem limitações em qualquer tipo software, raramente é uma garantia de que tudo funcionará em produção. Para pipelines de dados, é especialmente caro e complexo, garantir que os testes reflitam o cenário de produção com fidelidade.
+Os testes têm limitações em qualquer tipo software, raramente é uma garantia matemática de que funcionará em produção. Para pipelines de dados, é especialmente caro e complexo, garantir que os testes reflitam o cenário de produção com fidelidade.
 
 Testes automatizados são muito valorizados como boa prática de desenvolvimento, times se orgulham de falar que possuem X% de cobertura em seus projetos. Mas como aplicar testes automatizados em pipelines de dados?
 
@@ -118,7 +122,7 @@ Os testes unitários, que ficam na base da pirâmide e deveriam ser a maioria, c
 
 Os testes de integração são mais úteis em pipelines de dados, mas são difíceis de implementar. Boa parte das ferramentas de Big Data são modulares, então é necessário "subir" várias peças para reproduzir um pipeline localmente. 
 
-Outro agravante é a característica distribuída das ferramentas de dados, um ambiente criado na workstation acaba sendo muito diferente do cenário real. Questões de redes e memória partilhada são muito importantes de testar, mas impossível de reproduzir localmente com fidelidade.
+Um agravante é a característica distribuída das ferramentas de dados, o ambiente criado em uma workstation acaba sendo muito diferente do cenário real. Questões de redes e memória compartilhada são muito importantes de testar, mas impossível de reproduzir localmente com fidelidade.
 
 Ambientes em nuvem ajudam muito nessa dificuldade, entretanto um problema que persiste é simular a natureza original do dado: além das questões de infra –  volumetria e distribuição dos dados - são aspectos chaves para testar um pipeline de dados.
 
