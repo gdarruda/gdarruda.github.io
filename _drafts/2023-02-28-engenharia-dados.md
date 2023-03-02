@@ -9,11 +9,11 @@ keywords: "Spark"
 
 No trabalho, apareceu um problema simples: enviar predições de machine learning, armazenadas em uma tabela, para uma fila no formato `json`. Uma questão trivial...até que sejam adicionados requisitos de performance e escalabilidade.
 
-Nem pretendia escrever nada sobre isso, mas acabou sendo um exemplo didático dos desafios particulares da engenharia de dados. Resolvendo esse problema, é possível passar por muita das dores que é trabalhar cmo fluxos de dados.
+Nem pretendia escrever nada sobre isso, mas acabou sendo um exemplo didático dos desafios particulares da engenharia de dados. Resolvendo esse problema, é possível passar por muita das dores que é trabalhar com fluxos de dados.
 
 ## Mockando a entrada
 
-Para começar, primeiro devemos gerar uma base de exemplo, idealmente seguindo a distribuição e volumetria dos dados reais. **Não é incomum encontrar problemas que só aparecem em produção, pelas características únicas do dado**.
+Para começar, primeiro devemos gerar uma base de exemplo, idealmente seguindo a distribuição e volumetria dos dados reais. **Não é incomum encontrar problemas que só aparecem em produção, pelas características únicas do dado e volumetria**.
 
 A saída do modelo, que precisamos enviar para a fila, é uma tabela com o schema abaixo.
 
@@ -27,11 +27,11 @@ root
  |-- class_29: double (nullable = true)
 ```
 
-O campo `id_client` identifica o cliente unicamente. Os campos com a nomenclatura `class_[0-9]+` estão no intervalo `[0,29]`, eles representam as probabilidades de cada classe do modelo de machine learning.
+O campo `id_client` identifica o cliente unicamente com um UUID. Os campos com a nomenclatura `class_[0-9]+` estão no intervalo `[0,29]` e representam as probabilidades de cada classe do modelo de machine learning.
 
 Para gerar os dados nesse formato, foi utilizado esse [script Python](https://github.com/gdarruda/spark-demo/blob/main/python/fake_data.py) que gera predições aleatórias em um arquivo parquet. Para esse experimento, foram geradas 60.000.000 milhões de predições.
 
-Antes de você executar esse script na sua máquina, é necessário definir o tamanho da variável chamada `BATCH_SIZE`, que vai depender da memória disponível e quantidade de processos utilizados.
+Antes de executar esse script, é necessário definir o tamanho da variável chamada `BATCH_SIZE`, que vai depender da memória disponível e quantidade de processos utilizados.
 
 ```python
 NUM_CLASSES = 30
@@ -40,13 +40,13 @@ NUM_CLIENTS = 60_000_000
 PATH = '../resources/inline.parquet'
 ```
 
-O batch de de 2.000.000 milhões de clientes, foi considerando que posso rodar 12 threads em paralelo e tenho 16GB livres. Fazendo alguns testes, foi possível chegar nesse valor, que otimiza o uso dos núcleos e memória disponíveis.
+O batch de de 2.000.000 milhões de clientes, foi considerando que tenho 12 "virtual cores" e aproximadamente 16GB livres de memória. Fazendo alguns testes, foi possível chegar nesse valor, que otimiza a velocidade do processo para essa configuração.
 
-Para não precisar configurar esse script por máquina, eu poderia ter feito um script *single-thread* que escreve um registro de cada vez no formato texto. Demoraria muito mais para rodar, mas não geraria pressão na memória e nem exigiria equilibrar o trabalho de equilibrar essas três variáveis (`NUM_CLASSES`, `BATCH_SIZE` e `NUM_CLIENTS`).
+Para não precisar configurar esse script por máquina, eu poderia ter feito uma solução *single-thread* que escreve um registro de cada vez no formato texto. Demoraria muito mais para rodar, mas não geraria pressão na memória e nem exigiria equilibrar o trabalho de equilibrar essas três variáveis (`NUM_CLASSES`, `BATCH_SIZE` e `NUM_CLIENTS`).
 
-**Engenharia de dados é muito mais sobre os requisitos não funcionais que funcionais.** Entre as duas opções de solução, o papel do engenheiro de dados é entender os requisitos não funcionais e a disponibilidade de poder computacional.
+É interessante discutir isso, porque **engenharia de dados é muito mais sobre os requisitos não funcionais que funcionais.** Entre as duas opções de solução, o papel do engenheiro de dados é entender os requisitos não funcionais e a disponibilidade de poder computacional.
 
-Por exemplo, se esse processo é executado no mesmo servidor que uma aplicação transacional online, é usar solução *multi-thread* e gerar indisponibilidade. Por outro lado, se estamos usando máquina dedicada em nuvem para esse processo, estamos perdendo tempo e dinheiro ao não estressar ao máximo a memória e o processamento com a solução *multi-thread*.
+Por exemplo, se esse processo é executado no mesmo servidor que uma aplicação transacional online, usar uma solução *multi-thread* pode gerar indisponibilidades. Por outro lado, se estamos usando máquina dedicada em nuvem para esse processo, estamos perdendo tempo e dinheiro ao não estressar ao máximo a memória e o processamento com a solução *multi-thread*.
 
 Com a base de exemplo gerada, podemos partir para o problema em questão: transformar essas 60.000.000 milhões de predições em mensagens JSON.
 
@@ -79,9 +79,9 @@ Solução elegante, mas ao executar esse código, o próprio Spark avisa que voc
 
 > WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
 
-A função de janela envolve ordenar todo o DataFrame, um processo muito custoso em execução distribuída, já que envolve transferir e processar todos os dados em um executor.
+A função de janela envolve ordenar todo o DataFrame, um processo muito custoso em execução distribuída, já que envolve transferir e processar todos os dados para uma única máquina.
 
-Em uma execução local, seria um processo demorado, mas funcionaria porque todos os dados estão em uma memória compartilhada. Em produção, com esse dado distribuído em vários nós de computação, o processo ficaria muito mais lento e podemos incorrer em erros de falta de memória.
+Em uma execução local, seria um processo demorado, mas funcionaria porque todos os dados estão na mesma memória e sendo utilizadas por processos diferentes. Em produção, com esse dado distribuído em vários nós de computação, o processo ficaria muito mais lento e podemos incorrer em erros de falta de memória.
 
 **Reproduzir um ambiente de execução distribuído é muito complexo, gerando erros que só aparecem tardiamente no processo de desenvolvimento.** 
 
@@ -204,9 +204,9 @@ Ao meu ver, o primeiro argumento em prol de performance é muito melhor, mas o m
 
 Eu nem cheguei na parte de efetivamente enviar essas mensagens em uma fila, mas acredito que já foi possível ilustrar os desafios de lidar com fluxo de dados distribuídos:
 
-* Não é incomum encontrar problemas que só aparecem em produção, pelas características únicas do dado;
+* Não é incomum encontrar problemas que só aparecem em produção, pelas características únicas do dado e volumetria;
 
-* engenharia de dados é muito mais sobre os requisitos não funcionais que não funcionais;
+* engenharia de dados é muito mais sobre os requisitos não funcionais que funcionais;
 
 * reproduzir um ambiente de execução distribuído é muito complexo, gerando erros que só aparecem tardiamente no processo de desenvolvimento;
 
