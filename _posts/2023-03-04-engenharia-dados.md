@@ -218,8 +218,6 @@ Utilizar soluções distribuídas desnecessariamente, poder gera situações ter
 
 Algumas vezes é cansativo lidar com todos essas questões, mas são problemas interessantes, é gratificante ver uma aplicação escalando bem e funcionando com a performance esperada.
 
-![Alt text]({{site.url}}/assets/images/spark-demo/htop.png)
-
 <figure>
   <img src="{{site.url}}/assets/images/spark-demo/htop.png"/>
   <figcaption>Figura 3 – Htop durante a geração da massa de dados</figcaption>
