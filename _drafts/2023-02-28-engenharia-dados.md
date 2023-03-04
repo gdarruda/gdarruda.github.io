@@ -42,9 +42,9 @@ PATH = '../resources/inline.parquet'
 
 O batch de de 2 milhões de clientes foi escolhido, considerando que tenho 12 "virtual cores" e aproximadamente 16GB livres de memória. Fazendo alguns testes, foi possível chegar nesse valor, que otimiza o tempo de execução para essa configuração.
 
-Eu poderia ter feito uma solução *single-thread*, gerando as predições linha a linha em um arquivo texto. Demoraria muito mais para rodar, mas consumiria pouca memória e não exigiria essa otimização do `BATCH_SIZE`.
+Eu poderia ter feito uma solução *single-thread*, gerando as predições linha a linha, em um arquivo texto. Demoraria muito mais para rodar, mas consumiria pouca memória e não exigiria essa otimização do `BATCH_SIZE`.
 
-É interessante pensar sobre isso, porque **engenharia de dados é muito mais sobre os requisitos não funcionais que funcionais.** Entre as duas opções de solução, o papel do engenheiro de dados é entender os requisitos não funcionais.
+É interessante pensar sobre isso, porque **engenharia de dados é muito mais sobre os requisitos não funcionais que funcionais.** Entre as duas opções de solução, o papel do engenheiro de dados é entender os requisitos não funcionais para decidir o melhor caminho.
 
 Por exemplo, se esse script for executado no mesmo servidor que uma aplicação transacional online, usar uma solução *multi-thread* pode gerar problemas de indisponibilidade para a aplicação. Por outro lado, se estamos usando máquina dedicada em nuvem para esse processo, estamos perdendo tempo e dinheiro ao não estressar ao máximo a memória e o processamento com a solução *multi-thread*.
 
@@ -73,13 +73,13 @@ window = Window.orderBy(col('monotonically_increasing_id'))
 df_with_consecutive_increasing_id = df_with_increasing_id.withColumn('increasing_id', row_number().over(window))
 ```
 
-Primeiramente, é gerado uma coluna com um identificador crescente e monotônico, mas não contíguo. Com base no identificador criado, usar uma função de janela para criar uma coluna sequencial e contígua.
+Primeiramente, é gerado uma coluna com um identificador crescente e monotônico, mas não contíguo. Com base no identificador criado, usar uma função de janela para criar um identificador sequencial e contíguo.
 
 Solução elegante, mas ao executar esse código, o próprio Spark avisa que pode ser um problema:
 
 > WARN WindowExec: No Partition Defined for Window operation! Moving all data to a single partition, this can cause serious performance degradation.
 
-A função de janela envolve ordenar todo o DataFrame, um processo muito custoso em execução distribuída, já que envolve transferir e processar todos os dados para uma única máquina.
+A função de janela envolve ordenar todo o DataFrame, um processo muito custoso em execução distribuída, já que envolve transferir e processar todos os dados em uma única máquina.
 
 Em uma execução *single-node*, seria demorado ordenar todo o dataset, mas provavelmente funcionaria porque os dados já estão na mesma memória. Em produção, com esse dado distribuído em vários nós de computação, o processo ficaria muito mais lento e poderia incorrer em erros por falta de memória.
 
@@ -91,7 +91,7 @@ O argumento de "funciona na minha máquina", que é motivo de piada entre os pro
 
 Uma alternativa, menos onerosa para resolver esse problema, é utilizar a função [zipWithIndex](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.RDD.zipWithIndex.html) que ordena os registros dentro de suas partições. O problema é que essa função é do objeto [RDD](https://spark.apache.org/docs/latest/rdd-programming-guide.html), a estrutura de dados distribuída sobre a qual o DataFrame é construído.
 
-Em outras palavras, significa que teremos que usar código procedural ao invés de [Spark SQL](https://spark.apache.org/sql/). Enquanto usamos a API de alto nível, a linguagem utilizada não impacta na performance do processo, mas o cenário muda quando manipulamos diretamente o RDD.
+Em outras palavras, significa que teremos que usar código procedural ao invés de [Spark SQL](https://spark.apache.org/sql/). Enquanto usamos a API de DataFrame, a linguagem utilizada não impacta na performance do processo, mas o cenário muda quando manipulamos diretamente o RDD.
 
 O Python é a lingua franca do mundo dos dados, mas em cenários que demandam alto desempenho, ele trabalha como a "cola" e não como runtime principal. Ao utilizar PySpark, estamos usando Python para orquestrar o trabalho pesado feito na JVM em Scala.
 
@@ -176,11 +176,11 @@ Não são jobs muito demorados, mas os demais jobs demoraram mais também. Talve
   <figcaption>Figura 2 – Spark History do processo em Scala</figcaption>
 </figure>
 
-No final, o processo em Python demorou um total de 12 minutos, enquanto o processo em Scala demorou 5 minutos. Em um cenário com mais memória, a diferença entre as soluçÕes poderia ser menor. Ou maior, se o problema for apenas performance do código Python e não a questão de memória.
+No final, o processo em Python demorou um total de 12 minutos, enquanto o processo em Scala demorou 5 minutos. Em um cenário com mais memória, a diferença entre as soluções poderia ser menor. Ou maior, se o problema for apenas performance do código Python e não a questão de memória.
 
 **Estimar a performance em fluxo de dados é muito complexo, porque além do poder de processamento, é necessário considerar outras variáveis como memória, armazenamento e rede de um ambiente distribuído**.
 
-Em um cenário de menos memória, como o apresentado, a velocidade do armazenamento vira um fator relevante. Por outro lado, se o processo estiver distribuído em muitas máquinas com uma rede lenta, operações de shuffle podem minar completamente o desempenho.
+Em um cenário de menos memória, como o apresentado, a velocidade do armazenamento vira um possível gargalo. Por outro lado, se o processo estiver distribuído em muitas máquinas com uma rede lenta, operações de shuffle podem minar completamente o desempenho.
 
 Por isso, **é importante que o engenheiro de dados tenha uma noção intuitiva do que está acontecendo internamente nas soluções, para evitar gargalos desnecessários e facilitar o troubleshoot**. Em teoria, qualquer engenheiro de software deveria ter essa perspectiva, mas nem sempre é o que ocorre.
 
@@ -190,7 +190,7 @@ No contexto de empresas que precisam se mover com agilidade, é normal priorizar
 
 [^1]: a citação completa tem muito mais nuances: *Programmers waste enormous amounts of time thinking about, or worrying about, the speed of noncritical parts of their programs, and these attempts at efficiency actually have a strong negative impact when debugging and maintenance are considered. We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%*. Ao usar esses argumentos, provavelmente os programadores não estão pensando nos mesmos problema do Knuth de micro-otimizações, mas o argumento é usado de forma simplista para justificar entregas mais rápidas.
 
-Não discordo desse "zeitgest", é a perspectiva correta para muitos softwares, mas pode ser uma armadilha em engenharia de dados. **Fluxos de processamento de dados costumam ter pouca lógica de negócio. São códigos mais breves e sofrem menos modificações, mas possuem muitos requisitos de performance e escalabilidade**.
+Não discordo desse "zeitgest", é a perspectiva correta para muitos contextos, mas pode ser uma armadilha em engenharia de dados. **Fluxos de processamento de dados costumam ter pouca lógica de negócio. São códigos mais breves e sofrem menos modificações, mas possuem muitos requisitos de performance e escalabilidade**.
 
 ## Pontos Chave
 
@@ -204,7 +204,7 @@ Eu nem cheguei na parte de efetivamente enviar essas mensagens em uma fila, mas 
 
 * estimar a performance em fluxo de dados é muito complexo, porque além de poder de processamento, dependem de outras variáveis como memória, disco e rede de um ambiente distribuído;
 
-* é importante que o engenheiro de dados tenha uma noção intuitiva do que está acontecendo internamente nas soluções, para evitar gargalos desnecessários e facilitar o troubleshoot
+* é importante que o engenheiro de dados tenha uma noção intuitiva do que está acontecendo internamente nas soluções, para evitar gargalos desnecessários e facilitar o troubleshoot;
 
 * fluxos de processamento de dados costumam ter pouca lógica de negócio. São códigos mais breves e sofrem menos modificações, mas possuem muitos requisitos de performance e escalabilidade
 
