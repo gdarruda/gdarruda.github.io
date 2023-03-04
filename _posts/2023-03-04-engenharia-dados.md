@@ -176,7 +176,9 @@ Não são jobs muito demorados, mas os demais jobs demoraram mais também. Talve
   <figcaption>Figura 2 – Spark History do processo em Scala</figcaption>
 </figure>
 
-No final, o processo em Python demorou um total de 12 minutos, enquanto o processo em Scala demorou 5 minutos. Em um cenário com mais memória, a diferença entre as soluções poderia ser menor. Ou maior, se o problema for apenas performance do código Python e não a questão de memória.
+No final, o processo em Python demorou um total de 12 minutos, enquanto o processo em Scala demorou 5 minutos. O processo foi executado localmente, na mesma máquina utilizada para geração do dataset, esses são os [relatórios de execução](https://github.com/gdarruda/spark-demo/tree/main/log-history).
+
+Em um cenário com mais memória, a diferença entre as soluções poderia ser menor. Ou maior, se o problema for apenas performance do código Python e não a questão de memória.
 
 **Estimar a performance em fluxo de dados é muito complexo, porque além do poder de processamento, é necessário considerar outras variáveis como memória, armazenamento e rede de um ambiente distribuído**.
 
@@ -184,7 +186,7 @@ Em um cenário de menos memória, como o apresentado, a velocidade do armazename
 
 Por isso, **é importante que o engenheiro de dados tenha uma noção intuitiva do que está acontecendo internamente nas soluções, para evitar gargalos desnecessários e facilitar o troubleshoot**. Em teoria, qualquer engenheiro de software deveria ter essa perspectiva, mas nem sempre é o que ocorre.
 
-No contexto de empresas que precisam se mover com agilidade, é normal priorizar velocidade e manutenabilidade no desenvolvimento em detrimento a performance do do software. Melhor investir em máquina e otimizar depois, muito citam a famosa frase do Knuth[^1]: 
+No contexto de empresas que precisam se mover com agilidade, é normal priorizar velocidade e manutenabilidade no desenvolvimento em detrimento a performance do software. Melhor investir em máquina e otimizar depois, muito citam a famosa frase do Knuth[^1]: 
 
 > premature optimization is the root of all evil.
 
