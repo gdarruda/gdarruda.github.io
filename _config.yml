@@ -14,10 +14,10 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: Gabriel Arruda
-email: gda.gabriel@gmail.com
+email: gabriel@gdarruda.me
 description: "Histórias de um desenvolvedor trabalhando como cientista de dados."
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.comda
+# baseurl: "" # the subpath of your site, e.g. /blog
+# url: "" # the base hostname & protocol for your site, e.g. http://example.comda
 
 # Build settings
 markdown: kramdown
