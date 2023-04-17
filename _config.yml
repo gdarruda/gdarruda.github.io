@@ -41,7 +41,7 @@ show_excerpts: true
 
 plainwhite:
   name: Gabriel Arruda
-  # tagline: Cientista de dados
+  tagline: 
   date_format: "%b %-d, %Y"
   portfolio_image:  "assets/DSCF6760.jpeg"
   dark_mode: true
