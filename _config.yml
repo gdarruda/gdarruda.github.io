@@ -15,14 +15,23 @@
 # in the templates via {{ site.myvariable }}.
 title: Gabriel Arruda
 email: gabriel@gdarruda.me
-description: "Histórias de um desenvolvedor trabalhando como cientista de dados."
+description: "Anedotas sobre dados"
 # baseurl: "" # the subpath of your site, e.g. /blog
 # url: "" # the base hostname & protocol for your site, e.g. http://example.comda
 
 # Build settings
 markdown: kramdown
+theme: minima
+show_excerpts: true
 plugins:
   - jekyll-feed
+
+github_username: gdarruda
+instagram_username: gdarruda
+linkedin_username: gdarruda
+rss: rss
+
+header_pages:
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
@@ -35,19 +44,3 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-
-remote_theme: samarsault/plainwhite-jekyll
-show_excerpts: true
-
-plainwhite:
-  name: Gabriel Arruda
-  tagline: Cientista de Dados
-  date_format: "%b %-d, %Y"
-  portfolio_image:  "assets/DSCF6760.jpeg"
-  dark_mode: true
-
-  social_links:
-    # twitter: gdarruda
-    github: gdarruda
-    instagram: gdarruda
-    linkedIn: in/gdarruda # format: locale/username
