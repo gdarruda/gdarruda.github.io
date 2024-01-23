@@ -11,7 +11,7 @@ A proposta das soluções \(low\|no\)-code é irresistível para os executivos. 
 
 Por outro lado, programadores costumam tratar com desdém a ideia de low-code. Muitas vezes por simples elitismo e protecionismo, mas também por experiências terríves: soluções desnecessariamente complexas, "lock-in" em plataformas proprietárias, dificuldades de operação e manutenção.
 
-Entre os fatores para o sucesso ou fracasso, entendo que passe muito pela [complexidade acidental e essencial](https://en.wikipedia.org/wiki/No_Silver_Bullet) do problema. Low-code funciona muita bem para problemas com baixa complexidade essencial (e criticidade), mas pode virar um caos para problemas de negócio complexos.
+Entre os fatores para o sucesso ou fracasso, entendo que passe muito pela [complexidade acidental e essencial](https://en.wikipedia.org/wiki/No_Silver_Bullet) do problema. Low-code funciona muita bem para problemas com baixa complexidade essencial, mas pode virar um caos para problemas de negócio complexos.
 
 # Complexidade essencial e acidental
 
@@ -21,7 +21,7 @@ A complexidade essencial se refere ao problema de negócio. Se precisamos implem
 
 Um boa solução de software lida com a complexidade essencial, adicionando o mínimo possível de complexidade acidental. 
 
-Não é uma tarefa fácil, mesmo com bons engenheiros e ferramentas, é comum acabar com muita complexidade acidental. Quando a solução fica a cargo de alguém não especializado, usando ferramentas limitadas, a situação tende a ficar muito pior.
+Não é uma tarefa fácil, mesmo com bons engenheiros e ferramentas, é comum acabar com mais complexidade que o necessário. Quando a solução fica a cargo de alguém não especializado, usando ferramentas limitadas, a situação tende a ficar muito pior.
 
 Por isso, o quanto uma solução low-code faz sentido, depende muito da complexidade essencial. Não é uma relação linear, a complexidade acidental tende a crescer muito mais em função da complexidade essencial.
 
@@ -43,7 +43,7 @@ Depois de algum tempo, temos o seguinte cenário:
 
 # A natureza do problema
 
-O problema desse cenário hipotético, foi desconsiderar a complexidade essencial do problema. Um fluxo com arquitetura de solução simular, mas uma lógica de negócios simples, seria um bom caso para utilizar low-code.
+O problema desse cenário hipotético, foi desconsiderar a complexidade essencial do problema. Um fluxo com arquitetura de solução simular, mas uma lógica de negócios simples, seria um bom caso de uso para low-code.
 
 Em um cenário de lógica complexa, o ideal seria um programador competente, para desenvolver um código sustentável. Apesar de ser uma arquitetura simples, as regras podem demandar muito código e abstrações sofisticadas, cenário em que ferramentas low-code não são o ideal.
 
@@ -51,7 +51,7 @@ Muito dos esforços na engenharia de software, estão relacionados a lidar esse 
 
 * A consolidação da programação orientada a objetos e mantras como [SOLID](https://en.wikipedia.org/wiki/SOLID) e [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), foi pelo anseio de melhor organização e abstração;
 
-* o uso de ferramentas de versionamento é fundamental em cenários de alta complexidade essencial, para orquestrar e controlar mudanças;
+* o uso de ferramentas e estratégias de versionamento é fundamental em cenários de alta complexidade e colaboração;
 
 * um dos atrativos da arquitetura de micro-serviços, é conseguir distribuir a complexidade essencial por múltiplos sistemas.
 
@@ -77,4 +77,4 @@ Grandes empresas – as consumidoras dessas ferramentas – são cheias de comp
 
 Entendo que muito disso, passa pelos profissionais de tecnologia, especialmente na etapa de arquitetura de solução. Somos cobrados e ensinados para lidar com complexidade adicional, [pecando mais por excesso](https://blog.bradfieldcs.com/you-are-not-google-84912cf44afb?gi=7cf9084614af) que falta de precaução. Por outro lado, a complexidade essencial acaba aparecendo apenas no final ou no meio da execução do projeto, porque é normal abstrair essa etapa.
 
-Em resumo: uma arquitetura simples não significa um código simples, nenhuma ferramenta resolverá complexidade essencial, subestimá-la é um erro recorente que vejo ser cometido.
+Em resumo: uma arquitetura simples não significa um código simples, nenhuma ferramenta resolverá complexidade essencial, subestimá-la é um erro recorente que precisamos nos atentar.
