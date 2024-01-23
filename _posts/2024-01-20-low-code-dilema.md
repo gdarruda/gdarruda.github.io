@@ -77,4 +77,4 @@ Grandes empresas – as consumidoras dessas ferramentas – são cheias de comp
 
 Entendo que muito disso, passa pelos profissionais de tecnologia, especialmente na etapa de arquitetura de solução. Somos ensinados a lidar com complexidade acidental, [pecando mais por excesso](https://blog.bradfieldcs.com/you-are-not-google-84912cf44afb?gi=7cf9084614af) que falta de precaução. Por outro lado, a complexidade essencial acaba aparecendo apenas no final ou no meio da execução do projeto, porque é normal abstrair o problema nessa etapa.
 
-Em resumo: uma arquitetura simples não significa um código simples, nenhuma ferramenta resolverá complexidade essencial, subestimá-la é um erro recorente que precisamos nos atentar.
+Em resumo: uma arquitetura simples não significa um código simples, nenhuma ferramenta resolverá complexidade essencial, subestimá-la é um erro recorrente que precisamos nos atentar.
