@@ -39,7 +39,7 @@ Depois de algum tempo, temos o seguinte cenário:
 
 * O custo de migrar a solução para um sistema é muito alto (e ninguém quer fazer), é preciso pagar e sustentar indefinidamente a solução.
 
-* O relatório também está sendo usado de forma operacional, porque era a melhor fonte dessa informação.
+* O relatório também está sendo usado de forma operacional, porque é a melhor fonte dessa informação.
 
 # A natureza do problema
 
@@ -63,7 +63,7 @@ Nem sempre é viável ter especialistas, para fazer desenhar e contruir a soluç
 
 Posso estar errado – realmente não sou o melhor para opiniar, dado que programo há muito tempo – mas entendo que o problema do usuário de low-code não é sobre aprender a programar.
 
-Na área de dados, é muito comum ter pessoas que sabem programar bem, mas que não estão familiarizadas com processos de tecnologia e boas práticas. Inclusive, a ideia de usar soluções low-code, muitas vezes é para substituir códigos ruins de VBA em planilhas ou em linguagens como PL/SQL e Transact-SQL. 
+Na área de dados, é muito comum ter pessoas que sabem programar bem, mas que não estão familiarizadas com processos de tecnologia e boas práticas. Inclusive, a ideia de usar soluções low-code, muitas vezes é para substituir códigos ruins de VBA ou em linguagens como PL/SQL e Transact-SQL. 
 
 Fazer um notebook linguição usando Python não é necessariamente melhor, reproduz os mesmos erros em outra tecnologia. A questão é facilitar uma possível evolução, para algo mais estruturado e sustentável.
 
@@ -71,10 +71,10 @@ Por exemplo, pode-se criar um ambiente restrito para implantar essas soluções,
 
 # Acertando o problema
 
-Não acho low-code uma ideia terrível, mas não muito boa também: resolve uma classe de problemas, mas as promessas são irreais. A ideia  de abolir código não é nova, há 20 anos tinha-se a ideia de [gerar código a partir de UML](https://en.wikipedia.org/wiki/Rational_Software_Modeler) e ferramentas [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) para fazer construir sites. Por que elas não se tornaram o padrão?
+Não acho low-code uma ideia terrível, mas não muito boa também: resolve uma classe de problemas, mas as promessas são irreais. A ideia  de abolir código não é nova, há 20 anos tinha-se a ideia de [gerar código a partir de UML](https://en.wikipedia.org/wiki/Rational_Software_Modeler) e ferramentas [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) para construir sites. Por que elas não se tornaram o padrão?
 
-Grandes empresas – as consumidoras dessas ferramentas – são cheias de complexidade essencial, que são difíceis de implementar em código e pior ainda em ferramentas low-code. É importante identificar, se o problema a ser resolvido tem esse tipo complexidade, pois há o risco de solução virar mais um problema.
+Grandes empresas – as consumidoras dessas ferramentas – são cheias de complexidade essencial, que são difíceis de implementar em código e pior ainda em ferramentas low-code. É importante identificar, se o problema a ser resolvido tem esse tipo complexidade, pois há o risco da solução virar mais um problema.
 
-Entendo que muito disso, passa pelos profissionais de tecnologia, especialmente na etapa de arquitetura de solução. Somos cobrados e ensinados para lidar com complexidade adicional, [pecando mais por excesso](https://blog.bradfieldcs.com/you-are-not-google-84912cf44afb?gi=7cf9084614af) que falta de precaução. Por outro lado, a complexidade essencial acaba aparecendo apenas no final ou no meio da execução do projeto, porque é normal abstrair o problema nessa etapa.
+Entendo que muito disso, passa pelos profissionais de tecnologia, especialmente na etapa de arquitetura de solução. Somos ensinados a lidar com complexidade acidental, [pecando mais por excesso](https://blog.bradfieldcs.com/you-are-not-google-84912cf44afb?gi=7cf9084614af) que falta de precaução. Por outro lado, a complexidade essencial acaba aparecendo apenas no final ou no meio da execução do projeto, porque é normal abstrair o problema nessa etapa.
 
 Em resumo: uma arquitetura simples não significa um código simples, nenhuma ferramenta resolverá complexidade essencial, subestimá-la é um erro recorente que precisamos nos atentar.
