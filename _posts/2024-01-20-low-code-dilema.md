@@ -61,7 +61,7 @@ O melhor jeito de atuar usando as melhores práticas, é usando linguagens de pr
 
 Nem sempre é viável ter especialistas, para fazer desenhar e contruir a solução usandos as melhores ferramentas. Uma alternativa que não resolve, mas pode mitigar alguns problemas, é considerar o uso de soluções em código desenvolvida por quem não é especialista.
 
-Posso estar errado – realmente não sou o melhor para opiniar, dado que programo há muito tempo – mas entendo que o problema do usuário de low-code não é sobre aprender a programar.
+Posso estar errado – realmente não sou o melhor para opinar, dado que programo há muito tempo – mas entendo que o problema do usuário de low-code não é sobre aprender a programar.
 
 Na área de dados, é muito comum ter pessoas que sabem programar bem, mas que não estão familiarizadas com processos de tecnologia e boas práticas. Inclusive, a ideia de usar soluções low-code, muitas vezes é para substituir códigos ruins de VBA ou em linguagens como PL/SQL e Transact-SQL. 
 
