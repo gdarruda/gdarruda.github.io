@@ -2,6 +2,7 @@
 layout: post
 title: "Como ler Kafka?"
 comments: true
+mathjax: true
 description: "Lendo tópicos Kafka de forma prática"
 keywords: "backpressure, micro-batch, atores"
 ---
@@ -154,7 +155,7 @@ No cenário acima, temos dois consumidores, cada um com um offset diferente. Man
 
 Essa abordagem de PubSub é mais flexível, pois facilita o cenário de múltiplos consumidores, que é bastante recorrente. Por que utilizar filas então? A simplicidade é o principal motivo, já que o paradgima PubSub tem vários detalhes que precisam ser tratados pelo consumidor.
 
-Ao trabalhar com *offsets*, existem diferentes formas de lidar com a atualização a depender das semânticas de consumo: *at-most-once*, *exactly-one* e *at-least-ine*. Usando filas, basta dar um "ack" para cada mensagem indivualmente para garantir um consumo *exactly-once*, que é o mais simples de se trabalhar.
+Ao trabalhar com *offsets*, existem diferentes formas de lidar com a atualização a depender das semânticas de consumo: *at-most-once*, *exactly-one* e *at-least-one*. Usando filas, basta dar um "ack" para cada mensagem indivualmente para garantir um consumo *exactly-once*, que é o mais simples de se trabalhar.
 
 # Arquitetos e programadores
 
@@ -164,5 +165,50 @@ Arquitetos se preocupam muito com escalabilidade e custos, problemas que comunic
 
 O mundo seria mais simples para programadores, se tudo fosse uma API REST síncrona, mas a realidade é que precisamos lidar com tópicos e o paradigma PubSub.
 
-## Definindo o problema
+## Mensageria com tópico
 
+A mensageria é um problema que se encaixa bem com a ideia de eventos, mas é necessário cuidado ao usar tópicos ao invés de fila. A semântica de consumo depende da natureza da comunicação, uma decisão que precisa ser tomada com o negócio em vista. Temos três garantias possíveis:
+
+ * *at-most-once* significa que a mensagem consumida uma vez, mas pode ser perdida;
+ * *at-least-once* significa que todas as mensagens serão consumidas, mas pode serconsumida múltiplas vezes; 
+ * *exactly-once* significa que todas as mensagens serão consumidas uma única vez.
+
+O ideal seria tudo trabalhar *exactly-once*, mas as outras opções existem por algum motivo. Para garantir *exactly-once*, é necessário um controle externo de offsets e fica muito complicado escalar o consumo.
+
+Pensando em e-mails – a despeito das dificuldades – é interessante pensar em uma abordagem *exactly-once*. E-mails normalmente não demandam tanta tempestividade, então a questão de escalabilidade é menor. Por outro lado, enviar múltiplos e-mails é algo ruim para experiência e pode ser classificado como spam. Não enviar depende muito da natureza, mas pensando em um fluxo de compras que estamos discutindo, acho importante.
+
+A discussão da melhor abordagem seria muito diferente, se pensarmos em mensageria de notificações para uma rede social, que normalmente é um cenário de grande volume e menor criticidade. Nesse cenário, as vantagens de escalabilidade de uma abordagem *at-most-once* ou *at-least-once*  pode valer a pena.
+
+Focando no cenário *exactly-once*, podemos nos basear no [tutorial da Confluent](https://docs.confluent.io/kafka-clients/python/current/overview.htm), que é a implementação mais simples possível.
+
+
+```python
+def basic_consume_loop(consumer, topics):
+    try:
+        consumer.subscribe(topics)
+
+        while True:
+            msg = consumer.poll(timeout=1.0)
+            if msg is None: continue
+
+            if msg.error():
+                if msg.error().code() == KafkaError._PARTITION_EOF:
+                    # End of partition event
+                    sys.stderr.write('%% %s [%d] reached end at offset %d\n' %
+                                     (msg.topic(), msg.partition(), msg.offset()))
+                elif msg.error():
+                    raise KafkaException(msg.error())
+            else:
+                msg_process(msg)
+    finally:
+        # Close down consumer to commit final offsets.
+        consumer.close()
+
+```
+
+Nessa solução, cada mensagem consumida é processada, mas não há controle dos *offsets*. 
+
+<!-- [^1]: um tópico Kafka só tem garantia de ordem dentro da partição,  -->
+
+
+asdas
