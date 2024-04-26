@@ -167,21 +167,21 @@ O mundo seria mais simples para programadores, se tudo fosse uma API REST síncr
 
 ## Garantindo *exactly-once* 
 
-A mensageria é um problema que se encaixa bem com a ideia de eventos, mas é necessário cuidado ao usar tópicos ao invés de fila. A semântica de consumo depende da natureza da comunicação, uma decisão que precisa ser tomada com o negócio em vista.
+A mensageria é um problema que se encaixa bem com a ideia de eventos, mas é necessário cuidado ao usar tópicos ao invés de fila. A forma de lidar com o consumo depende da natureza da comunicação, uma decisão que precisa ser tomada com o negócio em vista.
 
-Podemos consumir um tópico seguindo uma dessas abordagens:
+Podemos consumir um tópico seguindo uma dessas semânticas:
 
  * *at-most-once* significa que a mensagem consumida uma vez, mas pode ser perdida;
  * *at-least-once* significa que todas as mensagens serão consumidas, mas pode serconsumida múltiplas vezes; 
  * *exactly-once* significa que todas as mensagens serão consumidas uma única vez.
 
-Para o usuário, idealmente seria tudo trabalhar como *exactly-once*, mas as outras opções existem por algum motivo. Para garantir *exactly-once* com tópicos, é necessário um controle externo de offsets e fica muito complicado escalar o consumo.
+Idealmente tudo seria *exactly-once*, mas as outras opções existem por algum motivo. Para garantir ou consumo *exactly-once*  tópicos, é necessário um controle externo de offsets e fica muito complicado escalar o consumo.
 
-Pensando em e-mails – a despeito das dificuldades – é interessante pensar em uma abordagem *exactly-once*. Mensagens enviadas por e-mails normalmente não demandam tanta tempestividade, então a questão de escalabilidade é menor. Por outro lado, enviar múltiplos e-mails é algo ruim para experiência e pode ser classificado como spam pelos serviços. Não enviar depende muito da natureza, mas pensando em um fluxo de compras que estamos discutindo, acho importante que todos sejam enviados.
+Pensando no cenário de e-mails, é interessante considerar em uma abordagem *exactly-once*, mesmo com as dificuldades. Mensagens enviadas por e-mails, normalmente não demandam urgência e pouco volumosas, o que reduz os problema de escalabilidade. Por outro lado, enviar e-mails repetidos é algo ruim para experiência e pode ser classificado como spam pelos serviços. Perde algumas mensagens depende da natureza, mas pensando em um fluxo de compras que estamos discutindo, acho importante evitar ao máximo.
 
-A discussão da melhor abordagem seria muito diferente, se pensarmos em mensageria de notificações para uma rede social, que normalmente é um cenário de grande volume e menor criticidade. Nesse cenário, as vantagens de escalabilidade de uma abordagem *at-most-once* ou *at-least-once*  pode valer a pena.
+A discussão da melhor abordagem seria muito diferente, se pensarmos em mensageria de notificações para uma rede social por exemplo, que normalmente é um cenário de grande volume e menor criticidade. Nesse cenário, as vantagens de escalabilidade de uma abordagem *at-most-once* ou *at-least-once*  pode valer a pena.
 
-Focando primeiro no cenário *exactly-once*, podemos nos basear na solução do [tutorial da Confluent](https://docs.confluent.io/kafka-clients/python/current/overview.htm), que é a implementação mais simples possível.
+Focando nesse cenário *exactly-once*, podemos nos basear na solução do [tutorial da Confluent](https://docs.confluent.io/kafka-clients/python/current/overview.htm), que é a implementação mais simples possível.
 
 
 ```python
@@ -208,7 +208,7 @@ def basic_consume_loop(consumer, topics):
 
 ```
 
-Nessa solução, cada mensagem consumida é processada, mas não há controle explícito dos *offsets*. Como o objetivo é trabalhar com *exactly-once*, o ideal é controlar a atualização manualmente e de forma síncrona. 
+Nessa solução, cada mensagem consumida é processada logo em seguida, mas não há controle explícito dos *offsets*. Como o objetivo é trabalhar com *exactly-once*, o ideal é desativar o `commit`automático e controlar a atualização manualmente e de forma síncrona programaticamente. 
 
 ```python
 def consume_loop(consumer, topics):
@@ -237,7 +237,9 @@ def consume_loop(consumer, topics):
         consumer.close()
 ```
 
-Se `MIN_COMMIT_COUNT = 1`, aparentemente é garantido o consumo *exactly-once* . Mas e se houver um erro ao executar `msg_process` de uma única mensagem? Nesse cenário, se faz necessário controle externo – fila morta, banco de dados, cache – para guardar as mensagens que deram erro.
+Se `MIN_COMMIT_COUNT = 1`, aparentemente é garantido o consumo *exactly-once* . Mas e se houver um erro ao executar `msg_process` para a mensagem? Nesse cenário, se faz necessário controle externo – fila morta, banco de dados, cache – para guardar as mensagens que deram erro.
+
+Nesse caso, faz-se necessário ter um retorno do `msg_process` e um tratamento para identificar e persistir a mensagem problemática. Sem um  para salvar as mensagens com erro, é necessário parar o processamento do tópico: não é possível atualizar o *offset* para a mensagem $$ x_{i} $$, se existe uma mensagem $$ x_{j}$$ $$ \forall j < i $$ não processada.
 
 ```python
 def consume_loop(consumer, topics):
@@ -260,7 +262,7 @@ def consume_loop(consumer, topics):
                 if msg_process(msg):
                   msg_count += 1 
                 else:
-                  save_dlq(msg)
+                  save_msg_error(msg)
                 
                 if msg_count % MIN_COMMIT_COUNT == 0:
                     consumer.commit(asynchronous=False)
@@ -269,13 +271,12 @@ def consume_loop(consumer, topics):
         consumer.close()
 ```
 
-Sem um local para salvar as mensagens com erro, é necessário parar o processamento. Não é possível atualizar o *offset* para a mensagem $$ x_{i} $$, se existe uma mensagem $$ x_{j}$$ $$ \forall j < i $$ não processada.
+Para o cenário *exactly-once*, as filas acabam sendo uma abstração mais adequada que os tópicos, por conta dos `acks` por mensagem. Apesar de não recomendável, é possível simplesmente deixar na fila as mensagens com erros. O [SQS da Amazon](https://aws.amazon.com/what-is/dead-letter-queue/) tem o recurso de fila morta (DLQ) integrado e destacado na UI, que facilita muito ter uma solução sustentável para esses casos.
 
-Para um cenário *exactly-once*, as filas são uma abstração mais adequada que os tópicos, por conta dos `acks` por mensagem.
+No caso do tópico Kafka, o usuário precisa estar ciente desse problema e implementar uma solução por fora. Ou seja, não é uma tarefa impossível, mas cabe ao usuário ter cuidado por não ser o caso de uso mais adequado.
 
-Apesar de não recomendável, é possível simplesmente deixar na fila as mensagens com erros. O [SQS da Amazon](https://aws.amazon.com/what-is/dead-letter-queue/) tem o recurso de fila morta (DLQ) integrado e destacado na UI, que facilita muito ter uma solução sustentável para esses casos.
-
-No caso do tópico Kafka, o usuário precisa estar ciente desse problema e implementar uma solução por fora. Ou seja, não é uma tarefa impossível, mas cabe ao usuário ter cuidado por não ser o caso de uso mais adequado. Em geral, costumo adotar a semântica *at-least-once* e tratar o problema depois, como é comum no cenário de analytics.
+Em geral, costumo adotar a semântica *at-least-once* e tentar transformar o consumidor em um processo idempotente, tornando o consumo mais simples de escalar horizontalmente.
 
 ## Menos garantias, mais escala
 
+Uma estratégia comum para análise em tempo real, é persistir os registros durante o dia-a-dia em um formato organizado por linha, no final processar usando 
