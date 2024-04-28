@@ -183,100 +183,76 @@ A discussão da melhor abordagem seria muito diferente, se pensarmos em mensager
 
 Focando nesse cenário *exactly-once*, podemos nos basear na solução do [tutorial da Confluent](https://docs.confluent.io/kafka-clients/python/current/overview.htm), que é a implementação mais simples possível.
 
-
 ```python
-def basic_consume_loop(consumer, topics):
-    try:
-        consumer.subscribe(topics)
+try:
 
-        while True:
-            msg = consumer.poll(timeout=1.0)
-            if msg is None: continue
+    while True:
 
-            if msg.error():
-                if msg.error().code() == KafkaError._PARTITION_EOF:
-                    # End of partition event
-                    sys.stderr.write('%% %s [%d] reached end at offset %d\n' %
-                                     (msg.topic(), msg.partition(), msg.offset()))
-                elif msg.error():
-                    raise KafkaException(msg.error())
-            else:
-                msg_process(msg)
-    finally:
-        # Close down consumer to commit final offsets.
-        consumer.close()
+        msg = consumer.poll(timeout=1.0)
+        if msg is None: continue
 
+        process_message(conn, msg.value().decode())
+
+finally:
+    consumer.close()
 ```
 
 Nessa solução, cada mensagem consumida é processada logo em seguida, mas não há controle explícito dos *offsets*. Como o objetivo é trabalhar com *exactly-once*, o ideal é desativar o `commit`automático e controlar a atualização manualmente e de forma síncrona programaticamente. 
 
 ```python
-def consume_loop(consumer, topics):
-    try:
-        consumer.subscribe(topics)
+try:
 
-        msg_count = 0
-        while running:
-            msg = consumer.poll(timeout=1.0)
-            if msg is None: continue
+    count = 0    
+    start_time = datetime.now()
 
-            if msg.error():
-                if msg.error().code() == KafkaError._PARTITION_EOF:
-                    # End of partition event
-                    sys.stderr.write('%% %s [%d] reached end at offset %d\n' %
-                                     (msg.topic(), msg.partition(), msg.offset()))
-                elif msg.error():
-                    raise KafkaException(msg.error())
-            else:
-                msg_process(msg)
-                msg_count += 1
-                if msg_count % MIN_COMMIT_COUNT == 0:
-                    consumer.commit(asynchronous=False)
-    finally:
-        # Close down consumer to commit final offsets.
-        consumer.close()
+    while True:
+
+        msg = consumer.poll(timeout=1.0)
+        if msg is None: continue
+
+        process_message(conn, msg.value().decode())
+
+        consumer.commit() # Commit explícito para cada mensagem
+
+        if count == num_records: break
+
+finally:
+    consumer.close()
 ```
 
-Se `MIN_COMMIT_COUNT = 1`, aparentemente é garantido o consumo *exactly-once* . Mas e se houver um erro ao executar `msg_process` para a mensagem? Nesse cenário, se faz necessário controle externo – fila morta, banco de dados, cache – para guardar as mensagens que deram erro.
-
-Nesse caso, faz-se necessário ter um retorno do `msg_process` e um tratamento para identificar e persistir a mensagem problemática. Sem um  para salvar as mensagens com erro, é necessário parar o processamento do tópico: não é possível atualizar o *offset* para a mensagem $$ x_{i} $$, se existe uma mensagem $$ x_{j}$$ $$ \forall j < i $$ não processada.
+Nesse código, aparentemente é garantido o consumo *exactly-once*. Mas e se houver um erro ao executar `process_message` para a mensagem? Nesse cenário, se faz necessário controle externo – fila morta, banco de dados, cache – para guardar as mensagens que deram erro.
 
 ```python
-def consume_loop(consumer, topics):
-    try:
-        consumer.subscribe(topics)
+try:
 
-        msg_count = 0
-        while running:
-            msg = consumer.poll(timeout=1.0)
-            if msg is None: continue
+    count = 0    
+    start_time = datetime.now()
 
-            if msg.error():
-                if msg.error().code() == KafkaError._PARTITION_EOF:
-                    # End of partition event
-                    sys.stderr.write('%% %s [%d] reached end at offset %d\n' %
-                                     (msg.topic(), msg.partition(), msg.offset()))
-                elif msg.error():
-                    raise KafkaException(msg.error())
-            else:
-                if msg_process(msg):
-                  msg_count += 1 
-                else:
-                  save_msg_error(msg)
-                
-                if msg_count % MIN_COMMIT_COUNT == 0:
-                    consumer.commit(asynchronous=False)
-    finally:
-        # Close down consumer to commit final offsets.
-        consumer.close()
+    while True:
+
+        msg = consumer.poll(timeout=1.0)
+        if msg is None: continue
+
+        ok = process_message(conn, msg.value().decode())
+
+        if not ok:
+          dlq(msg) # Salvando mensagens em uma dlq (dead letter queue)
+
+        consumer.commit()
+
+        if count == num_records: break
+
+finally:
+    consumer.close()
 ```
 
-Para o cenário *exactly-once*, as filas acabam sendo uma abstração mais adequada que os tópicos, por conta dos `acks` por mensagem. Apesar de não recomendável, é possível simplesmente deixar na fila as mensagens com erros. O [SQS da Amazon](https://aws.amazon.com/what-is/dead-letter-queue/) tem o recurso de fila morta (DLQ) integrado e destacado na UI, que facilita muito ter uma solução sustentável para esses casos.
+Sem um controle externo para salvar as mensagens com erro, é necessário parar o processamento do tópico: não é possível atualizar o *offset* para a mensagem $$ x_{i} $$, se existe uma mensagem $$ x_{j}$$ $$ \forall j < i $$ não processada.
 
-No caso do tópico Kafka, o usuário precisa estar ciente desse problema e implementar uma solução por fora. Ou seja, não é uma tarefa impossível, mas cabe ao usuário ter cuidado por não ser o caso de uso mais adequado.
+Para o cenário *exactly-once*, as filas são uma abstração mais adequada, já que as mensagens são controladas individualmente pelo consumidor e não por offsets. Soluções de fila, como [SQS da Amazon](https://aws.amazon.com/what-is/dead-letter-queue/) e [RabbitMQ](https://www.rabbitmq.com/docs/dlx) por exemplo, têm o recurso de fila morta para facilitar a gestão de mensagens problemáticas.
+
+No caso do tópico Kafka, o usuário precisa estar ciente desse problema e implementar uma solução por fora. Ou seja, é possível implementar a semântica *exactly-once* em tópicos, mas certamente não é o caso de uso ideal.
 
 Em geral, costumo adotar a semântica *at-least-once* e tentar transformar o consumidor em um processo idempotente, tornando o consumo mais simples de escalar horizontalmente.
 
 ## Menos garantias, mais escala
 
-Uma estratégia comum para análise em tempo real, é persistir os registros durante o dia-a-dia em um formato organizado por linha, no final processar usando 
