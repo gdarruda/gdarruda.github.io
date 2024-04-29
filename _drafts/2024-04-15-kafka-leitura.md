@@ -250,9 +250,105 @@ Sem um controle externo para salvar as mensagens com erro, é necessário parar 
 
 Para o cenário *exactly-once*, as filas são uma abstração mais adequada, já que as mensagens são controladas individualmente pelo consumidor e não por offsets. Soluções de fila, como [SQS da Amazon](https://aws.amazon.com/what-is/dead-letter-queue/) e [RabbitMQ](https://www.rabbitmq.com/docs/dlx) por exemplo, têm o recurso de fila morta para facilitar a gestão de mensagens problemáticas.
 
-No caso do tópico Kafka, o usuário precisa estar ciente desse problema e implementar uma solução por fora. Ou seja, é possível implementar a semântica *exactly-once* em tópicos, mas certamente não é o caso de uso ideal.
+No caso do tópico Kafka, o usuário precisa estar ciente desse problema e implementar uma solução por fora. Ou seja, é possível implementar a semântica *exactly-once* em tópicos, mas certamente não é o caso de uso para o qual foi desenhado.
 
-Em geral, costumo adotar a semântica *at-least-once* e tentar transformar o consumidor em um processo idempotente, tornando o consumo mais simples de escalar horizontalmente.
+Apesar de não ser a estratégia mais eficiente e escalável de consumir um tópico, recomendo começar pela semântica *exactly-once* até que essas necessidades apareçam. Outras abordagens podem trazer ganhos expressivos, mas vem com uma complexidade adicional, que irei discutir nas próximas seções.
 
 ## Menos garantias, mais escala
 
+Um equívoco comum, ao lidar com problemas de performance em consumidor Kafka, é misturar a leitura do tópico com o processamento da mensagem. É importante entender essa diferença, porque a solução dos problemas vão em direção opostas: aumentar o *throughput* de leitura, quando o gargalo é de processamento, poder causar *overflow* no consumidor.
+
+A ideia é focar a discussão na parte do processamento das mensagens, pois vejo poucas discussões sobre e muitas dificuldades por parte dos desenvolvedores. É uma questão que depende muito do problema a ser resolvido – aplicar um modelo de machine-learning, salvar em um banco de dados, agregar informações – mas existem estratégias que podem ser aplicadas otogonalmente a natureza do problema.
+
+# Um problema "IO bound"
+
+Voltando ao nosso cenário de mensageria, imagine que essas mensagens precisem ser salvas em um banco de dados, para uso analítico e acompanhamento da operação. A solução é consumir continuamente as mensagens postadas no tópico e salvá-las em uma tabela do PostgreSQL.
+
+Para ilustrar o problema, a estratégia foi produzir mensagens serializadas como `json` em um tópico. Abaixo, um exemplo de mensagem gerada.
+
+```json
+{
+    "message_id": "2268086d-5d3f-40e2-80ce-fc9f4e3008dc",
+    "client_id": "8592b337-168e-4304-82d3-0d36b556e58b",
+    "products": [
+        {
+            "sku": "d33b284b-c62e-47d7-b8e8-2048fe2d9da5",
+            "price": 100,
+            "quantity": 2
+        },
+        {
+            "sku": "aebbb957-e16e-43d2-b742-198c12ef96a8",
+            "price": 16387,
+            "quantity": 4
+        },
+        {
+            "sku": "9f8c0bfe-5e9b-4822-84b7-7b8e86a6469d",
+            "price": 6750,
+            "quantity": 2
+        },
+        {
+            "sku": "79c5824b-ac16-4b59-8bda-31328a0204ec",
+            "price": 100,
+            "quantity": 5
+        }
+    ]
+}
+```
+Para geração dessas mensagens, o script abaixo foi utilizado.
+
+```python
+def create_sample():
+    
+    σ_price = 2_000
+    μ_price = 10_000
+
+    quantity_range = (1,10)
+    products_range = (1,5)
+
+    return {
+        'message_id': str(uuid4()),
+        'client_id': str(uuid4()),
+        'products': [{"sku": str(uuid4()),
+                      "price": max(100,
+                                   int(σ_price + np.random.randn() * μ_price)),
+                      "quantity": np.random.randint(*quantity_range)}
+                     for _ in range(np.random.randint(*products_range))]
+    } 
+```
+
+As mensagens serão salvas em uma tabela, que tem alguns campos extraídos como coluna e uma para armazenar o conteúdo original da mensagem.
+
+```sql
+create table messages(message_id char(36) primary key, 
+                      client_id char(36),
+                      datetime timestamp,
+                      content text)
+```
+
+Para salvar a mensagem, será utilizada essa função, que faz um *parse* do `json` e faz um `insert` na tabela criada.
+
+```python
+def save_message(conn, msg: str) -> callable:
+
+    content =  json.loads(msg)
+
+    values = (
+        content['message_id'],
+        content['client_id'],
+        datetime.now(),
+        msg,
+    )
+
+    insert = "insert into messages VALUES (%s, %s, %s, %s)"
+
+    with conn.cursor() as cur:
+        cur.execute(insert, values)
+
+    conn.commit()
+```
+
+O problema proposta é *[I/O bound](https://en.wikipedia.org/wiki/I/O_bound)* e [facilmente paralelizável](https://en.wikipedia.org/wiki/Data_parallelism), um cenário recorrente em sistemas de informação e que podemos ter ganhos expressivos de performance com pouco código extra.
+
+# Começando pelo simples
+
+A primeira opção é utilizar a solução do consumidor *exactly-once*, substituindo a função `process_message` pela `save_message`. 
