@@ -7,11 +7,11 @@ description: "Lendo tópicos Kafka de forma prática"
 keywords: "backpressure, micro-batch, atores"
 ---
 
-Escrevi sobre as dores de se trabalhar com [engenharia de dados]({{site.url}}/2023/03/04/engenharia-dados.html), muitas delas aparecem quando se utiliza Kafka. Não é uma crítica ao software – tem ótimas sacadas de design para escalabilidade como o [princípio de zero cópias](https://kafka.apache.org/documentation/#maximizingefficiency), [usar diretamente o  filesystem](https://kafka.apache.org/documentation/#design_filesystem), [pull ao invés de push](https://kafka.apache.org/documentation/#design_pull) e [load balancing](https://kafka.apache.org/documentation/#design_loadbalancing) – mas tudo isso traz uma complexidade intrínseca, que cobra um preço dos usuários.
+Já escrevi sobre as dores de se trabalhar com [engenharia de dados]({{site.url}}/2023/03/04/engenharia-dados.html), muitas delas aparecem quando se utiliza Kafka. Não é uma crítica ao software – tem ótimas sacadas de design para escalabilidade como o [princípio de zero cópias](https://kafka.apache.org/documentation/#maximizingefficiency), [usar diretamente o  filesystem](https://kafka.apache.org/documentation/#design_filesystem), [pull ao invés de push](https://kafka.apache.org/documentation/#design_pull) e [load balancing](https://kafka.apache.org/documentation/#design_loadbalancing) – mas tudo isso traz uma complexidade intrínseca, que cobra um preço dos usuários.
 
 Ler dados de um tópico Kafka costuma ser bem rápido, rápido demais inclusive. Ao consumir um tópico, o problema costuma variar entre dois extremos: baixo *throughout*, porque a aplicação quer manter um consumo *exactly-once* sem concorrência/paralelismo, ou *overflow* do consumidor porque ela está lendo mais rápido do que consegue processar.
 
-Quando se fala de Kafka, discute-se muitas questões de infra do ambiente (*e.g.* número de partições, réplicas e picos de uso). O que pretendo abordar nesse post, é mais do lado de desenvolvimento, como construir e escalar uma aplicação que consome os dados a partir de um tópico.
+Quando o assunto Kafka é abordado, discute-se muito as questões de infra do ambiente (*e.g.* número de partições, réplicas e picos de uso). O que pretendo abordar nesse post, é mais o lado de desenvolvimento, como construir e escalar uma aplicação que consome os dados a partir de um tópico.
 
 Primeiro, farei uma breve introdução a eventos e conceitos básicos importantes para se trabalhar com Kafka. Depois, propor um problema hipotético e entender as abordagens possíveis. Por fim, implementar as possíveis soluções para tangibilizar a discussão em números e código.
 
@@ -151,7 +151,7 @@ A alternativa, para lidar com um cenário de múltiplos consumidores, é utiliza
 
 No cenário acima, temos dois consumidores, cada um com um offset diferente. Como mandar e-mails é um processo mais demorado que salvar no ambiente analítico, então é normal o *offset* da mensageria ficar "atrasado" em relação ao processo analítico.
 
-Essa abordagem de PubSub é mais flexível, pois facilita o cenário de múltiplos consumidores, que é uma demanda bastante comum. Por que utilizar filas então? A sua simplicidade é o principal motivo, já que o paradgima PubSub tem vários detalhes que precisam ser tratados pelo consumidor.
+Essa abordagem de PubSub é mais flexível, pois facilita o cenário de múltiplos consumidores, que é uma demanda bastante comum. Por que utilizar filas então? A simplicidade é o principal motivo, já que o paradgima PubSub tem vários detalhes que precisam ser tratados pelo consumidor.
 
 Ao trabalhar com *offsets*, existem diferentes formas de lidar com a atualização a depender das semânticas de consumo: *at-most-once*, *exactly-one* e *at-least-one*. Usando filas, basta dar um "ack" para cada mensagem indivualmente para garantir um consumo *exactly-once*, que é o mais simples de se trabalhar.
 
@@ -165,15 +165,15 @@ O mundo seria mais simples para programadores, se os sistemas fossem sempre inte
 
 ## Semânticas de consumo
 
-A mensageria é um problema que se encaixa bem com a ideia de eventos, mas é necessário cuidado ao usar tópicos ao invés de fila. A forma de lidar com o consumo depende da natureza da comunicação, uma decisão que precisa ser tomada com o negócio em vista.
+A mensageria é um problema que se encaixa bem com a ideia de eventos, mas é necessário cuidado ao usar tópicos no lugar de fila. A forma de lidar com o consumo depende da natureza da comunicação, uma decisão que precisa ser tomada com o negócio em vista.
 
 Podemos consumir um tópico seguindo uma dessas semânticas:
 
- * *at-most-once* significa que a mensagem consumida no máximo uma vez, mas pode ser perdida;
- * *at-least-once* significa que todas as mensagens serão consumidas uma vez, mas podem  ser consumida múltiplas vezes; 
+ * *at-most-once* significa que a mensagem será consumida no máximo uma vez, mas pode ser perdida;
+ * *at-least-once* significa que todas as mensagens serão consumidas uma vez, mas podem  ser consumidas mais de uma vez; 
  * *exactly-once* significa que todas as mensagens serão consumidas uma única vez.
 
-O ideal seria tudo ser *exactly-once*, mas não é algo que vem de graça. Para garantir um consumo *exactly-once*, é necessário um controle externo de offsets e há limites para a escalabilidade do consumidor, as outras abordagens são mais simples e escaláveis.
+O ideal seria tudo ser *exactly-once*, mas não é algo que vem de graça. Para garantir essa semântica, é necessário um controle externo de offsets e há limites para a escalabilidade do consumidor, enquanto as outras abordagens são mais simples e escaláveis.
 
 Considerando o cenário de e-mails para confirmação de compra, é interessante pensar na abordagem *exactly-once*, mesmo com as dificuldades:
 
@@ -260,7 +260,7 @@ Apesar de não ser a melhor estratatégia para consumir um tópico, recomendo co
 
 Um equívoco comum, quando surge a necessidade de escalar um consumidor Kafka, é misturar a leitura do tópico com o processamento da mensagem. É importante entender essa diferença, porque a solução dos problemas vão em direção opostas: aumentar o *throughput* de leitura, quando o gargalo é de processamento, poder causar *overflow* no consumidor.
 
-A ideia é abordar os gargalos de processamento das mensagens, pois vejo poucas discussões sobre e muitas dificuldades por parte dos desenvolvedores. É uma questão que depende muito do problema a ser resolvido – aplicar um modelo de machine-learning, salvar em um banco de dados, agregar informações são tarefas de naturezas muito diferentes – mas existem estratégias que podem ser aplicadas otogonalmente a natureza do problema.
+A ideia é abordar os gargalos de processamento das mensagens, pois vejo poucas discussões sobre e muitas dificuldades por parte dos desenvolvedores. É uma questão que depende muito do problema a ser resolvido – aplicar um modelo de machine-learning, salvar em um banco de dados, agregar informações são tarefas de naturezas muito diferentes – mas existem estratégias que podem ser aplicadas otogonalmente à   natureza do problema.
 
 ## Um problema *"I/O bound"*
 
@@ -354,24 +354,21 @@ O problema proposto é *[I/O bound](https://en.wikipedia.org/wiki/I/O_bound)* e 
 
 ## Os limites do *exactly-once*
 
-A primeira opção é utilizar a solução do consumidor *exactly-once*, substituindo a função `process_message` pela `save_message`.
+A primeira opção para resolver esse problema, é utilizar a solução do consumidor *exactly-once*, substituindo a função `process_message` pela `save_message`.
 
 ```python
 try:
     count = 0
 
-    while True:
+    while count <= num_records:
         
         msg = consumer.poll(timeout=1.0)
         if msg is None: continue
 
-        save_message(conn, msg.value().decode()) # Persisti no Postgres
+        save_message(conn, msg.value().decode())
 
         count+=1
-
-        if count >= num_records: break
-
-
+        consumer.commit()
 finally:
     conn.close()
     consumer.close()
@@ -379,20 +376,20 @@ finally:
 
 Para inserir 1.000.000 de registros, esse script demorou 46 minutos. O gargalo desse processo é escrever no banco de dados. Removendo a etapa de inserção – mas mantendo o *pull* das mensagens, *parse* e formatação para o modelo de dados – o processo demorou 16 segundos.
 
-Esse é o cenário de problemas com o processamento das mensagens e não o consumo do tópico, otimizações no consumidor e/ou broker, não trarão resultados.
+Esse é o cenário de problemas com o processamento das mensagen, otimizações no consumo e/ou brokers não faz sentido, já que a leitura é uma fração do tempo despendido.
 
 ## Asyncio para remover o gargalo
 
-A lentidão da solução mais simples é pela ausência de concorrência, executar esse tipo de trabalho de forma síncrona é um desperdício em dois sentidos:
+A lentidão dessa solução é devido a ausência de concorrência, executar esse tipo de trabalho de forma síncrona é um desperdício em dois sentidos:
 
 * o processo do consumidor fica pausado, enquanto espera salvar no banco de dados;
 
-* os bancos de dados são desenhados para lidar com concorrência, escrever um registro de cada vez sequencialmente é uma estratégia pouco eficiente.
+* os bancos de dados normalmente são desenhados para lidar bem com escritas concorrentes, escrever vários registros sequencialmente não é a melhor estratégia.
 
 Existem várias alternativas para implementar concorrência em Python, uma delas 
 é o uso de `asyncio` para trabalhar com tarefas em segundo plano. Essa estratégia depende do suporte das bibliotecas utilizadas, então nem sempre é possível utilizá-la.
 
-A biblioteca [psycopg](https://www.psycopg.org/psycopg3/docs/advanced/async.html), utilizada para conexão com o banco de dados, tem suporte a concorrência. A função `save_message` foi re-escrita de forma assíncrona como `asave_message`.
+A biblioteca [psycopg](https://www.psycopg.org/psycopg3/docs/advanced/async.html), utilizada para conexão com o banco de dados, tem suporte a `asyncio`. A função `save_message` foi re-escrita de forma assíncrona como `asave_message`.
 
 ```python
 async def asave_message(aconn, msg: str):
@@ -413,7 +410,7 @@ async def asave_message(aconn, msg: str):
         await acur.execute(insert, values)
 ```
 
-A programação assíncrona com `asyncio` tem vários conceitos como tarefas, corotinas, etc – eu mesmo tenho uma compreensão superficial – então recomendo [a documentação](https://docs.python.org/3/library/asyncio-task.html#coroutine) e outros materiais para entender caso o leitor queira entender melhor as funções acima. Não é necessário compreender a implementação para a leitura do post, mas é interessante entender a ideia do que está acontecendo.
+A programação assíncrona com `asyncio` tem vários conceitos como tarefas, corotinas, etc – eu mesmo tenho uma compreensão superficial – então recomendo [a documentação](https://docs.python.org/3/library/asyncio-task.html#coroutine) e outros materiais para entender caso o leitor queira entender melhor as funções acima. Não é necessário compreender a implementação para a leitura do post, mas é interessante entender a ideia do que está acontecendo com essa mudança.
 
 Na versão assíncrona, o processo não espera o término da inserção pra iniciar as demais. Aproveita-se melhor o tempo de CPU e o tempo total de execução é bem reduzido, considerando que o banco de dados lida bem com escritas concorrentes.
 
@@ -467,7 +464,7 @@ try:
 finally:
     consumer.close()
 ```
-A função `asave_messages` é responsável por lançar as `tasks` de `asave_message`, o `await` indica que o loop principal precisa esperar todas as mensagens serem salvas antes de buscar outro lote de mensagens.
+A função `asave_messages` é responsável por lançar as `tasks` de `asave_message`, o `await` indica que o loop principal precisa esperar todas as mensagens serem processadas antes de buscar outro lote de mensagens.
 
 ```python
 async def asave_messages(msgs: list[str]):
@@ -490,23 +487,25 @@ Usando `BATCH_SIZE` de 10.000 mensagens por vez, **o tempo total foi de 47 minut
 
 ## A alternativa multiprocess
 
-O `asyncio` é a solução desenhada para esse cenário de muito IO concorrente, mas existem bons motivos para usar outros métodos de implementar concorrência, como `multiprocess` e `threading`. O maior motivo é que a implementação assíncrona depende que as bibliotecas utilizadas a suportem, o que não é tão prevalente no ecossistema Python. Além disso, existem muitos conceitos complexos e isso reflete na dificuldade de implementar também.
+O `asyncio` é a solução desenhada para esse cenário de muito IO concorrente, mas existem bons motivos para usar outros métodos de implementar concorrência, como `multiprocess` e `threading`.
+
+O maior motivo é que a implementação assíncrona depende que as bibliotecas utilizadas a suportem, o que não é tão prevalente no ecossistema Python. Além disso, existem muitos conceitos complexos e isso reflete na dificuldade de implementar também.
 
 Processamento paralelo em Python é uma questão conteciosa pela existência do [GIL](https://wiki.python.org/moin/GlobalInterpreterLock), a decisão entre *threads* e processos normalmente é definida pela natureza do processamento. Sendo um processo *I/O bound*, eu poderia optar por *threads* que são mais leves e fáceis de se comunicar, mas optei por paralelizar com processos pelos seguintes motivos:
 
-* é um problema clássico de *data paralelism*, as vantagens de comunicação entre threads é irrelevante nesse contexto;
+* é um cenário clássico de *data paralelism*, as dificuldades de comunicação entre processos não são um problema;
 
-* o custo adicional para criar processos não é relevante;
+* usando [*pool* de processos](https://en.wikipedia.org/wiki/Thread_pool), o problema do custo extra de processos é mitigado;
 
-* prefiro evitar pensar sobre questões de [thread safety](https://en.wikipedia.org/wiki/Thread_safety), vou mostrar um *hack* para replicar os objetos em cada processo;
+* prefiro evitar pensar sobre questões de [thread safety](https://en.wikipedia.org/wiki/Thread_safety), vou usar um *hack* para criar objetos separados por processo e ignorar esse problema;
 
-* a solução pode ser aplicada em cenários *CPU bound*, se quiséssemos aplicar um modelo nas mensagens recebidas por exemplo.
+* a solução pode ser aplicada em cenários *CPU bound*, se quiséssemos aplicar modelos de machine learning por exemplo.
 
-A estratégia de usar vários processos em paralelo, é se aproveitar do escalonamento do sistema operacional: quando um processo chega na etapa de I/O, um outro processo entra em execução e assim por diante. No caso do `asyncio`, estamos fazendo isso diretamente com Python em um único processo.
+A estratégia de usar vários processos em paralelo, é aproveitar o escalonamento do sistema operacional: quando um processo chega na etapa de I/O, um outro processo entra em execução e assim por diante. No caso do `asyncio`, estamos fazendo isso diretamente com Python em um único processo.
 
 A maior complicação de usar *multiprocess* nesse problema, é lidar com a conexão com o banco de dados. Não é possível compartilhar esse tipo de objeto entre processos, mas é contraproducente ficar recriando a conexão a cada iteração.
 
-A solução é criar um objeto por processo, que será utilizado até o fim do *batch*. Não é a forma mais elegante, mas um jeito é criar uma variável vazia `conn` e inicializar como global usando a função `set_global_conn` na inicialização do [pool de threads](https://en.wikipedia.org/wiki/Thread_pool).
+A solução é criar um objeto por processo, que será utilizado até o fim do *batch*. Não é a forma mais elegante, mas um jeito é criar uma variável vazia `conn` e inicializar como global usando a função `set_global_conn`.
 
 ```python
 conn = None
@@ -516,7 +515,7 @@ def set_global_conn():
     conn = psycopg.connect(db)
 ```
 
-Abaixo, a implementação do proceso usando `set_global_conn` na criação das threads.
+Abaixo, a implementação do proceso usando `set_global_conn` na criação do [pool de threads](https://en.wikipedia.org/wiki/Thread_pool).
 
 ```python
 def save_messages_conn(msgs: list[str]): save_message_batch(conn, msgs)
@@ -550,10 +549,103 @@ finally:
 
 Em termos de desempenho, essa solução ficou parecido com a solução implementada com `asyncio`. Ambos ficaram perto dos 2 minutos, mas o desempenho do `multiprocess` demanda mais processamento e depende da configuração de núcleos da máquina.
 
+As estratégias aplicadas até o momento foram para agilizar o I/O de diversas formas, mas podemos reduzir a quantidade de I/O também nessa aplicação.
+
 ## Reduzindo o custo fixo
 
+As operações de I/O têm um custo fixo – não importa a quantidade de dados transmitido, sempre é necessário interromper o processamento e lidar com o *overhead* do protocolo – faz sentido agrupar as operações e dissolver esse custo.
 
+Quando se faz aplicações em lote para trabalhar com banco de dados, é recomendado aplicar estratégias que tirem proveito. Desde ações simples, como não executar o `commit` para toda linha modificada, seja ações mais agressivas como remover e recriar índices.
 
-As operações de I/O tem um custo fixo – não importa a quantidade de dados transmitido, sempre é necessário interromper o processamento e lidar com o *overhead* do protocolo – faz sentido agrupar as operações e dissolver esse custo.
+Nesse caso, a ideia é simplesmenter agrupar os `inserts` em pequenos grupos e não chamar `commit` a cada linha inserida. É bem simples fazer isso com `pyscopg`, basta criar uma lista de valores e usar o comando `executemany` no cursor.
 
-Assim como `async`, a implementação dessa estratégia depende do suporte 
+```python
+def save_message_batch(conn, msgs: list[str]):
+
+    values = []
+
+    for msg in msgs:
+    
+        content =  json.loads(msg)
+
+        values.append((
+            content['message_id'],
+            content['client_id'],
+            datetime.now(),
+            msg,
+        ))
+
+    insert = "insert into messages VALUES (%s, %s, %s, %s)"
+
+    with conn.cursor() as cur:
+        cur.executemany(insert, values)
+        
+    conn.commit()
+```
+
+No consumidor, é necessário criar esses grupos de mensagens a serem inseridas. Como as mensagens são independentes entre si, os grupos podem ser criados de forma arbitrária aplicando cortes no vetor.
+
+```python
+if num_msgs <= BATCH_INSERT:
+    chunks = [msgs_content]
+else:
+    chunks = [
+        msgs_content[
+            i*BATCH_INSERT:
+            (i*BATCH_INSERT)+BATCH_INSERT
+        ]
+        for i
+        in range(num_msgs // BATCH_INSERT + 1)]
+```
+
+Exceto pela criação dos `chunks`, a estrutura do consumidor fica praticamente igual as demais implementações.
+
+```python
+try:
+
+    count = 0
+
+    while count < num_records:
+    
+        msgs = consumer.consume(BATCH_SIZE, timeout=1.0)
+        num_msgs = len(msgs)
+
+        if num_msgs == 0: continue
+    
+        msgs_content = list(map(lambda x : x.value().decode(), msgs))
+
+        if num_msgs <= BATCH_INSERT:
+            chunks = [msgs_content]
+        else:
+            chunks = [
+                msgs_content[
+                    i*BATCH_INSERT:
+                    (i*BATCH_INSERT)+BATCH_INSERT
+                ]
+                for i
+                in range(num_msgs // BATCH_INSERT + 1)]
+
+        with Pool(processes=48,
+                  initializer=set_global_conn) as pool:
+            pool.map(save_message_batch_conn, chunks)
+
+        count+=num_msgs
+        consumer.commit()
+
+finally:
+    consumer.close()
+```
+
+Essa implementação ficou com operações agrupadas ficou ainda mais performática – usando `BATCH_INSERT = 35`, `BATCH_SIZE = 10_000` e 48 processos – o processo todo demorou **36 segundos para inserir 1.000.000 de registros, o que antes demorava 47 minutos**.
+
+## Capcioso
+
+Eu não esperava que essas mudanças trouxesse ganhos tão expressivos, mas naturalmente esse tipo de ganho depende de uma miríade de fatores. Entretanto, a ideia do post não era discutir esse problema em específico, mas os pontos de atenção ao consumir um tópico.
+
+Os códigos desenvolvidos não são trabalhosos, nem mesmo complexos. Capciosos talvez? São simples de codificar, conquanto que você tenha o entendimento de concorrência e paralelismo, conceitos considerados avançados e que possuem várias peculariedades a depender da plataforma.
+
+Problemas de engenharia de dados têm essa característica, mas até pela natureza da área é comum esses garagalos óbvios sejam discutidos, mesmo em materiais introdutórios. No caso do Kafka, essa discussão existe, mas sobre a infra do broker (*e.g* partições, réplicas, ZooKeeper, storage).
+
+Imagino que um dos motivos, para não existir tantas discussões sobre o desenvolvimento, seja a grande variedade de uso. Mesmo assim, acho que as questões aqui apresentadas são aplicáveis a maioria dos problemas, especialmente a ideia de *micro-batch* para não ter problemas de *overflow* e abrir possibilidades de otimização.
+
+É um post que acabou maior que o esperado, mas quando o diabo mora nos detalhes quando se fala de Kafka, então achei importante expandir alguns tópicos além de simplesmente tabular os resultados. Os códigos estão nesse repositório, o arquivo `runs.ipynb` é um notebook para rodar os testes.
