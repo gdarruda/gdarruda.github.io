@@ -9,7 +9,7 @@ keywords: "backpressure, micro-batch, atores"
 
 Já escrevi sobre as dores de se trabalhar com [engenharia de dados]({{site.url}}/2023/03/04/engenharia-dados.html) e muitas delas aparecem quando se utiliza Kafka. Não é uma crítica ao software – tem ótimas sacadas de design para escalabilidade como o [princípio de zero cópias](https://kafka.apache.org/documentation/#maximizingefficiency), [usar diretamente o  filesystem](https://kafka.apache.org/documentation/#design_filesystem), [pull ao invés de push](https://kafka.apache.org/documentation/#design_pull) e [load balancing](https://kafka.apache.org/documentation/#design_loadbalancing) – mas tudo isso traz uma complexidade intrínseca, que cobra um preço dos usuários.
 
-Ler dados de um tópico Kafka costuma ser bem rápido, rápido demais inclusive. Ao consumir um tópico, o problema costuma variar entre dois extremos: baixo *throughout*, porque a aplicação quer manter um consumo *exactly-once* sem concorrência/paralelismo, ou *overflow* do consumidor porque ela está lendo mais rápido do que consegue processar.
+Ler dados de um tópico Kafka costuma ser bem rápido, rápido demais inclusive. Ao consumir um tópico, o problema costuma variar entre dois extremos: baixo *throughput*, porque a aplicação quer manter um consumo *exactly-once* sem concorrência/paralelismo, ou *overflow* do consumidor porque ela está lendo mais rápido do que consegue processar.
 
 Quando o assunto Kafka é abordado, discute-se muito as questões de infra do ambiente (*e.g.* número de partições, réplicas e picos de uso). O que pretendo abordar nesse post, é o lado de desenvolvimento, como construir e escalar uma aplicação que consome os dados a partir de um tópico.
 
@@ -173,7 +173,7 @@ Podemos consumir um tópico seguindo uma dessas semânticas:
  * *at-least-once* significa que todas as mensagens serão consumidas uma vez, mas podem  ser consumidas mais de uma vez; 
  * *exactly-once* significa que todas as mensagens serão consumidas uma única vez.
 
-O ideal seria tudo ser *exactly-once*, mas não é algo que vem de graça. Para garantir essa semântica, é necessário um controle externo de offsets e há limites para a escalabilidade do consumidor, enquanto as outras abordagens são mais simples e escaláveis.
+O ideal seria tudo ser *exactly-once*, mas não é algo que vem de graça. Para garantir essa semântica, é necessário um controle externo de *offsets* e há limites para a escalabilidade do consumidor, enquanto as outras abordagens são mais simples e escaláveis.
 
 Considerando o cenário de e-mails para confirmação de compra, é interessante pensar na abordagem *exactly-once*, mesmo com as dificuldades:
 
@@ -224,7 +224,7 @@ finally:
     consumer.close()
 ```
 
-Nesse código, aparentemente é garantido o consumo *exactly-once*, mas se houver um erro ao executar `process_message`? Nesse cenário, se faz necessário controle externo – fila morta, banco de dados, cache – para guardar as mensagens que deram erro.
+Nesse código, aparentemente é garantido o consumo *exactly-once*, mas e se houver um erro ao executar `process_message`? Nesse cenário, se faz necessário controle externo – fila morta, banco de dados, cache – para guardar as mensagens que deram erro.
 
 ```python
 try:
@@ -373,13 +373,13 @@ finally:
     conn.close()
 ```
 
-Para inserir 1.000.000 de registros, esse script demorou 46 minutos. O gargalo desse processo é escrever no banco de dados. Removendo a etapa de inserção – mas mantendo o *pull* das mensagens, *parse* e formatação para o modelo de dados – o processo demorou 16 segundos.
+Para inserir 1.000.000 de registros, esse script demorou 47 minutos. O gargalo desse processo é escrever no banco de dados. Removendo a etapa de inserção – mas mantendo o *pull* das mensagens, *parse* e formatação para o modelo de dados – o processo demorou 16 segundos.
 
 Fiz esse experimento, para ilustar que esse é um cenário de problemas com o processamento da mensagem. Otimizações no consumo e/ou brokers não fazem sentido, já que essa parte está ocupando uma pequena fração do tempo total de processamento.
 
 ## Asyncio para remover o gargalo
 
-A lentidão dessa solução é devido a ausência de concorrência, executar esse tipo de trabalho de forma síncrona é um desperdício em dois sentidos:
+A lentidão dessa solução é devido a ausência de concorrência, executar esse tipo de trabalho de forma sequencial é um desperdício em dois sentidos:
 
 * o processo do consumidor fica pausado, enquanto espera salvar no banco de dados;
 
@@ -475,7 +475,7 @@ async def asave_messages(msgs: list[str]):
 
 O *micro-batch* é uma estratégia para ter previsibilidade no consumidor, que pode ser configurado e dimensionado de acordo com uma taxa fixa e latência esperada, apenas o broker que precisar lidar com picos de volumetria e eventuais anomalias. Perde-se um pouco em latência, mas é o *trade-off* esperado em uma arquitetura de eventos.
 
-Nesse cenário, não existe mais uma garantia de *exactly-once*. Se houver algum erro durante o processamento do batch, o usuário deve optar por não atualizar os *offsets* e adotar uma semântica *at-least-once* ou atualizá-los e adotar uma semântica *at-most-once*. No cenário proposto, faz sentido adotar *at-least-once*, pois o banco de dados consegue lidar com as repetições e não perdemos nenhum dado.
+Nesse cenário, não existe mais uma garantia de *exactly-once*. Se houver algum erro durante o processamento do batch, o usuário deve optar por não atualizar os *offsets* e adotar uma semântica *at-least-once* ou atualizá-los e adotar uma semântica *at-most-once*. No cenário proposto, faz sentido adotar *at-least-once*, pois o banco de dados garante [idempotência](https://pt.wikipedia.org/wiki/Idempotência) da operação de `insert`.
 
 Usando `BATCH_SIZE=10_000`, **o tempo total foi de 47 minutos para cerca de 3 minutos**
 
@@ -495,7 +495,7 @@ Processamento paralelo em Python é uma questão conteciosa pela existência do 
 
 * a solução pode ser aplicada em cenários *CPU bound*, se quiséssemos aplicar modelos de *machine learning* por exemplo.
 
-A estratégia de usar vários processos, é aproveitar a interrupção do sistema operacional para operar de forma concorrente: quando um processo chega na etapa de I/O, ele é interrompoudo e outro entra em execução. No caso do `asyncio`, estamos usando um único processo Python que implementa concorrência usando `Tasks`.
+A estratégia de usar vários processos, é aproveitar a interrupção do sistema operacional para operar de forma concorrente: quando um processo chega na etapa de I/O, ele é interrompido e outro entra em execução. No caso do `asyncio`, estamos usando um único processo Python que implementa concorrência usando `Tasks`.
 
 A maior complicação de usar *multiprocess* nesse problema, é lidar com a conexão com o banco de dados. Não é possível compartilhar esse tipo de objeto entre processos, mas é contraproducente ficar recriando a conexão a cada iteração.
 
@@ -538,7 +538,7 @@ finally:
     consumer.close()
 ```
 
-Em termos de desempenho, essa solução ficou parecida com a implementada utilizando `asyncio`. Ambos ficaram perto dos 2 minutos, mas o desempenho do `multiprocess` demanda mais processamento e também da configuração de núcleos da máquina.
+Em termos de desempenho, essa solução ficou parecida com a implementada utilizando `asyncio`. Ambos ficaram perto dos 2 minutos, mas o desempenho do `multiprocess` demanda mais processamento e a perfomance depende do número de núcleos da máquina.
 
 As estratégias aplicadas até o momento foram para agilizar as operações de I/O, mas podemos reduzir a quantidade de operações também.
 
@@ -627,7 +627,7 @@ finally:
     consumer.close()
 ```
 
-Essa implementação com operações agrupadas, ficou ainda mais performática – usando `BATCH_INSERT = 35`, `BATCH_SIZE = 10_000` e 48 processos – o processo todo demorou **36 segundos para inserir 1.000.000 de registros, o que antes demorava 47 minutos**.
+Essa implementação com operações agrupadas, ficou ainda mais performática – usando `BATCH_INSERT = 35`, `BATCH_SIZE = 10_000` e 48 processos – o processo todo demorou **40 segundos para inserir 1.000.000 de registros, o que antes demorava 47 minutos**.
 
 ## Capcioso
 
