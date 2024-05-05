@@ -157,7 +157,7 @@ Ao trabalhar com *offsets*, existem diferentes formas de lidar com a atualizaç�
 
 # Arquitetos e programadores
 
-Em geral, os *trade-offs* de síncrono e assíncrona se repetem, independente do problema de negócio e do tipo de broker utilizado. Da perspectiva de arquitetura, quase sempre é melhor ser assíncrono e no modelo PubSub, mas programadores ficam ressabiados com os desafios de implementação.
+Em geral, os *trade-offs* de síncrono e assíncrono se repetem, independente do problema de negócio e do tipo de broker utilizado. Da perspectiva de arquitetura, quase sempre é melhor ser assíncrono e no modelo PubSub, mas programadores ficam ressabiados com os desafios de implementação.
 
 Arquitetos se preocupam muito com escalabilidade e custos, pontos fortes da comunicação assíncrona. Para os desenvolvedores, por outro lado, é necessário mais esforço para sustentação e os desafios de desenvolvimento são maiores.
 
@@ -409,7 +409,7 @@ async def asave_message(aconn, msg: str):
         await acur.execute(insert, values)
 ```
 
-A programação assíncrona com `asyncio` tem vários conceitos como tarefas, corotinas, etc – eu mesmo tenho uma compreensão superficial – então recomendo [a documentação](https://docs.python.org/3/library/asyncio-task.html#coroutine) e outros materiais, caso o leitor queira entender melhor a implementação. Não é necessário compreender a implementação para a leitura do post, mas é interessante entender a ideia do que está acontecendo após essa mudança.
+A programação assíncrona com `asyncio` tem vários conceitos como tarefas, corotinas, etc – eu mesmo tenho uma compreensão superficial – então recomendo a [documentação](https://docs.python.org/3/library/asyncio-task.html#coroutine) e outros materiais, caso o leitor queira entender melhor a implementação. Não é necessário compreender a implementação para a leitura do post, mas é interessante entender a ideia do que está acontecendo após essa mudança.
 
 Na versão assíncrona, o processo não espera o término da inserção pra iniciar as demais. Aproveita-se melhor o tempo de CPU e o tempo total de execução é bem reduzido, considerando que o banco de dados lida bem com escritas concorrentes.
 
@@ -489,13 +489,13 @@ Processamento paralelo em Python é uma questão conteciosa pela existência do 
 
 * é um cenário clássico de *data paralelism*, as dificuldades de comunicação entre processos não são releventes nesse contexto;
 
-* usando [*pool* de processos](https://en.wikipedia.org/wiki/Thread_pool), o problema do custo extra de processos é mitigado;
+* usando [*pool* de processos](https://en.wikipedia.org/wiki/Thread_pool), o problema do custo extra de criar múltiplos processos é mitigado;
 
 * prefiro evitar pensar sobre questões de [thread safety](https://en.wikipedia.org/wiki/Thread_safety), vou usar um *hack* para criar objetos separados por processo e ignorar esse problema;
 
 * a solução pode ser aplicada em cenários *CPU bound*, se quiséssemos aplicar modelos de *machine learning* por exemplo.
 
-A estratégia de usar vários processos em paralelo, é aproveitar o escalonamento do sistema operacional: quando um processo chega na etapa de I/O, um outro processo entra em execução e assim por diante. No caso do `asyncio`, estamos fazendo isso diretamente com Python em um único processo.
+A estratégia de usar vários processos, é aproveitar a interrupção do sistema operacional para operar de forma concorrente: quando um processo chega na etapa de I/O, ele é interrompoudo e outro entra em execução. No caso do `asyncio`, estamos usando um único processo Python que implementa concorrência usando `Tasks`.
 
 A maior complicação de usar *multiprocess* nesse problema, é lidar com a conexão com o banco de dados. Não é possível compartilhar esse tipo de objeto entre processos, mas é contraproducente ficar recriando a conexão a cada iteração.
 
@@ -538,7 +538,7 @@ finally:
     consumer.close()
 ```
 
-Em termos de desempenho, essa solução ficou parecido com a solução implementada com `asyncio`. Ambos ficaram perto dos 2 minutos, mas o desempenho do `multiprocess` demanda mais processamento e isso depende da configuração de núcleos da máquina.
+Em termos de desempenho, essa solução ficou parecida com a implementada utilizando `asyncio`. Ambos ficaram perto dos 2 minutos, mas o desempenho do `multiprocess` demanda mais processamento e também da configuração de núcleos da máquina.
 
 As estratégias aplicadas até o momento foram para agilizar as operações de I/O, mas podemos reduzir a quantidade de operações também.
 
@@ -546,7 +546,7 @@ As estratégias aplicadas até o momento foram para agilizar as operações de I
 
 As operações de I/O têm um custo fixo – não importa a quantidade de dados transmitido, sempre é necessário interromper o processamento e lidar com o *overhead* do protocolo – faz sentido agrupar as operações e dissolver esse custo.
 
-Quando se faz aplicações em lote para trabalhar com banco de dados, é sempre recomendado aplicar estratégias que tirem proveito dessa ideia. Desde ações simples, como não executar o `commit` para toda linha modificada, seja ações mais agressivas como remover e recriar índices.
+Quando se faz aplicações em lote para trabalhar com banco de dados, é sempre recomendado aplicar estratégias que tirem proveito dessa ideia. Desde ações simples, como não executar o `commit` para toda linha modificada, seja ações mais agressivas como remover índices durante o loto e recriá-los posteriormente.
 
 Nesse caso, a ideia é simplesmenter agrupar os `inserts` em pequenos grupos e não chamar `commit` a cada linha inserida. É bem simples fazer isso com `psycopg`, basta criar uma lista de valores e usar o comando `executemany` no cursor.
 
@@ -627,7 +627,7 @@ finally:
     consumer.close()
 ```
 
-Essa implementação ficou com operações agrupadas ficou ainda mais performática – usando `BATCH_INSERT = 35`, `BATCH_SIZE = 10_000` e 48 processos – o processo todo demorou **36 segundos para inserir 1.000.000 de registros, o que antes demorava 47 minutos**.
+Essa implementação com operações agrupadas, ficou ainda mais performática – usando `BATCH_INSERT = 35`, `BATCH_SIZE = 10_000` e 48 processos – o processo todo demorou **36 segundos para inserir 1.000.000 de registros, o que antes demorava 47 minutos**.
 
 ## Capcioso
 
@@ -635,10 +635,10 @@ Eu não esperava que essas mudanças trouxesse ganhos tão expressivos, mas natu
 
  A ideia do post não era discutir esse problema em específico, mas as tomadas de decisão ao construir um consumidor Kafka. Os códigos desenvolvidos não são trabalhosos, nem mesmo complexos. Capciosos, talvez?
 
-São códigos curtos e simples, mas que demandam entendimento de concorrência e paralelismo, conceitos considerados avançados. O truque, de usar uma variável `global` não inicializada para criar um objeto por processo, é algo simples de implementar. Só que não é óbvio entender o porquê não se pode serializar uma conexão com banco de dados, nem o porquê isso é necessário quando se trabalha com múltiplos processos.
+São códigos curtos, mas que demandam entendimento de concorrência e paralelismo, conceitos considerados avançados. O truque, de usar uma variável `global` não inicializada para criar um objeto por processo, é algo simples de implementar. Só que não é óbvio entender o porquê não se pode serializar uma conexão com banco de dados, nem o porquê isso é necessário quando se trabalha com múltiplos processos.
 
-Problemas de engenharia de dados têm essa característica, mas até pela natureza da área é comum esses garagalos óbvios sejam discutidos, mesmo em materiais introdutórios das ferramentas. No caso do Kafka, essa discussão existe, mas muita mais sobre a infra do broker (*e.g* partições, réplicas, ZooKeeper, storage).
+Problemas de engenharia de dados têm essa característica, mas até pela natureza de lidar com grandes volumes, é comum esses garagalos óbvios sejam discutidos em materias introdutórios. No caso do Kafka, essa discussão existe, mas muita mais sobre a infra do broker (*e.g* partições, réplicas, ZooKeeper, storage).
 
-Imagino que um dos motivos, para não existir tantas discussões sobre a arquitetura do consumo, seja a grande variedade de aplicações. Mesmo assim, enxergo que existem padrões a serem seguidos em praticamente qualquer cenário, como a ideia de *micro-batch* para não ter problemas de *overflow* e abrir possibilidades de otimização.
+Imagino que um dos motivos, para não existir tantas discussões sobre a arquitetura do consumo, seja a grande variedade de aplicações. As discussões mudariam completamente se, por exemplo, o problema consistisse de eventos dependentes entre si. Mesmo assim, enxergo que existem padrões a serem seguidos em praticamente qualquer cenário, como a ideia de *micro-batch* para não ter problemas de *overflow* e abrir possibilidades de otimização.
 
 Espero ter conseguido passar a ideia, dos pontos de atenção a serem considerados ao desenhar um consumidor.  É um post que acabou maior que o esperado, mas o diabo está nos detalhes quando se fala de ~~Goethe~~ Kafka, então achei importante expandir alguns tópicos para além do código e resultados.
