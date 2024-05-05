@@ -9,6 +9,8 @@ keywords: "backpressure, micro-batch, atores"
 
 Já escrevi sobre as dores de se trabalhar com [engenharia de dados]({{site.url}}/2023/03/04/engenharia-dados.html) e muitas delas aparecem quando se utiliza Kafka. Não é uma crítica ao software – tem ótimas sacadas de design para escalabilidade como o [princípio de zero cópias](https://kafka.apache.org/documentation/#maximizingefficiency), [usar diretamente o  filesystem](https://kafka.apache.org/documentation/#design_filesystem), [pull ao invés de push](https://kafka.apache.org/documentation/#design_pull) e [load balancing](https://kafka.apache.org/documentation/#design_loadbalancing) – mas tudo isso traz uma complexidade intrínseca, que cobra um preço dos usuários.
 
+![](/assets/images/kafka-leitura/DSCF2043.jpg)
+
 Ler dados de um tópico Kafka costuma ser bem rápido, rápido demais inclusive. Ao consumir um tópico, o problema costuma variar entre dois extremos: baixo *throughput*, porque a aplicação quer manter um consumo *exactly-once* sem concorrência/paralelismo, ou *overflow* do consumidor porque ela está lendo mais rápido do que consegue processar.
 
 Quando o assunto Kafka é abordado, discute-se muito as questões de infra do ambiente (*e.g.* número de partições, réplicas e picos de uso). O que pretendo abordar nesse post, é o lado de desenvolvimento, como construir e escalar uma aplicação que consome os dados a partir de um tópico.
@@ -153,7 +155,7 @@ No cenário acima, temos dois consumidores, cada um com um *offset* diferente. C
 
 Essa abordagem de PubSub é mais flexível, pois facilita o cenário de múltiplos consumidores, que é uma demanda bastante comum. Por que utilizar filas então, se existe essa limitação de um único consumidor? A simplicidade é o principal motivo, já que o paradgima PubSub tem vários detalhes que precisam ser tratados.
 
-Ao trabalhar com *offsets*, existem diferentes formas de lidar com a atualização a depender das semânticas de consumo: *at-most-once*, *exactly-one* e *at-least-one*. Usando filas, basta dar um "ack" para garantir um consumo *exactly-once*.
+Ao trabalhar com *offsets*, existem diferentes formas de lidar com a atualização a depender das semânticas de consumo: *at-most-once*, *exactly-once* e *at-least-one*. Usando filas, basta dar um "ack" para garantir um consumo *exactly-once*.
 
 # Arquitetos e programadores
 
@@ -260,7 +262,7 @@ Apesar de não ser a melhor estratatégia para consumir um tópico, recomendo co
 
 Um equívoco comum, quando surge a necessidade de escalar um consumidor Kafka, é misturar a leitura do tópico com o processamento da mensagem. É importante entender essa diferença, porque a solução dos problemas vão em direção oposta: aumentar o *throughput* de leitura, quando o gargalo é de processamento, poder causar *overflow* no consumidor.
 
-A ideia é discutir os gargalos de processamento das mensagens, não do consumo propriamente dito, pois vejo poucas discussões sobre o assunto e muitas dificuldades por parte dos desenvolvedores. É uma questão que depende muito do problema a ser resolvido – aplicar um modelo de *machine learning*, salvar as mensagens um banco de dados e agregar informações são tarefas muito diferentes – mas existem estratégias que podem ser aplicadas otogonalmente à natureza do problema.
+A ideia é discutir os gargalos de processamento das mensagens, não do consumo propriamente dito, pois vejo poucas discussões sobre o assunto e muitas dificuldades por parte dos desenvolvedores. É uma questão que depende muito do problema a ser resolvido – aplicar um modelo de *machine learning*, salvar as mensagens em um banco de dados e agregar informações são tarefas muito diferentes – mas existem estratégias que podem ser aplicadas otogonalmente à natureza do problema.
 
 ## Um problema *"I/O bound"*
 
@@ -538,9 +540,9 @@ finally:
     consumer.close()
 ```
 
-Em termos de desempenho, essa solução ficou parecida com a implementada utilizando `asyncio`. Ambos ficaram perto dos 2 minutos, mas o desempenho do `multiprocess` demanda mais processamento e a perfomance depende do número de núcleos da máquina.
+Em termos de desempenho, essa solução ficou parecida com a implementada utilizando `asyncio`. Ambos ficaram perto dos 2 minutos, mas o desempenho do `multiprocess` demanda mais processamento e está condicionada a configuração de núcleos da máquina.
 
-As estratégias aplicadas até o momento foram para agilizar as operações de I/O, mas podemos reduzir a quantidade de operações também.
+As estratégias aplicadas até o momento, foram para agilizar as operações de I/O, mas podemos reduzir a quantidade de operações também.
 
 ## Reduzindo o custo fixo
 
