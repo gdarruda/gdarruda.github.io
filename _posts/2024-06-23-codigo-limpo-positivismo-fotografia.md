@@ -37,7 +37,7 @@ O livro Clean Code era uma recomendação padrão sobre  engenharia de software,
 
 Não quero discutir o mérito do livro em si – se ele ficou datado ou se nunca foi bom para início de conversa – mas pensar na forma que o consumimos. Seria um debate menos polêmico, se tratássemos desenvolvimento como um processo criativo, mais parecido com fotografia[^1] que construção de pontes.
 
-[^1]: Escrita literária provavelmente seria uma analogia melhor, mas eu tenho um único traço de personalidade, que é ter fotografia como hobby. Todo o resto da minha personalidade é basicamente ser um programador.
+[^1]: Escrita literária provavelmente seria uma analogia melhor, mas conheço mais sobre fotografia. Meu um único traço de personalidade é ter fotografia como hobby, todo o resto é ser um programador.
 
 O Clean Code não deve ser lido como um guia de práticas, mas uma obra influente na época em que foi escrita. Ler como formação de repertório, para entender como as coisas eram feitas e como chegamos aqui, da mesma forma que tratamos os clássicos do cinema e literatura por exemplo.
 
@@ -51,13 +51,13 @@ Por outro lado, o restante do livro tem outro tom. São muitas afirmações asse
 
 É uma preferência do autor, mas escrita como um lema matemático. Uma opinião que está no contexto da linguagem Java de 2008: sem parâmetros nomeados, orientada a objetos e sem suporte a funções de alta ordem.
 
-Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a época em que foi escrito. Posso citar vários argumentos sobre o porquê discordo, mas é possível encerrar essa discussão? Um debate sobre o tema é muito válido, mas chegar uma conclusão definitiva é improvável.
+Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a época em que foi escrito o livro. Posso citar vários argumentos sobre o porquê discordo, mas é possível encerrar essa discussão? Um debate sobre o tema é muito válido, mas chegar a uma conclusão definitiva é improvável.
 
 Mesmo que se chegue a um consenso, sobre essa proposição estar datada para os dias de hoje, ainda é interessante conhecê-la. Dada a influência do livro, muitos códigos foram criados seguindo essa premissa e novos seguirão sendo criados, independente da opinião individual sobre o tema.
 
 Em geral, é muito simples definir se um livro técnico está datado. Ninguém espera ler [Foundations of Stastical Natural Language Processing](https://nlp.stanford.edu/fsnlp/) para saber sobre transformers. Por outro lado, sabemos que algoritmos de ordenação não mudaram muito nos últimos anos, então não é problema aprender sobre eles em uma edição antiga de [Introduction to Algorithms](https://en.wikipedia.org/wiki/Introduction_to_Algorithms). 
 
-A discussão sobre Clean Code tem mais nuances, porque não há um consenso sobre que partes estão datadas e seguirá influenciando programadores. É um conteúdo indiscutivelmente importante pela relevância – mas que deve ser consumido com parcimônia e olhar crítico – e nós programadores não estamos acostumados com isso.
+A discussão sobre Clean Code tem mais nuances, porque não há um consenso sobre que partes estão datadas e a obra seguirá influenciando programadores. É um conteúdo indiscutivelmente importante pela relevância – mas que deve ser consumido com parcimônia e olhar crítico – e nós programadores não estamos acostumados com isso.
 
 ## Diferentes escolas
 
