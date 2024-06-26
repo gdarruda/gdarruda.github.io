@@ -25,7 +25,7 @@ Uma área próxima, que evoluiu de acordo com o positivismo, é o design de banc
 
 A minha percepção no início da carreira – fim dos anos 2000, início dos anos 2010 – era que a orientação a objetos seguiria o mesmo caminho do modelo relacional. Pode ter sido ser sido a ingenuidade de um iniciante, mas eu imaginava que existiria um análogo às [regras de normalização](https://en.wikipedia.org/wiki/Database_normalization) para modelagem de classes.
 
-Alguém lembra de [UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)? A ideia era que poderíamos ter uma documentação tão precisa, que alguém poderia traduzir em código em uma fábrica de software do outro lado do mundo. Uma solução temporária, porque logo mais seria possível gerar [código automaticamente](https://www.ibm.com/support/pages/how-create-uml-code-transformation-rsa) a partir de UML, alcançado o sonhado low-code que [já discuti](2024/01/20/low-code-dilema) em outra oportunidade.
+Alguém lembra de [UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)? A ideia era que poderíamos ter uma documentação tão precisa, que alguém poderia traduzir em código em uma fábrica de software do outro lado do mundo. Uma solução temporária, porque logo mais seria possível gerar [código automaticamente](https://www.ibm.com/support/pages/how-create-uml-code-transformation-rsa) a partir de UML, alcançado o sonhado low-code que [já discuti](/2024/01/20/low-code-dilema) em outra oportunidade.
 
 A orientação a objetos foi largamente adotada no desenvolvimento de sistemas e trouxe avanços, mas não se chegou a um método rigoroso e sistemático. Pode-se enxergar como um erro de percurso – que podemos evoluir a orientação a objetos, misturar com outros paradigmas, criar um completamente novo – ou entender que não existe um percurso.
 
@@ -49,7 +49,7 @@ Por outro lado, o restante do livro tem outro tom. São muitas afirmações asse
 
 > A quantidade ideal de parâmetros para uma função é zero (nulo). Depois vem um (mônade), seguido de dois (díade). Sempre que possível devem-se evitar três (tríade) parâmetros. Para mais de três (políade) deve ter um motivo muito especial – mesmo assim não devem ser usados.
 
-É uma preferência do autor, mas escrita como um lema matemático. Uma opinião que está no contexto da linguagem Java de 2008: sem parâmetros nomeados, orientada a objetos e sem suporte a funções de alta ordem. A escrita reflete a visão positivista, apesar de não ser um conhecimento de caráter científico.
+É uma preferência do autor, mas escrita como um lema matemático. Uma opinião que está no contexto da linguagem Java de 2008: sem parâmetros com valor padrão, orientada a objetos e sem suporte a funções de alta ordem. A escrita reflete a visão positivista, apesar de não ser um conhecimento de caráter científico.
 
 Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a época em que foi escrito o livro. Posso citar vários argumentos sobre o porquê discordo, mas é possível encerrar essa discussão? A proposição não é sustentada por um experimento ou algum outro tipo de evidência científica, mas meus argumentos contrários também não.
 
@@ -73,7 +73,7 @@ O Clean Code é um conteúdo indiscutivelmente importante pela relevância – m
 
 </blockquote>
 
-Esse tipo de dissidência é comum no processo criativo, é pressuposto e importante que surjam diversas linhas de pensamento. Em computação, estamos sempre procurando convergir para uma solução ótima, é desconfortável aceitar que existam múltiplos caminhos sem um vencedor claro. É importante estar confortável com essas divergências, porque qualidade de código é sobre os outros.
+Esse tipo de dissidência é comum no processo criativo, é pressuposto e importante que surjam diversas linhas de pensamento. Em computação, estamos sempre procurando convergir para uma solução ótima, é desconfortável aceitar que existam múltiplos caminhos sem um vencedor claro. É importante estar confortável com divergências, porque qualidade de código é sobre os outros.
 
 Se formos definir o [principal motivo]((https://www.youtube.com/watch?v=ug8XX2MpzEw&t=2224s)) para fazer códigos limpos, é que seja possível modificá-lo no futuro. Um código que nunca será alterado, é indiferente a essa questão. Em geral, a ideia é que várias pessoas consigam mexer no código, não somente o autor. Logo, a sua ideia de código limpo precisa ser compartilhada com outras pessoas que trabalharão nele, senão ela perde o sentido.
 
