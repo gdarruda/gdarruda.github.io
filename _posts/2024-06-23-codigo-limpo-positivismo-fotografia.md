@@ -51,13 +51,16 @@ Por outro lado, o restante do livro tem outro tom. São muitas afirmações asse
 
 É uma preferência do autor, mas escrita como um lema matemático. Uma opinião que está no contexto da linguagem Java de 2008: sem parâmetros nomeados, orientada a objetos e sem suporte a funções de alta ordem.
 
-Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a época em que foi escrito o livro. Posso citar vários argumentos sobre o porquê discordo, mas é possível encerrar essa discussão? Um debate sobre o tema é muito válido, mas chegar a uma conclusão definitiva é improvável.
+Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a época em que foi escrito o livro. Posso citar vários argumentos sobre o porquê discordo, mas é possível encerrar essa discussão? A proposição não é sustentada por um experimento ou algum tipo de evidência científica, mas meus argumentos contrários também não.
 
-Mesmo que se chegue a um consenso, sobre essa proposição estar datada para os dias de hoje, ainda é interessante conhecê-la. Dada a influência do livro, muitos códigos foram criados seguindo essa premissa e novos seguirão sendo criados, independente da opinião individual sobre o tema.
+Mesmo que você também discorde dessa ideia, ainda é interessante conhecê-la. Dada a influência do livro, muitos códigos foram criados seguindo essa premissa e novos seguirão sendo criados, independente da opinião individual sobre o tema.
 
-Em geral, é muito simples definir se um livro técnico está datado. Ninguém espera ler [Foundations of Stastical Natural Language Processing](https://nlp.stanford.edu/fsnlp/) para saber sobre transformers. Por outro lado, sabemos que algoritmos de ordenação não mudaram muito nos últimos anos, então não é problema aprender sobre eles em uma edição antiga de [Introduction to Algorithms](https://en.wikipedia.org/wiki/Introduction_to_Algorithms). 
+Seria melhor, se tratássemos esse tipo de afirmação mais como regras de composição da fotografia (*e.g.* [regra dos terços](https://www.adobe.com/br/creativecloud/photography/discover/rule-of-thirds.html#:~:text=O%20que%20é%20a%20regra,fotos%20atraentes%20e%20bem%20estruturadas.), [espaço negativo](https://www.epics.com.br/blog/o-que-e-espaco-negativo-na-fotografia) e [linhas principais](https://annphoto.net/fotografia/quais-sao-as-linhas-principais-e-como-usa-los-em-fotos/)), do que como leis científicas. Não existe uma ciência por trás das técnicas de composição, mas também não existe a ambição de ser algo científico. Sem essa pretensão, os debates ficam mais leves e não se espera uma aplicação sistemática sem reflexão.
 
-A discussão sobre Clean Code tem mais nuances, porque não há um consenso sobre que partes estão datadas e a obra seguirá influenciando programadores. É um conteúdo indiscutivelmente importante pela relevância – mas que deve ser consumido com parcimônia e olhar crítico – e nós programadores não estamos acostumados com isso.
+O Clean Code é um conteúdo indiscutivelmente importante pela relevância – mas que deve ser consumido com parcimônia e olhar crítico – e nós programadores não estamos acostumados com isso.
+<!-- Em geral, é muito simples definir se um livro técnico está datado. Ninguém espera ler [Foundations of Stastical Natural Language Processing](https://nlp.stanford.edu/fsnlp/) para saber sobre transformers. Por outro lado, sabemos que algoritmos de ordenação não mudaram muito nos últimos anos, então não é problema aprender sobre eles em uma edição antiga de [Introduction to Algorithms](https://en.wikipedia.org/wiki/Introduction_to_Algorithms).  -->
+
+<!-- A discussão sobre Clean Code tem mais nuances, porque não há um consenso sobre que partes estão datadas e a obra seguirá influenciando programadores.  -->
 
 ## Diferentes escolas
 
