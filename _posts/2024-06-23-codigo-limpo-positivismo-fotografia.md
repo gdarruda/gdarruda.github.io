@@ -25,11 +25,11 @@ Uma área próxima, que evoluiu de acordo com o positivismo, é o design de banc
 
 A minha percepção no início da carreira – fim dos anos 2000, início dos anos 2010 – era que a orientação a objetos seguiria o mesmo caminho do modelo relacional. Pode ter sido ser sido a ingenuidade de um iniciante, mas eu imaginava que existiria um análogo às [regras de normalização](https://en.wikipedia.org/wiki/Database_normalization) para modelagem de classes.
 
-Alguém lembra de [UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)? A ideia era que poderíamos ter uma documentação tão precisa, que alguém do outro lado do mundo em uma fábrica de software poderia traduzir em código. Uma solução temporária, porque logo mais seria possível gerar [código automaticamente](https://www.ibm.com/support/pages/how-create-uml-code-transformation-rsa) a partir de UML, alcançado o sonhado low-code que [já discuti](/low-code-dilema) em outra oportunidade.
+Alguém lembra de [UML](https://en.wikipedia.org/wiki/Unified_Modeling_Language)? A ideia era que poderíamos ter uma documentação tão precisa, que alguém poderia traduzir em código em uma fábrica de software do outro lado do mundo. Uma solução temporária, porque logo mais seria possível gerar [código automaticamente](https://www.ibm.com/support/pages/how-create-uml-code-transformation-rsa) a partir de UML, alcançado o sonhado low-code que [já discuti](2024/01/20/low-code-dilema) em outra oportunidade.
 
 A orientação a objetos foi largamente adotada no desenvolvimento de sistemas e trouxe avanços, mas não se chegou a um método rigoroso e sistemático. Pode-se enxergar como um erro de percurso – que podemos evoluir a orientação a objetos, misturar com outros paradigmas, criar um completamente novo – ou entender que não existe um percurso.
 
-É completamente razoável, a ideia de sistematizar uma área derivada da computação como a engenharia de software, mas talvez a parcela de computação do problema que queremos resolver seja muito pequena. A engenharia de software, não estaria sofrendo de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy)?
+É completamente razoável, a ideia de sistematizar uma área derivada da computação, mas talvez a parcela de computação do problema que queremos resolver seja muito pequena. A engenharia de software, não estaria sofrendo de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy)?
 
 ## Software como processo criativo
 
@@ -49,18 +49,15 @@ Por outro lado, o restante do livro tem outro tom. São muitas afirmações asse
 
 > A quantidade ideal de parâmetros para uma função é zero (nulo). Depois vem um (mônade), seguido de dois (díade). Sempre que possível devem-se evitar três (tríade) parâmetros. Para mais de três (políade) deve ter um motivo muito especial – mesmo assim não devem ser usados.
 
-É uma preferência do autor, mas escrita como um lema matemático. Uma opinião que está no contexto da linguagem Java de 2008: sem parâmetros nomeados, orientada a objetos e sem suporte a funções de alta ordem.
+É uma preferência do autor, mas escrita como um lema matemático. Uma opinião que está no contexto da linguagem Java de 2008: sem parâmetros nomeados, orientada a objetos e sem suporte a funções de alta ordem. A escrita reflete a visão positivista, apesar de não ser um conhecimento de caráter científico.
 
-Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a época em que foi escrito o livro. Posso citar vários argumentos sobre o porquê discordo, mas é possível encerrar essa discussão? A proposição não é sustentada por um experimento ou algum tipo de evidência científica, mas meus argumentos contrários também não.
+Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a época em que foi escrito o livro. Posso citar vários argumentos sobre o porquê discordo, mas é possível encerrar essa discussão? A proposição não é sustentada por um experimento ou algum outro tipo de evidência científica, mas meus argumentos contrários também não.
 
 Mesmo que você também discorde dessa ideia, ainda é interessante conhecê-la. Dada a influência do livro, muitos códigos foram criados seguindo essa premissa e novos seguirão sendo criados, independente da opinião individual sobre o tema.
 
-Seria melhor, se tratássemos esse tipo de afirmação mais como regras de composição da fotografia (*e.g.* [regra dos terços](https://www.adobe.com/br/creativecloud/photography/discover/rule-of-thirds.html#:~:text=O%20que%20é%20a%20regra,fotos%20atraentes%20e%20bem%20estruturadas.), [espaço negativo](https://www.epics.com.br/blog/o-que-e-espaco-negativo-na-fotografia) e [linhas principais](https://annphoto.net/fotografia/quais-sao-as-linhas-principais-e-como-usa-los-em-fotos/)), do que como leis científicas. Não existe uma ciência por trás das técnicas de composição, mas também não existe a ambição de ser algo científico. Sem essa pretensão, os debates ficam mais leves e não se espera uma aplicação sistemática sem reflexão.
+Seria melhor, se tratássemos esse tipo de afirmação mais como "regras" de composição da fotografia (*e.g.* [regra dos terços](https://www.adobe.com/br/creativecloud/photography/discover/rule-of-thirds.html#:~:text=O%20que%20é%20a%20regra,fotos%20atraentes%20e%20bem%20estruturadas.), [espaço negativo](https://www.epics.com.br/blog/o-que-e-espaco-negativo-na-fotografia) e [linhas principais](https://annphoto.net/fotografia/quais-sao-as-linhas-principais-e-como-usa-los-em-fotos/)), do que como um método de engenharia. Não existe uma ciência por trás das técnicas de composição, mas também não existe a ambição de ser algo científico. Sem essa pretensão, os debates ficam mais leves e não se espera uma aplicação sistemática sem reflexão.
 
 O Clean Code é um conteúdo indiscutivelmente importante pela relevância – mas que deve ser consumido com parcimônia e olhar crítico – e nós programadores não estamos acostumados com isso.
-<!-- Em geral, é muito simples definir se um livro técnico está datado. Ninguém espera ler [Foundations of Stastical Natural Language Processing](https://nlp.stanford.edu/fsnlp/) para saber sobre transformers. Por outro lado, sabemos que algoritmos de ordenação não mudaram muito nos últimos anos, então não é problema aprender sobre eles em uma edição antiga de [Introduction to Algorithms](https://en.wikipedia.org/wiki/Introduction_to_Algorithms).  -->
-
-<!-- A discussão sobre Clean Code tem mais nuances, porque não há um consenso sobre que partes estão datadas e a obra seguirá influenciando programadores.  -->
 
 ## Diferentes escolas
 
@@ -86,7 +83,7 @@ Quando comecei a trabalhar na área de dados, passei a lidar com profissionais e
 
 2. analista de negócio, querendo apenas substituir uma planilha Excel cheia de macros por um Jupyter Notebook;
 
-3. desenvolvedor back-end acostumado com conceitos como DTOs, interfaces, injeção de dependência, etc.
+3. desenvolvedor back-end acostumado com conceitos como DTOs, polimorfismo, interfaces, injeção de dependência, etc.
 
 A melhor solução para cada problema, provavelmente é um *anti-pattern* para os demais. Por exemplo, normalmente prefiro manter códigos repetidos ao invés de usar polimorfismo no cenário (2), o que não faria sentido para o cenário (3).
 
