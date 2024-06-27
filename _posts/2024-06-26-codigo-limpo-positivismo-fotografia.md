@@ -75,7 +75,7 @@ O Clean Code é um conteúdo indiscutivelmente importante pela relevância – m
 
 Esse tipo de dissidência é comum no processo criativo, é pressuposto e importante que surjam diversas linhas de pensamento. Em computação, estamos sempre procurando convergir para uma solução ótima, é desconfortável aceitar que existam múltiplos caminhos sem um vencedor claro. É importante estar confortável com divergências, porque qualidade de código é sobre os outros.
 
-Se formos definir o [principal motivo]((https://www.youtube.com/watch?v=ug8XX2MpzEw&t=2224s)) para fazer códigos limpos, é que seja possível modificá-lo no futuro. Um código que nunca será alterado, é indiferente a essa questão. Em geral, a ideia é que várias pessoas consigam mexer no código, não somente o autor. Logo, a sua ideia de código limpo precisa ser compartilhada com outras pessoas que trabalharão nele, senão ela perde o sentido.
+Se formos definir o [principal motivo](https://www.youtube.com/watch?v=ug8XX2MpzEw&t=2224s) para fazer códigos limpos, é que seja possível modificá-lo no futuro. Um código que nunca será alterado, é indiferente a essa questão. Em geral, a ideia é que várias pessoas consigam mexer no código, não somente o autor. Logo, a sua ideia de código limpo precisa ser compartilhada com outras pessoas que trabalharão nele, senão ela perde o sentido.
 
 Quando comecei a trabalhar na área de dados, passei a lidar com profissionais e problemas mais heterogêneos e isso me ajudou a enxergar a importância do contexto nas discussões sobre código. Por exemplo, o que é código limpo para esse cenários:
 
