@@ -55,13 +55,19 @@ Pessoalmente, acho (bem) estranha essa aversão a parâmetros, mesmo para a épo
 
 Mesmo que você também discorde dessa ideia, ainda é interessante conhecê-la. Dada a influência do livro, muitos códigos foram criados seguindo essa premissa e novos seguirão sendo criados, independente da opinião individual sobre o tema.
 
-Seria melhor, se tratássemos esse tipo de afirmação mais como "regras" de composição da fotografia (*e.g.* [regra dos terços](https://www.adobe.com/br/creativecloud/photography/discover/rule-of-thirds.html#:~:text=O%20que%20é%20a%20regra,fotos%20atraentes%20e%20bem%20estruturadas.), [espaço negativo](https://www.epics.com.br/blog/o-que-e-espaco-negativo-na-fotografia) e [linhas principais](https://annphoto.net/fotografia/quais-sao-as-linhas-principais-e-como-usa-los-em-fotos/)), do que como um método de engenharia. Não existe uma ciência por trás das técnicas de composição, mas também não existe a ambição de ser algo científico. Sem essa pretensão, os debates ficam mais leves e não se espera uma aplicação sistemática sem reflexão.
+Seria melhor, se tratássemos esse tipo de afirmação mais como "regras" de composição da fotografia (*e.g.* [regra dos terços](https://www.adobe.com/br/creativecloud/photography/discover/rule-of-thirds.html#:~:text=O%20que%20é%20a%20regra,fotos%20atraentes%20e%20bem%20estruturadas.), [espaço negativo](https://www.epics.com.br/blog/o-que-e-espaco-negativo-na-fotografia) e [linhas principais](https://annphoto.net/fotografia/quais-sao-as-linhas-principais-e-como-usa-los-em-fotos/)), do que como um método de engenharia.
+
+A regra dos terços tem uma [longa história](https://petapixel.com/2024/06/27/the-true-photographic-history-of-the-rule-of-thirds-and-golden-mean/), originando-se na [escola pictorialista](https://en.wikipedia.org/wiki/Pictorialism) dos primórdios da fotografia. Voltou a tona com a popularização da câmeras entre consumidores – assim como a questão de parâmetros, é uma regra objetiva e prática – que a torna atraente para iniciantes. O teor científico torna a regra atraente, mas seu reducionismo já era era criticado pelo famoso fotógrafo [Henri Catier-Bresson](https://en.wikipedia.org/wiki/Henri_Cartier-Bresson) na década de 50:
+
+> In applying the Golden Rule, the only pair of compasses at the photographer’s disposal is his own pair of eyes. Any geometrical analysis, any reducing of the picture to a schema, can be done only (because of its very nature) after the photograph has been taken, developed, and printed — and then it can be used only for a postmortem examination of the picture. I hope we will never see the day when photo shops sell little schema grills to clamp onto our viewfinders; and the Golden Rule will never be found etched on our ground glass.
+
+Não existe uma ciência por trás das técnicas de composição, mas também não existe a ambição de ser algo científico. Sem essa pretensão, os debates ficam mais leves e não se espera uma aplicação sistemática sem reflexão. Um fotógrafo experiente conhece as regras, mas as quebra quando necessário.
 
 O Clean Code é um conteúdo indiscutivelmente importante pela relevância – mas que deve ser consumido com parcimônia e olhar crítico – e nós programadores não estamos acostumados com isso.
 
 ## Diferentes escolas
 
-É uma situação complicada, quando sua opinião vai em direção oposta a alguém renomado. Quem sou eu para discordar do Uncle Bob, autor de vários livros influentes? Talvez, essa anedota do encontro do fotógrafo [Willian Eggleston](https://en.wikipedia.org/wiki/William_Eggleston) com seu ídolo [Henri Catier-Bresson](https://en.wikipedia.org/wiki/Henri_Cartier-Bresson), tenha algo a nos ensinar:
+É uma situação complicada, quando sua opinião vai em direção oposta a alguém renomado. Quem sou eu para discordar do Uncle Bob, autor de vários livros influentes? Talvez, essa anedota do encontro do fotógrafo [Willian Eggleston](https://en.wikipedia.org/wiki/William_Eggleston) com o supracitado Henri Catier-Bresson, tenha algo a nos ensinar:
 
 <blockquote>
 
