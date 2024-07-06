@@ -63,6 +63,12 @@ A regra dos terços tem uma [longa história](https://petapixel.com/2024/06/27/t
 
 Não existe uma ciência por trás das técnicas de composição, mas também não existe a ambição de ser algo científico. Sem essa pretensão, os debates ficam mais leves e não se espera uma aplicação sistemática sem reflexão. Um fotógrafo experiente conhece as "regras", mas as quebra quando necessário.
 
+<figure>
+  <img src="{{site.url}}/assets/images/fotografia/stravinsky-original.jpg">
+  <img src="{{site.url}}/assets/images/fotografia/stravinsky-final.jpg">
+  <figcaption>Figura 1 – Arnold Newman ignorando regras ao fazer esse famoso retrato do Stravinsky</figcaption>
+</figure>
+
 O Clean Code é um conteúdo indiscutivelmente importante pela relevância – mas que deve ser consumido com parcimônia e olhar crítico – e nós programadores não estamos acostumados com isso.
 
 ## Diferentes escolas
@@ -78,6 +84,11 @@ O Clean Code é um conteúdo indiscutivelmente importante pela relevância – m
 <strong>William Eggleston</strong>: “William, color is bullshit.” End of conversation. Not another word. And I didn’t say anything back. What can one say? I mean, I felt like saying I’ve wasted a lot of time. As this happened, I’ll tell you, I noticed across the room this really beautiful young lady, who turned out to be crazy. So I just got up, left the table, introduced myself, and I spent the rest of the evening talking to her, and she never told me color was bullshit.
 
 </blockquote>
+
+<figure>
+  <img src="{{site.url}}/assets/images/fotografia/the-black-keys-delta-kream.jpg">
+  <figcaption>Figura 2 – Capa do disco Delta Kream dos Black Keys, usando a foto de Willian Eggleston de uma loja no Mississippi. A foto funcionaria sem cores? </figcaption>
+</figure>
 
 Esse tipo de dissidência é comum no processo criativo, é pressuposto e importante que surjam diversas linhas de pensamento. Em computação, estamos sempre procurando convergir para uma solução ótima, é desconfortável aceitar que existam múltiplos caminhos sem um vencedor claro. É importante estar confortável com divergências, porque qualidade de código é sobre os outros.
 
