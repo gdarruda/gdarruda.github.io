@@ -11,7 +11,7 @@ Para explicar o conceito de algoritmo, é normal descrever informalmente como um
 
 Há várias camadas de abstração – para que o desenvolvedor posso pensar em seus algoritmos como uma sequência de passos – mas na prática muita coisa é executada fora de ordem. Nem mesmo o processador mantém a ordem, execução [out of order](https://en.wikipedia.org/wiki/Out-of-order_execution) é implementado em todas arquiteturas modernas para evitar desperdício de ciclos.
 
-Essas abstrações funcionam muito bem em certos cenários, como é o caso de servidores web e sistemas de banco de dados por exemplo. Por outro lado, algumas vezes é necessário lidar diretamente com concorrência e paralelismo.
+Essas abstrações funcionam muito bem em certos cenários, como é o caso de servidores web e sistemas de banco de dados por exemplo. Entretanto, algumas vezes é necessário lidar diretamente com concorrência e paralelismo.
 
 Não é fácil lidar com esses conceitos – é uma mudança fundamental no modelo mental do programador – não surpreende que seja um tópico intimidador para muita gente. Minha ideia é escrever (mais) um post para tentar explicar de forma didática, como fazer esse tipo de aplicação em Python.
 
@@ -95,7 +95,7 @@ def _build_batches(self, num_rows) -> Iterable[int]:
 
 O tamanho do batch não é muito importante, exceto pelo consumo de memória. Cada chamada da função gera um DataFrame com o tamanho do batch, é necessário ter memória suficiente para que todas as threads possam manter o DataFrame em memória simultaneamente.
 
-Com os batches criados – usando função a função de `map` de um `ThreadPool` – a função `generate` é chamada para cada item de `batches`:
+Com os batches criados – usando a função `map` de um `ThreadPool` – `generate` é chamada para cada item de `batches`:
 
 ```python
 def generate_parallel(self,
@@ -286,6 +286,11 @@ db.close()
 ```
 
 O ganho desse desempenho não veio do aumento de paralelismo, mas de possibilitar concorrência: quando uma thread precisa aguardar o retorno do banco de dados e fica bloqueada, o sistema operacional alterna para executar outra thread.
+
+<figure>
+  <img src="{{ site.url }}/assets/images/paralelismo/threads.png"/>
+  <figcaption>Figura 2 – Threads se alternando</figcaption>
+</figure>
 
 Por que usei 48 threads?  É difícil estimar esse número porque tem muitas variáveis: performance do banco de dados, latência de rede, operações concorrentes, etc. A estratégia foi experimentar diversos valores, portanto esse valor só vale para esse cenário.
 
