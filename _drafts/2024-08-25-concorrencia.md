@@ -133,7 +133,7 @@ def generate_parallel(self,
         p.map(self.generate, batches)
 ```
 
-Usando um processador de 6 núcleos e 12 processos, criar as amostras é ~ 4,29 vezes mais rápido, trazendo o aumento de desempenho esperado:
+Usando um processador de 6 núcleos [SMT](https://en.wikipedia.org/wiki/Simultaneous_multithreading), criar as amostras é ~ 4,29 vezes mais rápido, trazendo o aumento de desempenho esperado:
 
 ```python
 NUM_ROWS = 1_000_000
@@ -192,7 +192,7 @@ class LoaderNaive():
             self.db.save_message(row.to_dict())
 ```
 
-A solução acima salva um registro de cada vez, esperando a escrita no banco de dados, antes de passar para o próximo. Para 100.000 registros, esse processo demora aproximadamente **6 minutos**:
+A solução acima salva um registro de cada vez, esperando a escrita no banco de dados, antes de passar para o próximo. Para 100.000 registros, esse processo demora aproximadamente 6 minutos:
 
 ```python
 %%timeit
