@@ -7,19 +7,19 @@ description: "Discutindo as opções para programação paralela e concorrente e
 keywords: "python, concorrência, paralelismo"
 ---
 
-Para explicar o conceito de algoritmo, é normal descrever informalmente como uma sequência de passos para resolver um determinado problema. Ao lidar com concorrência e paralelismo, ainda temos passos a serem seguidos, mas eles não estão mais necessariamente em ordem.
+Para explicar o conceito de algoritmo, é normal descrever informalmente como uma sequência de passos para resolver um problema. Ao lidar com concorrência e paralelismo, ainda temos passos a serem seguidos, mas eles não estão mais em ordem necessariamente.
 
-Há várias camadas de abstração – para que o desenvolvedor posso pensar em seus algoritmos como uma sequência de passos – mas na prática muita coisa é executada fora de ordem. Nem mesmo o processador mantém a ordem, execução [out of order](https://en.wikipedia.org/wiki/Out-of-order_execution) é implementado em todas arquiteturas modernas para evitar desperdício de ciclos.
+Há várias camadas de abstração – para que o desenvolvedor posso pensar em seus algoritmos como uma sequência de passos – mas na prática muita coisa é executada fora de ordem. Nem mesmo o processador seguem a ordem das instruções, execução [out of order](https://en.wikipedia.org/wiki/Out-of-order_execution) é implementado em todas arquiteturas modernas para evitar desperdício de ciclos.
 
 Essas abstrações funcionam muito bem em certos cenários, como é o caso de servidores web e sistemas de banco de dados por exemplo. Entretanto, algumas vezes é necessário lidar diretamente com concorrência e paralelismo.
 
-Não é fácil lidar com esses conceitos – é uma mudança fundamental no modelo mental do programador – não surpreende que seja um tópico intimidador para muita gente. Minha ideia é escrever (mais) um post para tentar explicar de forma didática, como fazer esse tipo de aplicação em Python.
+Não é fácil trabalhar com esses conceitos – é uma mudança fundamental no modelo mental do programador – não surpreende que seja um tópico intimidador para muita gente. Minha ideia é escrever (mais) um post tentando explicar de forma didática, como fazer esse tipo de aplicação em Python.
 
 ## Conceitos básicos
 
 O que complica (ainda mais) lidar de problemas de concorrência e paralelismo, é a abundância de conceitos e detalhes de implementação de cada linguagem. Por isso, é bom alinhar alguns conceitos, antes de entrar na implementação.
 
-A ideia é realmente definir o mínimo, não se preocupe se a explicação resumida não fizer sentido, não acho que seja impeditivo para o entendimento das implementações.
+A ideia é realmente definir o mínimo, tudo bem se a explicação resumida não fizer completo sentido, não acho que seja impeditivo para o entendimento das implementações.
 
 # Processos
 
@@ -48,7 +48,7 @@ As implementações diferem entre linguagens, as ideias e estratégias discutida
 
 A [implementação padrão](https://en.wikipedia.org/wiki/CPython) do Python usa o GIL (Global Interpreter Lock), que não permite a execução paralela de threads de um mesmo processo. A presença do GIL simplifica o desenvolvimento da linguagem, mas impede o paralelismo de processamento a nível de thread.
 
-A proposta de deixar [GIL opcional](https://peps.python.org/pep-0703/) foi aceita, será possível desabilita no Python 3.13. É necessário esperar para ver como será a migração do ecossistema, mas imagino que será necessário lidar com as limitações de paralelismo do GIL por muito tempo ainda.
+A proposta de deixar [GIL opcional](https://peps.python.org/pep-0703/) foi aceita, será possível desabilita-ló no Python 3.13. É necessário esperar para ver como será a migração do ecossistema, mas imagino que as limitações de paralelismo serão realidade por muito tempo ainda.
 
 ## Paralelismo de dados
 
@@ -72,7 +72,7 @@ def generate(self, num_rows: int) -> pd.DataFrame:
 
 A estratégia mais simples para paralelizar esse processo, é executar essa função múltiplas vezes de forma independente: podemos executar a função para gerar $$ n $$ amostras ou executar $$ k $$ vezes gerando $$ n/k $$ amostras por execução, é o mesmo resultado em termos de funcionalidade.
 
-Um dos jeito mais simples de aplicar paralelismo de dados, é utilizando a ideia de [piscina de threads](https://en.wikipedia.org/wiki/Thread_pool). A "piscina" é um conjunto fixo de threads que ficam disponíveis para uso, as tarefas são enfileiradas e entram em processamento quando uma thread fica disponível. Abaixo, uma ilustração dessa estratégia:
+Um dos jeitos mais simples de aplicar paralelismo de dados, é utilizando a ideia de [piscina de threads](https://en.wikipedia.org/wiki/Thread_pool). A "piscina" é um conjunto fixo de threads que ficam disponíveis para uso, as tarefas são enfileiradas e entram em processamento quando uma thread fica disponível. Abaixo, uma ilustração dessa estratégia:
 
 <figure>
   <img src="{{ site.url }}/assets/images/paralelismo/pool.gif"/>
@@ -121,7 +121,7 @@ generator = SampleGenerator(BATCH_SIZE, NUM_CLASSES, "samples")
 # 4.8 s ± 51.6 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 # 3.73 s ± 16.9 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 ```
-A solução para esse caso, é simplesmente trocar o tipo de pool, usando processos ao invés de threads. O código é idêntico, bastando alterar o tipo de contexto utilizado:
+A solução para esse caso, é simplesmente trocar o tipo de pool, usando processos ao invés de threads. O código é idêntico, bastando alterar o tipo de contexto utilizado, de `ThreadPool` para `Pool`:
 
 ```python
 def generate_parallel(self,
@@ -133,7 +133,7 @@ def generate_parallel(self,
         p.map(self.generate, batches)
 ```
 
-Usando um processador de 6 núcleos [SMT](https://en.wikipedia.org/wiki/Simultaneous_multithreading), criar as amostras é ~ 4,29 vezes mais rápido, trazendo o aumento de desempenho esperado:
+Usando um processador de 6 núcleos com [SMT](https://en.wikipedia.org/wiki/Simultaneous_multithreading), criar as amostras é ~ 4,29 vezes mais rápido, trazendo o aumento de desempenho esperado:
 
 ```python
 NUM_ROWS = 1_000_000
@@ -148,13 +148,13 @@ generator = SampleGenerator(BATCH_SIZE, NUM_CLASSES, "samples")
 # 3.75 s ± 25.6 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 ```
 
-Algumas perguntas surgem com esses resultados. Se é tão simples, usar processos ao invés de threads, por que usar threads? Para que serve as threads, se existe o GIL?
+Algumas perguntas surgem com esses resultados. Se é tão simples, usar processos ao invés de threads, por que usar threads? Para que servem as threads, se existe o GIL?
 
 O problema proposto tem características que o tornam perfeitos para ser utilizado em múltiplos processos: 
 
 * pode ser separado e combinado a custo zero, a função recebe apenas um inteiro de entrada e não precisa se comunicar com os demais processos;
 
-* é um processo que demanda muito processamento e pouca movimentação dados, o GIL anula a utilidade de utilizar múltiplas threads.
+* é um processo que demanda muito processamento e pouca movimentação dados, o GIL anula a utilidade de trabalhar com múltiplas threads.
 
 Nem sempre é o caso, existem cenários em que threads podem ser úteis, como é o caso dos cenários de aplicação descritas como [I/O bound](https://en.wikipedia.org/wiki/I/O_bound).
 
@@ -216,7 +216,7 @@ A estratégia de threads funciona nesse cenário, porque escrever em banco de da
 
 Uma preocupação ao lidar com threads, é garantir que os objetos compartilhados sejam [thread safety](https://en.wikipedia.org/wiki/Thread_safety). Nesse caso, o objeto que precisa dessa garantia é a conexão de banco de dados, compartilhado entre as threads.
 
-O conector de PostgreSQL para Python tem a opção de usar o `ConnectionPool`, que cria uma piscina de conexões que podem ser alocadas. Dessa forma, cada thread pode alocar uma conexão distinta, o que elimina os possíveis problemas de concorrência (*e.g.* condição de corrida, corrupção de dados). Para abstrair esse objeto, foi criada uma classe `DatabasePool`:
+O conector de PostgreSQL para Python tem a opção de usar o `ConnectionPool`, que cria uma piscina de conexões disponíveis para serem alocadas. Dessa forma, cada thread pode utilizar uma conexão distinta, o que elimina os possíveis problemas de concorrência (*e.g.* condição de corrida, corrupção de dados). Para abstrair esse objeto, foi criada uma classe `DatabasePool`:
 
 ```python
 class DatabasePool(Database):
@@ -294,13 +294,13 @@ O ganho desse desempenho não veio do aumento de paralelismo, mas de possibilita
 
 Por que usei 48 threads?  É difícil estimar esse número porque tem muitas variáveis: performance do banco de dados, latência de rede, operações concorrentes, etc. A estratégia foi experimentar diversos valores, portanto esse valor só vale para esse cenário.
 
-Apesar de ser efetivo usar threads, essa estratégia faz mais sentido quando não é possível usar co-rotinas e tarefas. Usar interrupções para escalonar as threads talvez não seja o cenário ideal, além de envolver decisões complicadas como escolher o número ideal de threads.
+Apesar de ser efetivo usar threads, essa estratégia faz mais sentido quando não é possível usar co-rotinas e tarefas. Usar interrupções para escalonar as threads talvez não seja o melhor cenário, além de envolver decisões complicadas como escolher o número ideal de threads.
 
 # Co-rotinas: mais simples e rápido
 
-O `pyscopg` implementa comunicação assíncrona com `asyncio`, que é um jeito mais elegante e nativo de resolver o problema da concorrência. Nem todo o ecossistema Python implementa esse recurso, então o uso de threads pode ser a única alternativa nesses cenários.
+O `pyscopg` implementa comunicação assíncrona com `asyncio`, que é um jeito mais elegante e nativo de resolver o problema da concorrência. O `asyncio` tem vários conceitos como tarefas, corotinas, etc – eu mesmo tenho uma compreensão superficial – então recomendo a [documentação](https://docs.python.org/3/library/asyncio-task.html#coroutine) e [outros materiais](https://realpython.com/python-async-features/), caso o leitor queira entender melhor o que está sendo feito.
 
-O uso `asyncio` tem vários conceitos como tarefas, corotinas, etc – eu mesmo tenho uma compreensão superficial – então recomendo a [documentação](https://docs.python.org/3/library/asyncio-task.html#coroutine) e [outros materiais](https://realpython.com/python-async-features/), caso o leitor queira entender melhor o que está sendo feito.
+<!-- Nem todo o ecossistema Python implementa esse recurso, então o uso de threads pode ser a única alternativa nesses cenários. -->
 
 Para esse cenário, tentei manter a interface de uso o mais parecido possível com a versão síncrona, mas usando a implementação assíncrona do `psycopg`:
 
@@ -332,7 +332,7 @@ class DatabaseAsync(Database):
         await self.get_conn().close()
 ```
 
-O `LoaderAsync` é muito parecido com o `LoaderNaive`, processando todos os dados de uma vez ao invés de separá-los em batches menores. Ao invés de trabalhar com um número fixo de threads reaproveitáveis, uma tarefa é criada para cada amostra a ser inserida. As tarefas são baratas de criar e construir, por isso é possível fazer essa implementação mais simples:
+O `LoaderAsync` é muito parecido com o `LoaderNaive`, processando todos os dados de uma vez ao invés de separá-los em batches menores. Ao invés de trabalhar com um número fixo de threads reaproveitáveis, uma tarefa é criada para cada amostra a ser inserida. As tarefas são baratas de criar e destruir, por isso é possível fazer essa implementação mais simples:
 
 ```python
 class LoaderAsync(LoaderNaive):
@@ -360,9 +360,9 @@ db.create_table()
 loader = LoaderAsync(db)
 await loader.load_async(predictions)
 ```
-A solução continua sujeita ao GIL, os ganhos em relação ao multithread, devem ser provenientes do escalonamento colaborativo ser mais efetivo para o problema. Entretanto, é bom ressaltar que boa parte do ecossistema Python não suporta `asyncio`, então nem sempre é possível optar por essa estratégia.
+A solução continua sujeita ao GIL, os ganhos em relação ao multithread devem ser provenientes do escalonamento colaborativo, provavelmente mais efetivo para o problema. Entretanto, é bom ressaltar que boa parte do ecossistema Python não suporta `asyncio`, então nem sempre é possível optar por essa estratégia.
 
-Apesar dos ganhos expressivos, estamos utilizando apenas um núcleo do processador para executar esse processo. Separando o problema em  vários processos – temos uma execução assíncrona menos eficiente, conforme observado nos testes – mas que pode tirar melhor proveito do hardware disponível.
+Apesar dos ganhos expressivos, estamos utilizando apenas um núcleo do processador. Separando o problema em  vários processos – temos uma execução assíncrona menos eficiente, conforme observado nos testes – mas que pode tirar melhor proveito do hardware disponível.
 
 # Processos no lugar de Threads
 
@@ -455,16 +455,16 @@ db.close()
 
 # 8.61 s ± 13.9 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
 ```
-Faz sentido explorar essa abordagem quando há muitos núcleos disponíveis e os ganhos do paralelismo sobrepujam a eficiência das co-rotinas. Em outras linguagens, as tarefas normalmente podem ser processadas paralelamente sem demandar esse trabalho extra.
+Faz sentido explorar essa abordagem quando há muitos núcleos disponíveis e os ganhos do paralelismo sobrepujam a eficiência das co-rotinas. Em outras linguagens, as tarefas normalmente podem ser processadas paralelamente, sem demandar esse trabalho extra.
+
+Para quem tiver curiosidade, os códigos dos experimentos estão [nesse repositório](https://github.com/gdarruda/process-threads-tasks-samples).
 
 ## Alternativas e futuro
 
-A maioria das linguagens foi desenvolvida sem pensar em concorrência e execução assíncrona, o que acaba em soluções não ideais para o problema. A presença do GIL no Python, adiciona mais camadas de complexidade para uma questão que já é inerentemente difícil em quase todos os ambientes de desenvolvimento.
+A maioria das linguagens foi criada sem pensar em concorrência e execução assíncrona, o que acaba em soluções não ideais para o problema. A presença do GIL no Python, adiciona mais camadas de complexidade para uma questão que já é inerentemente difícil em quase todos os ambientes de desenvolvimento.
 
 A ideia de trabalhar com múltiplos processos é muito parecido com computação distribuída, o que faz o [PySpark](https://spark.apache.org/docs/latest/api/python/index.html) parecer uma alternativa interessante em um primeiro momento. Uso bastante e gosto quando a solução pode ser escrita em  [Spark SQL](https://spark.apache.org/sql/), mas não faz sentido usar exclusivamente para paralelizar código Python devido ao *overhead* de integração com a JVM.
 
 O [Dask](https://www.dask.org) parece ser a melhor alternativa, se a ideia é paralelizar código Python e até distribuí-lo. Não tenho experiência com o framework, mas ele ainda, é uma abstração complexa para contornar algo que a maioria das linguagens suporta nativamente.
 
-Dado esse cenário, fico ansioso para acompanhar como será a adoção do ecossistema para execução sem o GIL. Existem muitas iniciativas([1](https://pypy.org), [2](https://github.com/facebookincubator/cinder) e [3](https://devblogs.microsoft.com/python/python-311-faster-cpython-team/)), mas a remoção do GIL depende de uma adoção pelos usuários, frameworks e bibliotecas para vingar.
-
-Os códigos dos experimentos estão [nesse repositório](https://github.com/gdarruda/process-threads-tasks-samples).
+Dado esse cenário, fico ansioso para acompanhar como será a adoção do ecossistema para execução sem o GIL. Existem muitas iniciativas([1](https://pypy.org), [2](https://github.com/facebookincubator/cinder) e [3](https://devblogs.microsoft.com/python/python-311-faster-cpython-team/)) para acelerar o Python, mas a remoção do GIL depende de uma adoção pelos usuários, frameworks e bibliotecas para vingar.
