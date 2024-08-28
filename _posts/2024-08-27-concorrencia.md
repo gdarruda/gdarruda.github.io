@@ -13,11 +13,11 @@ Há várias camadas de abstração – para que o desenvolvedor posso pensar em 
 
 Essas abstrações funcionam muito bem em certos cenários, como é o caso de servidores web e sistemas de banco de dados por exemplo. Entretanto, algumas vezes é necessário lidar diretamente com concorrência e paralelismo.
 
-Não é fácil trabalhar com esses conceitos – é uma mudança fundamental no modelo mental do programador – não surpreende que seja um tópico intimidador para muita gente. Minha ideia é escrever (mais) um post tentando explicar de forma didática, como fazer esse tipo de aplicação em Python.
+Não é fácil trabalhar com esses conceitos – é uma mudança fundamental no modelo mental do programador – não surpreende que seja um tópico intimidador para muita gente. Minha ideia é escrever esse post tentando explicar de forma didática, como fazer esse tipo de aplicação em Python.
 
 ## Conceitos básicos
 
-O que complica (ainda mais) lidar de problemas de concorrência e paralelismo, é a abundância de conceitos e detalhes de implementação de cada linguagem. Por isso, é bom alinhar alguns conceitos, antes de entrar na implementação.
+O que complica (ainda mais) lidar com de problemas de concorrência e paralelismo, é a abundância de conceitos e detalhes de implementação de cada linguagem. Por isso, é bom alinhar alguns conceitos, antes de entrar na implementação.
 
 A ideia é realmente definir o mínimo, tudo bem se a explicação resumida não fizer completo sentido, não acho que seja impeditivo para o entendimento das implementações.
 
@@ -48,7 +48,7 @@ As implementações diferem entre linguagens, as ideias e estratégias discutida
 
 A [implementação padrão](https://en.wikipedia.org/wiki/CPython) do Python usa o GIL (Global Interpreter Lock), que não permite a execução paralela de threads de um mesmo processo. A presença do GIL simplifica o desenvolvimento da linguagem, mas impede o paralelismo de processamento a nível de thread.
 
-A proposta de deixar [GIL opcional](https://peps.python.org/pep-0703/) foi aceita, será possível desabilita-ló no Python 3.13. É necessário esperar para ver como será a migração do ecossistema, mas imagino que as limitações de paralelismo serão realidade por muito tempo ainda.
+A proposta de deixar o [GIL opcional](https://peps.python.org/pep-0703/) foi aceita, será possível desabilita-ló no Python 3.13. É necessário esperar para ver como será a migração do ecossistema, mas imagino que as limitações de paralelismo serão realidade por muito tempo ainda.
 
 ## Paralelismo de dados
 
@@ -465,6 +465,6 @@ A maioria das linguagens foi criada sem pensar em concorrência e execução ass
 
 A ideia de trabalhar com múltiplos processos é muito parecido com computação distribuída, o que faz o [PySpark](https://spark.apache.org/docs/latest/api/python/index.html) parecer uma alternativa interessante em um primeiro momento. Uso bastante e gosto quando a solução pode ser escrita em  [Spark SQL](https://spark.apache.org/sql/), mas não faz sentido usar exclusivamente para paralelizar código Python devido ao *overhead* de integração com a JVM.
 
-O [Dask](https://www.dask.org) parece ser a melhor alternativa, se a ideia é paralelizar código Python e até distribuí-lo. Não tenho experiência com o framework, mas ele ainda, é uma abstração complexa para contornar algo que a maioria das linguagens suporta nativamente.
+O [Dask](https://www.dask.org) parece ser a melhor alternativa, se a ideia é paralelizar código Python e até distribuí-lo. Não tenho experiência com o framework, mas ele ainda é uma abstração complexa para contornar algo que a maioria das linguagens suporta nativamente.
 
 Dado esse cenário, fico ansioso para acompanhar como será a adoção do ecossistema para execução sem o GIL. Existem muitas iniciativas([1](https://pypy.org), [2](https://github.com/facebookincubator/cinder) e [3](https://devblogs.microsoft.com/python/python-311-faster-cpython-team/)) para acelerar o Python, mas a remoção do GIL depende de uma adoção pelos usuários, frameworks e bibliotecas para vingar.
