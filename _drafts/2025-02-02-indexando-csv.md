@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Criando índices (em Rust)"
+title: "O que é um índice?"
 comments: true
 mathjax: true
 description: "Explicando como funcionam índices em um banco de dados"
@@ -12,7 +12,7 @@ Em uma entrevista recente com o autor – quando perguntado sobre dicas para um 
 
 > Learn just enough abot the internals of the tools you are using, so that you have a reasonable mental model of what's going on there. You don't need to be able to, like, modify of the Kafka yourself, but I think having just enough of an idea of the internals that [...] if the the performance goes bad, you have a way of visualizing in your head what's going on. [...]. It's incredibly valuable to just have a bit of a mental model and not just treat it as a black box.
 
-Uma das primeiras vezes, que entendi o valor de construir esses modelo mentais, foi quando aprendi sobre índices de banco de dados. Passei a entender melhor o [plano de execução](https://en.wikipedia.org/wiki/Query_plan), consegui otimizar consultas que outras pessoas não conseguiam.
+Uma das primeiras vezes, que entendi o valor de construir esses modelo mentais, foi quando aprendi sobre índices de banco de dados. Passei a entender melhor o [plano de execução](https://en.wikipedia.org/wiki/Query_plan), quando a criação de um índice fazia sentido e otimizei consultas que outras pessoas não estavam conseguindo.
 
 A solução mais comum para índices são as [árvores B](https://www.youtube.com/shorts/Ah_LMYqd2CE), esse tipo de estrutura é utilizada por diversos tipos de banco de dados: desde o SQLite, passando pelo Oracle Database e até mesmo em soluções distribuídas como o Dynamo DB.
 
@@ -22,9 +22,9 @@ Sendo uma estrutura tão prevalente em soluções de dados, acho importante que 
 
 As árvores B são uma generalização das árvores binárias: ao invés de ter uma chave por nó, são $$ k $$ chaves por nós. Ela foi criada na década de 70 para lidar com dados persistentes, em um cenário que a memória era escassa e a forma mais comum de armazenamento durável era o disco rígido. Atualmente temos fartura de memória e o armazenamento em SSD, estruturas como [LSM Trees](https://en.wikipedia.org/wiki/Log-structured_merge-tree) foram desenvolvidas para essa nova realidade. 
 
-Para soluções mais focadas em performance e escalabilidade como o [Cassandra](https://cassandra.apache.org/_/case-studies.html), faz muito sentido usar essas estruturas como as LSM Tree, mas algo que eu aprendi após anos trabalho com "Big Data": soluções com uso intensivo de memória tem performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
+Para soluções mais focadas em performance e escalabilidade como o [Cassandra](https://cassandra.apache.org/_/case-studies.html), faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalho com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
 
-As ávores B não geram pressão em memória, são flexíveis como uma árvore binária (*e.g.* uso de chaves parcias, buscas por $$ >$$ ,  $$ < $$ e $$= $$ e ordenação física) e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos em um cenário diferente do atual, segue sendo utilizado em novas soluções de dados.
+As ávores B não geram pressão em memória, são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente) e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
 
 Não faz muito sentido eu fazer mais uma explicação de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
 
@@ -32,7 +32,7 @@ Para fazer a minha implementação, revi o assunto no famoso livro [Introduction
 
 ## A estrutura da estrutura
 
-Para implementar estrutura de dados, normalmente começo imaginando a sub-estruturas que vou precisar e para depois pensar na manipulação. Para essa implementação da árvore B, utilizei três estruturas: `BTree`, `Node` e `Key`.
+Para implementar estrutura de dados, normalmente começo imaginando a sub-estruturas que vou precisar e só depois penso na manipulação. Para essa implementação da árvore B, utilizei três estruturas: `BTree`, `Node` e `Key`.
 
 ### BTree
 
@@ -252,7 +252,7 @@ Com a busca e a inserção criadas, já temos o mínimo para fazer o indexador.
 
 Os [arquivos CSVs](https://en.wikipedia.org/wiki/Comma-separated_values) são muito utilizados para lidar com dados tabulares. A organização física desses arquivos é muito parecido com uma tabela em um banco relacional, o formato é organizado por linha e marcadores são utilizados para indetificar início e fim dos registros.
 
-A função `index_file` recebe um arquivo e uma árvore, itera linha-a-linha no arquivo e armazena tr6es informações na árvore: o valor da chave, a posição da linha no arquivo e a quantidade de bytes por linha.
+A função `index_file` recebe um arquivo e uma árvore, itera linha-a-linha no arquivo e armazena três informações na árvore: o valor da chave, a posição da linha no arquivo e a quantidade de bytes por linha.
 
 ```rust
 pub fn index_file(file: &File, tree: &mut BTree) {
@@ -288,7 +288,7 @@ pub fn index_file(file: &File, tree: &mut BTree) {
 }
 ```
 
-Para recuperar as informações do arquivo, a função recebe o arquivo e a posição.
+Para recuperar as informações do arquivo, a função recebe o arquivo e um tupla contendo a posição da linha e seu tamanho.
 
 ```rust
 pub fn read_line(file: &mut File, position: (u64, u64)) -> Result<String, Box<dyn error::Error>> {
@@ -304,3 +304,65 @@ pub fn read_line(file: &mut File, position: (u64, u64)) -> Result<String, Box<dy
     }
 }
 ```
+
+## E a performance?
+
+Para testar o indexador, gerei um arquivo CSVs com 10.000.000 de registros e aproximadamente 500MB de tamanho. Abaixo, o script para indexar esse arquivo usando nós de ordem 1.000:
+
+```rust
+fn main() -> std::io::Result<()> {
+
+    let filename = "/home/gdarruda/Projects/sandbox/clients.csv";
+    let mut file = File::open(filename)?;
+    let mut tree = index::btree::BTree::create(1000, "/home/gdarruda/btree_files");
+    csv::index_file(&file, &mut tree);
+
+    Ok(())
+}
+```
+
+Para indexar esse arquivo, o processo demorou 3:17 horas, mas não passou de 3MB de consumo total de memória. Um tempo alto de processamento, poderíamos pensar em várias formas de otimização – melhorar serialização; não forçar escrita em disco para cada inlcusão; otimizar os tamanhos dos nós; usar cache – mas esse não é o ponto do exercício proposto.
+
+Olhando para o desempenho da busca – considerando o pior caso, que é procurar e não encontrar um registro – procurando por 1.000 chaves aleatórias não existentes, o tempo médio de busca foi de 474µs com desvio de 26µs.
+
+```rust
+fn main() -> std::io::Result<()> {
+
+    let filename = "/home/gdarruda/Projects/sandbox/clients.csv";
+    let mut file = File::open(filename)?;
+    let tree = index::btree::BTree::load("/home/gdarruda/btree_files");
+
+    for uuid in (0..1000).map(|_| Uuid::new_v4().to_string()) {
+
+        let now = SystemTime::now();
+
+        match tree.search(&uuid) {
+            None => {},
+            Some(key) => {
+                match csv::read_line(&mut file, key.position) {
+                    Err(e) => {println!("Error: {}", e)},
+                    Ok(line) => {println!("Found line: {}", line)}
+                }
+            }
+        };
+
+        match now.elapsed() {
+            Ok(elapsed) => {
+                println!("{}", elapsed.as_micros());
+            }
+            Err(e) => {
+                println!("Error: {e:?}");
+            }
+        }
+
+    }
+
+    Ok(())
+}
+```
+
+Pode-se pensar em otimizações para essa parte da busca também, mas essa implementação simplória já demonstra a utilidade de uma estrutura como essa para grandes base de dados: boa performance de busca, baixíssimo consumo de memória.
+
+## Por que fazer isso?
+
+Não 
