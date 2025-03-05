@@ -16,7 +16,7 @@ Uma das primeiras vezes, que entendi o valor de construir esses modelo mentais, 
 
 A solução mais comum para índices são as [árvores B](https://www.youtube.com/shorts/Ah_LMYqd2CE), esse tipo de estrutura é utilizada por diversos tipos de banco de dados: desde o SQLite, passando pelo Oracle Database e até mesmo em soluções distribuídas como o Dynamo DB.
 
-Sendo uma estrutura tão prevalente em soluções de dados, acho importante que todo engenheiro de dados tenha uma noção de como elas funcionam, esse modelo mental que Kleppmann comentou. Como eu queria brincar um pouco com Rust, achei que era um bom exercício implementar uma árvore B na linguagem e escrever um pouco sobre.
+Sendo uma estrutura tão prevalente em soluções de dados, acho importante que todo engenheiro de dados tenha uma noção de como elas funcionam, construir esse modelo mental que Kleppmann comentou. Como eu queria brincar um pouco com Rust, achei que era um bom exercício implementar uma árvore B na linguagem e escrever um pouco sobre.
 
 ## O que é uma árvore B?
 
@@ -24,7 +24,7 @@ As árvores B são uma generalização das árvores binárias: ao invés de ter 
 
 Em soluções focadas em performance e escalabilidade, como o [Cassandra](https://cassandra.apache.org/_/case-studies.html) por exemplo, faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalho com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
 
-As ávores B não geram pressão em memória, são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente) e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
+As ávores B não geram pressão em memória; são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
 
 Não faz muito sentido eu fazer mais uma explicação de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
 
@@ -54,10 +54,10 @@ pub struct BTree {
 
 O `Node` é a estrutura mais importante, que armazena e organiza as chaves de forma que as buscas possam ser feita em $$ log(N) $$. É composta pelos seguintes campos:
 
-* `key` é um vetor contendo as chaves do nó ordenadas;
+* `key` é um vetor contendo as chaves ordenadas;
 * `children` é um vetor contendo os filhos de cada chave;
-* `leaf` indica se o nó folha é uma folha, informação importante para tratar casos especiais de inclusão;
-* `filename` é o diretório em que esse nó é armazenado.
+* `leaf` indica se o nó é uma folha, informação importante para tratar casos especiais de inclusão;
+* `filename` é o nome do arquivo em que esse nó é armazenado.
 
 ```rust
 pub struct Node {
@@ -346,7 +346,7 @@ fn main() -> std::io::Result<()> {
 }
 ```
 
-Para indexar esse arquivo, o processo demorou 3:17 horas, mas não passou de 3MB de consumo total de memória. Um tempo alto de processamento, poderíamos pensar em várias formas de otimização – melhorar serialização; não forçar escrita em disco para cada inlcusão; otimizar os tamanhos dos nós; usar cache – mas esse não é o ponto do exercício proposto.
+Para indexar esse arquivo,foi necessário 3:17 horas, mas não passou de 3MB de consumo total de memória. Um tempo alto de processamento, poderíamos pensar em várias formas de otimização – melhorar serialização; não forçar escrita em disco para cada inlcusão; otimizar os tamanhos dos nós; usar cache – mas esse não é o ponto do exercício proposto.
 
 Olhando para o desempenho da busca – considerando o pior caso, que é procurar e não encontrar um registro – procurando por 1.000 chaves aleatórias não existentes, o tempo médio de busca foi de 474µs com desvio de 26µs.
 
@@ -390,18 +390,18 @@ Pode-se pensar em otimizações para essa parte da busca também, mas essa imple
 
 ## Por que fazer isso?
 
-Não sou a favor que os programadores fiquem recriando banco de dados e frameworks, porque apesar de uma ótima forma de aprender profundamente, provavelmente não é a forma mais eficiente. De qualquer forma, acho fundamental ter pelo menos essa noção intuitiva de como as coisas funcionam e não dominar apenas as APIs das ferramentas.
+Não sou a favor que os programadores fiquem recriando banco de dados e frameworks, porque apesar de ser uma ótima forma de aprender profundamente sobre um tema , provavelmente não é a forma mais eficiente. De qualquer forma, acho fundamental ter uma noção intuitiva de como as coisas funcionam e não focar apenas nas APIs.
 
-Mais importante que entender os detalhes da [minha implementação](https://github.com/gdarruda/csv_indexer), eu gostaria que os programadores conseguissem responder perguntas como essas:
+Mais importante que entender os detalhes da [minha implementação](https://github.com/gdarruda/csv_indexer), eu gostaria que os programadores conseguissem responder perguntas sobre índices basedos em árvore:
 
 * Se vou ler 50% da tabela, um índice me ajuda? E se for 75%? E se for 5%?
-* Índices em árvore B fazem sentido para dados colunares, como um arquivo parquet por exemplo?
-* Quais as vantagens e desvantagens de colocar múltiplas colunas em uma única árvore?
+* Índices fazem sentido para armazenamento colunar, como um arquivo parquet por exemplo?
+* Quais as vantagens e desvantagens de colocar múltiplas colunas em um único índice?
 * Em uma coluna com poucos valores distintos, faz mais sentido usar ela como partição ou criar um índice? Por quê?
 
-Obviamente, todas essas perguntas têm vários "depende" em uma situação real, mas é possível ter uma noção das respostas pelo conhecimento teórico. São perguntas que realmente aparecem no dia-a-dia, escolher a melhor solução de armazenamento para o seu problema normalmente é uma [porta de sentido único](https://www.reddit.com/r/coolguides/comments/18t1a92/a_cool_guide_to_jeff_bezoss_decisionmaking_model/).
+Obviamente, todas essas perguntas têm vários "depende" em uma situação real, mas é possível ter uma noção das respostas pelo conhecimento teórico. São perguntas que realmente aparecem no dia-a-dia, escolher a melhor solução de armazenamento costumar ser uma [porta de sentido único](https://www.reddit.com/r/coolguides/comments/18t1a92/a_cool_guide_to_jeff_bezoss_decisionmaking_model/).
 
-Quando eu comecei a carreira, o padrão era usar bancos relacionais, no máximo a discussão era qual deles escolher. Hoje em dia, pode-se recorrer a uma miríade de soluções especializadas para cada caso de uso: desde armazenar dados como arquivos em storage, passando por bancos relacionais e pelos diversos tipos de bancos NoSQL (*e.g.* grafos, chave-valor, documento, MPP).
+Quando eu comecei a carreira, o padrão era usar bancos relacionais, no máximo a discussão era qual deles escolher. Hoje em dia, pode-se recorrer a uma miríade de soluções especializadas para cada caso de uso: desde armazenar dados como arquivos em storage, passando por bancos relacionais e diversos tipos de bancos NoSQL especializados (*e.g.* grafos, chave-valor, documento, MPP).
 
-As soluções específicas podem ser mais escaláveis e nem sempre usar [Postgres para tudo](https://github.com/Olshansk/postgres_for_everything) funciona, mas podem ser inutilizáveis quando adaptadas para cenários fora de seu [caso de uso](https://broot.ca/kafka-at-the-low-end.html). Aprender sobre todas as soluções de todos provedor de cloud é inviável, focar em conhecer [por dentro](https://www.youtube.com/watch?v=yvBR71D0nAQ&t=412s) é melhor que ler infinitos artigos no Medium comparando as ferramentas em termos de "prós e contras".
+As soluções especializadas podem ser mais escaláveis e nem sempre usar [Postgres para tudo](https://github.com/Olshansk/postgres_for_everything) é a melhor opção, mas ferramentas especializadas podem ser inutilizáveis quando adaptadas para cenários [fora de seu caso de uso](https://broot.ca/kafka-at-the-low-end.html). Aprender sobre todas as soluções de todos provedores de cloud é inviável, focar em conhecer [os conceitos das ferramentas](https://www.youtube.com/watch?v=yvBR71D0nAQ&t=412s) é melhor que ler infinitos artigos no Medium comparando as soluções em termos de "prós e contras".
 
