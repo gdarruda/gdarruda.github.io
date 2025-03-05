@@ -16,19 +16,19 @@ Uma das primeiras vezes, que entendi o valor de construir esses modelo mentais, 
 
 A solução mais comum para índices são as [árvores B](https://www.youtube.com/shorts/Ah_LMYqd2CE), esse tipo de estrutura é utilizada por diversos tipos de banco de dados: desde o SQLite, passando pelo Oracle Database e até mesmo em soluções distribuídas como o Dynamo DB.
 
-Sendo uma estrutura tão prevalente em soluções de dados, acho importante que todo engenheiro de dados tenha uma noção de como elas funcionam, construir esse modelo mental que Kleppmann comentou. Como eu queria brincar um pouco com Rust, achei que era um bom exercício implementar uma árvore B na linguagem e escrever um pouco sobre.
+Sendo uma estrutura tão prevalente em soluções de dados, acho importante que todo engenheiro de dados tenha uma noção de como ela funciona, construir esse modelo mental que Kleppmann comentou. Como eu queria brincar um pouco com Rust, achei que era um bom exercício implementar uma árvore B na linguagem e escrever um pouco sobre.
 
 ## O que é uma árvore B?
 
 As árvores B são uma generalização das árvores binárias: ao invés de ter uma chave por nó, são $$ k $$ chaves por nós. Ela foi criada na década de 70 para lidar com dados persistentes, em um época em que a memória era escassa e a forma mais comum de armazenamento durável era o disco rígido. Atualmente temos fartura de memória e armazenamento em SSD, estruturas como [LSM Trees](https://en.wikipedia.org/wiki/Log-structured_merge-tree) foram desenvolvidas pensando nessa nova realidade. 
 
-Em soluções focadas em performance e escalabilidade, como o [Cassandra](https://cassandra.apache.org/_/case-studies.html) por exemplo, faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalho com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
+Em soluções focadas em performance e escalabilidade, como o [Cassandra](https://cassandra.apache.org/_/case-studies.html) por exemplo, faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalhando com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
 
-As ávores B não geram pressão em memória; são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
+As ávores B não geram pressão em memória; são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos, desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
 
-Não faz muito sentido eu fazer mais uma explicação de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
+Não faz muito sentido eu fazer mais uma explicação detalhada de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
 
-Para fazer a implementação em Rust, revi o assunto no famoso livro [Introduction to Algorithms](https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844) e fiz praticamente uma cópia de do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
+Para fazer a implementação em Rust, revi o assunto no famoso livro [Introduction to Algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) e fiz praticamente uma cópia de do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
 
 ## A estrutura da estrutura
 
@@ -40,7 +40,7 @@ A `BTree` é a estrutura pública, que será utilizada pelas outras aplicações
 
 * `root` é o nó raíz por onde serão iniciadas as buscas;
 * `order` indica a quantidade de nós máximos que uma árvore pode conter;
-* `path` é o diretório em que os dados da árvore serão armazenados.
+* `path` é o diretório em que os arquivos da árvore serão armazenados.
 
 ```rust
 pub struct BTree {
