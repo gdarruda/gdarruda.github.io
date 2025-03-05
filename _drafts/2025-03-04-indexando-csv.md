@@ -6,7 +6,7 @@ mathjax: true
 description: "Explicando como funcionam índices em um banco de dados"
 ---
 
-O meu livro técnico favorito é [Designing Data-Intensive Applications](https://www.amazon.com.br/Designing-Data-Intensive-Applications-Martin-Kleppmann/dp/1449373321) do Kleppmann. Apesar de ser relativamente antigo, como ele trata mais do aspecto teórico que prático, continua sendo uma ótima leitura para engenheiros de dados e profissionais que precisam lidar com sistemas de larga escala.
+O meu livro técnico favorito é o [Designing Data-Intensive Applications](https://www.amazon.com.br/Designing-Data-Intensive-Applications-Martin-Kleppmann/dp/1449373321) do Kleppmann. Apesar de ser relativamente antigo, como ele trata mais do aspecto teórico que prático, continua sendo uma ótima leitura para engenheiros de dados e profissionais que precisam lidar com sistemas de larga escala.
 
 Em uma entrevista recente com o autor – quando perguntado sobre dicas para um aspirante a engenheiros de dados – concordei plenamente com [esse conselho](https://youtu.be/P-9FwZxO1zE?si=42wwf1Pan7BG5bM2&t=1529):
 
@@ -20,19 +20,19 @@ Sendo uma estrutura tão prevalente em soluções de dados, acho importante que 
 
 ## O que é uma árvore B?
 
-As árvores B são uma generalização das árvores binárias: ao invés de ter uma chave por nó, são $$ k $$ chaves por nós. Ela foi criada na década de 70 para lidar com dados persistentes, em um cenário que a memória era escassa e a forma mais comum de armazenamento durável era o disco rígido. Atualmente temos fartura de memória e o armazenamento em SSD, estruturas como [LSM Trees](https://en.wikipedia.org/wiki/Log-structured_merge-tree) foram desenvolvidas para essa nova realidade. 
+As árvores B são uma generalização das árvores binárias: ao invés de ter uma chave por nó, são $$ k $$ chaves por nós. Ela foi criada na década de 70 para lidar com dados persistentes, em um época em que a memória era escassa e a forma mais comum de armazenamento durável era o disco rígido. Atualmente temos fartura de memória e armazenamento em SSD, estruturas como [LSM Trees](https://en.wikipedia.org/wiki/Log-structured_merge-tree) foram desenvolvidas pensando nessa nova realidade. 
 
-Para soluções mais focadas em performance e escalabilidade como o [Cassandra](https://cassandra.apache.org/_/case-studies.html), faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalho com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
+Em soluções focadas em performance e escalabilidade, como o [Cassandra](https://cassandra.apache.org/_/case-studies.html) por exemplo, faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalho com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
 
 As ávores B não geram pressão em memória, são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente) e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
 
 Não faz muito sentido eu fazer mais uma explicação de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
 
-Para fazer a minha implementação, revi o assunto no famoso livro [Introduction to Algorithms](https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844) e copiei a implementação exatamente como está proposto nele. Como queria apenas brincar, eu implementei apenas a parte de inserção e busca, indexando arquivos no formato csv.
+Para fazer a implementação em Rust, revi o assunto no famoso livro [Introduction to Algorithms](https://www.amazon.com/Introduction-Algorithms-3rd-MIT-Press/dp/0262033844) e fiz praticamente uma cópia de do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
 
 ## A estrutura da estrutura
 
-Para implementar estrutura de dados, normalmente começo imaginando a sub-estruturas que vou precisar e só depois penso na manipulação. Para essa implementação da árvore B, utilizei três estruturas: `BTree`, `Node` e `Key`.
+Ao implementar uma estrutura de dados, normalmente começo imaginando as sub-estruturas que vou precisar e só depois penso na manipulação. Para essa implementação da árvore B, utilizei três sub-estruturas: `BTree`, `Node` e `Key`.
 
 ### BTree
 
@@ -87,9 +87,14 @@ pub struct Key {
 
 A busca em árvore costuma ser algo simples, a complexidade é maior para criação e manutenção. Optei por fazer apenas a inserção, que é o mínimo necessário para criar uma árvore funcional.
 
-A inclusão na árvore é feito pela função `insert` associadao ao objeto `Btree`. A lógica de inclusão é feita pelo objeto `Node`, mas antes existe um desvio para o cenário em que o nó raiz está cheio.
+A inclusão na árvore é feito pela função `insert`, associada ao objeto `Btree`. A lógica de inclusão é feita pelo objeto `Node`, mas antes existe um desvio para o cenário em que o nó raiz está cheio.
 
 ```rust
+
+pub fn is_full(&self, order: usize) -> bool {
+    self.keys.len() == 2 * order - 1
+}
+
 pub fn insert(&mut self, key: Key) {
     if self.root.is_full(self.order) {
         let mut new_root = Node::empty(self.order, false, &self.path);
@@ -106,6 +111,26 @@ pub fn insert(&mut self, key: Key) {
 Se o nó da raiz estiver cheio, um nó vazio é criado e a raiz vira filho desse novo nó. Após tratar esse caso específico, a inserção do registro é feito pela função `insert` na estrutura `Node`:
 
 ```rust
+
+fn find_position(&self, key: &Key) -> usize {
+    let mut idx = 0;
+
+    for (i, iter_key) in self.keys.iter().enumerate() {
+        idx = i;
+        if iter_key.value > key.value {
+            break;
+        }
+    }
+
+    if idx + 1 == self.keys.len() {
+        if key.value > self.keys[idx].value {
+            idx += 1;
+        }
+    }
+
+    idx
+}
+
 pub fn insert(&mut self, key: Key, order: usize, path: &str) {
     if self.leaf {
         self.add_key(self.find_position(&key), key.clone());
@@ -250,7 +275,7 @@ Com a busca e a inserção criadas, já temos o mínimo para fazer o indexador.
 
 ## Indexando os CSVs
 
-Os [arquivos CSVs](https://en.wikipedia.org/wiki/Comma-separated_values) são muito utilizados para lidar com dados tabulares. A organização física desses arquivos é muito parecido com uma tabela em um banco relacional, o formato é organizado por linha e marcadores são utilizados para indetificar início e fim dos registros.
+Os [arquivos CSVs](https://en.wikipedia.org/wiki/Comma-separated_values) são muito utilizados para lidar com dados tabulares. A organização física desses arquivos é parecida com de uma tabela em um banco relacional, sendo orientado a linhas e com marcadores utilizados para indetificar início e fim dos campos e registros.
 
 A função `index_file` recebe um arquivo e uma árvore, itera linha-a-linha no arquivo e armazena três informações na árvore: o valor da chave, a posição da linha no arquivo e a quantidade de bytes por linha.
 
@@ -288,7 +313,7 @@ pub fn index_file(file: &File, tree: &mut BTree) {
 }
 ```
 
-Para recuperar as informações do arquivo, a função recebe o arquivo e um tupla contendo a posição da linha e seu tamanho.
+Para recuperar as informações do arquivo, a função recebe o arquivo e uma tupla contendo a posição da linha e seu tamanho.
 
 ```rust
 pub fn read_line(file: &mut File, position: (u64, u64)) -> Result<String, Box<dyn error::Error>> {
@@ -365,4 +390,18 @@ Pode-se pensar em otimizações para essa parte da busca também, mas essa imple
 
 ## Por que fazer isso?
 
-Não 
+Não sou a favor que os programadores fiquem recriando banco de dados e frameworks, porque apesar de uma ótima forma de aprender profundamente, provavelmente não é a forma mais eficiente. De qualquer forma, acho fundamental ter pelo menos essa noção intuitiva de como as coisas funcionam e não dominar apenas as APIs das ferramentas.
+
+Mais importante que entender os detalhes da [minha implementação](https://github.com/gdarruda/csv_indexer), eu gostaria que os programadores conseguissem responder perguntas como essas:
+
+* Se vou ler 50% da tabela, um índice me ajuda? E se for 75%? E se for 5%?
+* Índices em árvore B fazem sentido para dados colunares, como um arquivo parquet por exemplo?
+* Quais as vantagens e desvantagens de colocar múltiplas colunas em uma única árvore?
+* Em uma coluna com poucos valores distintos, faz mais sentido usar ela como partição ou criar um índice? Por quê?
+
+Obviamente, todas essas perguntas têm vários "depende" em uma situação real, mas é possível ter uma noção das respostas pelo conhecimento teórico. São perguntas que realmente aparecem no dia-a-dia, escolher a melhor solução de armazenamento para o seu problema normalmente é uma [porta de sentido único](https://www.reddit.com/r/coolguides/comments/18t1a92/a_cool_guide_to_jeff_bezoss_decisionmaking_model/).
+
+Quando eu comecei a carreira, o padrão era usar bancos relacionais, no máximo a discussão era qual deles escolher. Hoje em dia, pode-se recorrer a uma miríade de soluções especializadas para cada caso de uso: desde armazenar dados como arquivos em storage, passando por bancos relacionais e pelos diversos tipos de bancos NoSQL (*e.g.* grafos, chave-valor, documento, MPP).
+
+As soluções específicas podem ser mais escaláveis e nem sempre usar [Postgres para tudo](https://github.com/Olshansk/postgres_for_everything) funciona, mas podem ser inutilizáveis quando adaptadas para cenários fora de seu [caso de uso](https://broot.ca/kafka-at-the-low-end.html). Aprender sobre todas as soluções de todos provedor de cloud é inviável, focar em conhecer [por dentro](https://www.youtube.com/watch?v=yvBR71D0nAQ&t=412s) é melhor que ler infinitos artigos no Medium comparando as ferramentas em termos de "prós e contras".
+
