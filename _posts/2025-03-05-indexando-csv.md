@@ -6,7 +6,7 @@ mathjax: true
 description: "Explicando como funcionam índices em um banco de dados"
 ---
 
-O meu livro técnico favorito é o [Designing Data-Intensive Applications](https://www.amazon.com.br/Designing-Data-Intensive-Applications-Martin-Kleppmann/dp/1449373321) do Kleppmann. Apesar de ser relativamente antigo, como ele trata mais do aspecto teórico que prático, continua sendo uma ótima leitura para engenheiros de dados e profissionais que precisam lidar com sistemas de larga escala.
+O meu livro técnico favorito é o [Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) do Kleppmann. Apesar de ser relativamente antigo, como ele trata mais do aspecto teórico que prático, continua sendo uma ótima leitura para engenheiros de dados e profissionais que precisam lidar com sistemas de larga escala.
 
 Em uma entrevista recente com o autor – quando perguntado sobre dicas para um aspirante a engenheiros de dados – concordei plenamente com [esse conselho](https://youtu.be/P-9FwZxO1zE?si=42wwf1Pan7BG5bM2&t=1529):
 
@@ -16,7 +16,7 @@ Uma das primeiras vezes, que entendi o valor de construir esses modelo mentais, 
 
 A solução mais comum para índices são as [árvores B](https://www.youtube.com/shorts/Ah_LMYqd2CE), esse tipo de estrutura é utilizada por diversos tipos de banco de dados: desde o SQLite, passando pelo Oracle Database e até mesmo em soluções distribuídas como o Dynamo DB.
 
-Sendo uma estrutura tão prevalente em soluções de dados, acho importante que todo engenheiro de dados tenha uma noção de como ela funciona, construir esse modelo mental que Kleppmann comentou. Como eu queria brincar um pouco com Rust, achei que era um bom exercício implementar uma árvore B na linguagem e escrever um pouco sobre.
+Sendo uma estrutura tão prevalente em soluções de dados, acho importante que todo engenheiro de dados tenha uma noção de como ela funciona, construir esse modelo mental que Kleppmann comentou. Como eu queria brincar um pouco com a linguagem Rust, achei que era um bom exercício implementar uma árvore B na linguagem e escrever um pouco sobre.
 
 ## O que é uma árvore B?
 
@@ -26,7 +26,7 @@ Em soluções focadas em performance e escalabilidade, como o [Cassandra](https:
 
 As ávores B não geram pressão em memória; são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos, desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
 
-Não faz muito sentido eu fazer mais uma explicação detalhada de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
+Não faz muito sentido eu fazer (mais) uma explicação detalhada de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
 
 Para fazer a implementação em Rust, revi o assunto no famoso livro [Introduction to Algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) e fiz praticamente uma cópia de do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
 
