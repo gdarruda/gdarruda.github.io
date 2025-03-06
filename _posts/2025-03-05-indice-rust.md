@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "O que é um índice?"
+title: "Criando um índice em Rust"
 comments: true
 mathjax: true
 description: "Explicando como funcionam índices em um banco de dados"
@@ -24,11 +24,16 @@ As árvores B são uma generalização das árvores binárias: ao invés de ter 
 
 Em soluções focadas em performance e escalabilidade, como o [Cassandra](https://cassandra.apache.org/_/case-studies.html) por exemplo, faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalhando com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
 
-As ávores B não geram pressão em memória; são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); dado pré-ordenado fisicamente e seu desempenho é suficiente para muitos casos de uso. Apesar de ser uma estrutura com mais de 50 anos, desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados.
+Apesar de ser uma estrutura com mais de 50 anos, desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados:
 
-Não faz muito sentido eu fazer (mais) uma explicação detalhada de como elas funcionam, porque existem infinitos materias sobre o assunto e nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante do post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
+* as ávores B não geram pressão em memória; 
+* são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); 
+* dado é armazenado de forma ordenada; 
+* desempenho suficiente para muitos casos de uso.
 
-Para fazer a implementação em Rust, revi o assunto no famoso livro [Introduction to Algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) e fiz praticamente uma cópia de do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
+Não faz muito sentido eu fazer (mais) uma explicação detalhada de como elas funcionam, porque existem infinitos materias sobre o assunto nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante desse post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
+
+Para fazer a implementação em Rust, revi o assunto no famoso livro [Introduction to Algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) e fiz praticamente uma cópia do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
 
 ## A estrutura da estrutura
 
@@ -72,7 +77,7 @@ pub struct Node {
 
 A estrutura `Key` é a mais simples, contendo apenas dois campos:
 
-* `value` é o valor da chave propriamente dito, optei por deixar como `String` por simplicidade de implementação. Em uma solução produtiva, seria interessante ter algo mais flexível como um vetor de Bytes ou utilizando genéricos.
+* `value` é o valor da chave propriamente dito, optei por deixar como `String` por simplicidade de implementação. Em uma solução produtiva, seria interessante ter algo mais flexível como um vetor de bytes ou um campo com tipo genérico.
 
 * `position` é uma tupla com a posição da chave dentro do arquivo csv, o primeiro campo é o *offset* no arquivo e a segunda é a quantidade de bytes para ser lido a partir do *offset*.
 
@@ -90,7 +95,6 @@ A busca em árvore costuma ser algo simples, a complexidade é maior para criaç
 A inclusão na árvore é feito pela função `insert`, associada ao objeto `Btree`. A lógica de inclusão é feita pelo objeto `Node`, mas antes existe um desvio para o cenário em que o nó raiz está cheio.
 
 ```rust
-
 pub fn is_full(&self, order: usize) -> bool {
     self.keys.len() == 2 * order - 1
 }
@@ -111,7 +115,6 @@ pub fn insert(&mut self, key: Key) {
 Se o nó da raiz estiver cheio, um nó vazio é criado e a raiz vira filho desse novo nó. Após tratar esse caso específico, a inserção do registro é feito pela função `insert` na estrutura `Node`:
 
 ```rust
-
 fn find_position(&self, key: &Key) -> usize {
     let mut idx = 0;
 
@@ -129,6 +132,15 @@ fn find_position(&self, key: &Key) -> usize {
     }
 
     idx
+}
+
+fn add_key(&mut self, idx: usize, key: Key) {
+    if self.keys.len() == 0 {
+        self.keys.push(key);
+    } else {
+        self.keys.insert(idx, key);
+    }
+    self.save();
 }
 
 pub fn insert(&mut self, key: Key, order: usize, path: &str) {
@@ -346,7 +358,7 @@ fn main() -> std::io::Result<()> {
 }
 ```
 
-Para indexar esse arquivo,foi necessário 3:17 horas, mas não passou de 3MB de consumo total de memória. Um tempo alto de processamento, poderíamos pensar em várias formas de otimização – melhorar serialização; não forçar escrita em disco para cada inlcusão; otimizar os tamanhos dos nós; usar cache – mas esse não é o ponto do exercício proposto.
+Para indexar esse arquivo, foram necessárias 3:17 horas, mas não passou de 3MB de consumo total de memória. Um tempo alto para indexar, teríamos várias oportunidades de otimização – melhorar serialização; não forçar escrita em disco para cada inclusão; otimizar os tamanhos dos nós; usar cache – mas esse não é o ponto do exercício proposto.
 
 Olhando para o desempenho da busca – considerando o pior caso, que é procurar e não encontrar um registro – procurando por 1.000 chaves aleatórias não existentes, o tempo médio de busca foi de 474µs com desvio de 26µs.
 
