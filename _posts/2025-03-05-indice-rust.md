@@ -33,7 +33,7 @@ Apesar de ser uma estrutura com mais de 50 anos, desenvolvida em um cenário dif
 
 Não faz muito sentido eu fazer (mais) uma explicação detalhada de como elas funcionam, porque existem infinitos materias sobre o assunto nos mais diversos formatos: [aulas online](https://www.youtube.com/watch?v=5mC6TmviBPE), [vídeos do Akita](https://www.youtube.com/watch?v=9GdesxWtOgs&t=1218s), [blog posts](https://planetscale.com/blog/btrees-and-database-indexes) e [livros de algoritmos](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/). É mais importante que o leitor procure esses materiais para entender sobre a estrutura, do que se preocupar em ler o restante desse post: eu fiz para meu próprio entretenimento, não como algo útil ou didático necessariamente.
 
-Para fazer a implementação em Rust, revi o assunto no famoso livro [Introduction to Algorithms](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) e fiz praticamente uma cópia do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
+Para fazer a implementação em Rust, revi o assunto no famoso ["Cormen"](https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/) e fiz praticamente uma cópia do proposto no livro. Implementei apenas a parte de inserção e busca, usando a estrutura para indexar arquivos no formato csv.
 
 ## A estrutura da estrutura
 
@@ -402,7 +402,7 @@ Pode-se pensar em otimizações para essa parte da busca também, mas essa imple
 
 ## Por que fazer isso?
 
-Não sou a favor que os programadores fiquem recriando banco de dados e frameworks, porque apesar de ser uma ótima forma de aprender profundamente sobre um tema , provavelmente não é a forma mais eficiente. De qualquer forma, acho fundamental ter uma noção intuitiva de como as coisas funcionam e não focar apenas nas APIs.
+Não sou a favor que os programadores fiquem recriando banco de dados e frameworks: apesar de ser uma ótima forma de aprender profundamente sobre um tema, provavelmente não é a forma mais eficiente. De qualquer forma, acho fundamental ter uma noção intuitiva de como as coisas funcionam e não focar apenas nas APIs das ferramentas.
 
 Mais importante que entender os detalhes da [minha implementação](https://github.com/gdarruda/csv_indexer), eu gostaria que os programadores conseguissem responder perguntas sobre índices basedos em árvore:
 
