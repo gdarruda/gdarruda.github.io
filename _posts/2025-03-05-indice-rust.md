@@ -3,7 +3,7 @@ layout: post
 title: "Criando um índice em Rust"
 comments: true
 mathjax: true
-description: "Explicando como funcionam índices em um banco de dados"
+description: "Criando um índices para arquivos CSV"
 ---
 
 O meu livro técnico favorito é o [Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) do Kleppmann. Apesar de ser relativamente antigo, como ele trata mais do aspecto teórico que prático, continua sendo uma ótima leitura para engenheiros de dados e profissionais que precisam lidar com sistemas de larga escala.
@@ -20,11 +20,11 @@ Sendo uma estrutura tão prevalente em soluções de dados, acho importante que 
 
 ## O que é uma árvore B?
 
-As árvores B são uma generalização das árvores binárias: ao invés de ter uma chave por nó, são $$ k $$ chaves por nós. Ela foi criada na década de 70 para lidar com dados persistentes, em um época em que a memória era escassa e a forma mais comum de armazenamento durável era o disco rígido. Atualmente temos fartura de memória e armazenamento em SSD, estruturas como [LSM Trees](https://en.wikipedia.org/wiki/Log-structured_merge-tree) foram desenvolvidas pensando nessa nova realidade. 
+As árvores B são uma generalização das árvores binárias: ao invés de ter uma chave por nó, são $$ k $$ chaves por nós. Ela foi criada na década de 70 para lidar com dados persistentes, em um época em que a memória era escassa e a forma mais comum de armazenamento durável era o disco rígido. Atualmente, temos fartura de memória e armazenamento em SSD, novas estruturas como as [LSM Trees](https://en.wikipedia.org/wiki/Log-structured_merge-tree) foram desenvolvidas pensando nessa nova realidade. 
 
 Em soluções focadas em performance e escalabilidade, como o [Cassandra](https://cassandra.apache.org/_/case-studies.html) por exemplo, faz muito sentido usar estruturas como as LSM Tree. Entretanto, algo que eu aprendi após anos trabalhando com "Big Data": soluções com uso intensivo de memória têm performance excepcional, mas podem ficar inutilizáveis em cenários de escassez da mesma.
 
-Apesar de ser uma estrutura com mais de 50 anos, desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados:
+Apesar de ser uma estrutura com mais de 50 anos, desenvolvida em um cenário diferente do atual, segue sendo popular em novas soluções de dados por vários motivos:
 
 * as ávores B não geram pressão em memória; 
 * são flexíveis como uma árvore binária (*e.g.* possibilidade de chaves parcias; suporte a múltiplos operadores  de busca($$ >$$, $$ < $$ e $$= $$); 
@@ -90,7 +90,7 @@ pub struct Key {
 
 ## Criando a árvore
 
-A busca em árvore costuma ser algo simples, a complexidade é maior para criação e manutenção. Optei por fazer apenas a inserção, que é o mínimo necessário para criar uma árvore funcional.
+A busca em árvore costuma ser algo simples, a complexidade é maior para criação e manutenção da mesma. Optei por fazer apenas a inserção, que é o mínimo necessário para criar uma árvore funcional.
 
 A inclusão na árvore é feito pela função `insert`, associada ao objeto `Btree`. A lógica de inclusão é feita pelo objeto `Node`, mas antes existe um desvio para o cenário em que o nó raiz está cheio.
 
@@ -287,7 +287,7 @@ Com a busca e a inserção criadas, já temos o mínimo para fazer o indexador.
 
 ## Indexando os CSVs
 
-Os [arquivos CSVs](https://en.wikipedia.org/wiki/Comma-separated_values) são muito utilizados para lidar com dados tabulares. A organização física desses arquivos é parecida com de uma tabela em um banco relacional, sendo orientado a linhas e com marcadores utilizados para indetificar início e fim dos campos e registros.
+Os [arquivos CSVs](https://en.wikipedia.org/wiki/Comma-separated_values) são muito utilizados para lidar com dados tabulares. A organização física desses arquivos é parecida com a de uma tabela em um banco relacional, sendo orientado a linhas e com marcadores utilizados para indetificar início e fim dos campos e registros.
 
 A função `index_file` recebe um arquivo e uma árvore, itera linha-a-linha no arquivo e armazena três informações na árvore: o valor da chave, a posição da linha no arquivo e a quantidade de bytes por linha.
 
