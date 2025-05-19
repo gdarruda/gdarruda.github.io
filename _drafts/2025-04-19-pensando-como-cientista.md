@@ -1,18 +1,16 @@
 ---
 layout: post
-title: "Aprendendo como cientistas de dados"
+title: "Aprendendo com cientistas de dados"
 comments: true
 mathjax: true
 description: "Discussão sobre como tratar problema"
 ---
 
-Eu tenho o cargo de cientista de dados há vários anos, mas durante esse período, trabalhei muito pouco com desenvolvimento de modelos e análises descritivas. Gostos dessas atividades, mas sou medíocre executando-as, várias colegas que conseguem fazer esse tipo de trabalho tão bem ou melhor que eu. 
+Eu tenho o cargo de cientista de dados há vários anos, mas durante esse período, trabalhei muito pouco com desenvolvimento de modelos e análises descritivas. Gostos dessas atividades, mas sou medíocre nelas, várias colegas que conseguem fazer esse tipo de trabalho tão bem ou melhor que eu. Por outro lado, tenho bastante experiência como desenvolvedor, então foco meus esforços em colocar os modelos desenvolvidos por outros cientistas para rodar.
 
-Por outro lado, tenho bastante experiência como desenvolvedor, então foco meus esforços em colocar os modelos desenvolvidos por outros cientistas para rodar. Nessa posição, trabalho muito em conjunto com os cientistas de dados, mas atuando como um programador. 
+Nessa posição, trabalho muito em conjunto com os cientistas de dados, mas atuando como um programador. Qualquer desenvolvedor, que precisou colocar em produção um modelo implementado em um arquivo chamado *Untitled (7) Copy.ipynb*, sabe que alguns cientistas precisam aprender muito sobre as práticas de programação.  Ao mesmo tempo que alguns precisam aprender mais sobre programação, trabalhar com cientistas me ensinou a ver os desafios de programação com outros olhos.
 
-Qualquer desenvolvedor, que precisou colocar em produção um modelo implementado em um arquivo chamado *Untitled (7) Copy.ipynb*, sabe que alguns cientistas precisam aprender muito sobre as práticas de programação.  Ao mesmo tempo que alguns cientistas tem muito que aprender sobre programação, eles têm coisas a ensinar para os programadores.
-
-Mesmo que o trabalho não tenha nada a ver com dados, como programador me inspiro na forma de pensar dos cientistas de dados, especialmente para a parte de aprendizado.
+<!-- Mesmo que não tenha nada a ver com dados, como programador me inspiro na forma de pensar dos cientistas de dados, especialmente para a parte de aprendizado. -->
 
 # Saber (somente) a API, não é saber
 
@@ -32,7 +30,7 @@ Não posso dizer que sei usar o SVM por conseguir treinar um modelo usando uma b
 
 Essa estratégia tende a funcionar bem, mas algumas vezes se faz necessário entender a implementação para fazer um *troubleshoot* ou resolver problemas de desempenho. Eu discuti nesse [post](/2023/03/04/engenharia-dados.html), como esse problema é recorrente na parte de engenharia de dados. 
 
-Os tutoriais são super amigáveis e tudo funciona bem no começo, mas as coisas podem se complicar muito rapidamente. Eu brinco que a curva de aprendizado de Apache Spark é suave, vai progredindo bem no começo, até o momento em que se encontra erros em Scala e problemas de serialização.
+Os tutoriais são super amigáveis e tudo funciona bem no começo, mas as coisas podem se complicar muito rapidamente. Eu brinco que a curva de aprendizado de Apache Spark é suave, vai progredindo bem no começo, até que fica intransponível quando é necessário resolver problemas de serialização e ler pilhas de erro em Scala.
 
 <figure>
   <img src="/assets/images/cientista-programadores/grafico-spark.svg" style="display: block;margin-left:auto;margin-right: auto;">
@@ -46,7 +44,7 @@ Para isso, eu gosto de assistir apresentações [como essa](https://www.youtube.
 
 Esse tipo de conhecimento, além de ser mais perene, facilita transitar entre diferentes implementações do mesmo conceito. Por exemplo, basta ler a documentação do [DuckDB](https://duckdb.org/why_duckdb) para ter uma noção de como ele pode te ajudar a substituir rotinas Spark, mas dificilmente será útil em processos transacionais.
 
-Esse último ponto emenda com outro tópico que eu queria discutir, que é repensar o valor que damos ao conhecimento especializado em ferramentas. É relevante para ter velocidade no desenvolvimento e facilidade em lidar com os problemas, mas pode acabar virando um bloqueio artificial a outras tecnologias.
+Esse último ponto emenda com outro tópico que eu queria discutir, que é repensar o valor que damos ao conhecimento especializado em ferramentas. É relevante para ter velocidade no desenvolvimento e facilidade em lidar com os problemas, mas pode acabar virando uma limitação artificial.
 
 # Ferramentas importam, mas não tanto
 
@@ -64,7 +62,9 @@ Apesar do mercado não incentivar, tento aproveitar as oportunidades que tenho p
 
 Recentemente, eu precisei desenvolver uma aplicação C#, mas nunca tinha mexido em nada do ecossistema .NET. Após algumas semanas, eu já estava conseguindo ser produtivo, existem mais similaridades que diferenças entre linguagens como Java e C#. A infinidade de recursos que existem hoje para aprendizado – IDEs/LSPs, IAs, documentação, Stack Overflow – facilitam muito essa migração para alguém com experiência prévia em outra linguagem.
 
-Eu gosto de trabalhar mais com uma linguagem ou outra, mas se o projeto é uma aplicação web tradicional, a linguagem dificlmente é uma peça crítica. Um contra-argumento plausível – mas via de regra mal compreendedido e utilizado – é que uma linguagem mais "rápida" pode ser mais "escalável". São argumentos usados sem rigor algum, com base em anedotas e benchmarks para cenários específicos.
+Eu tenho minhas preferências, mas se o projeto é uma aplicação web tradicional, a linguagem dificilmente é um problema. Normalmente, são outras decisões de arquitetura que viram um problema, como um banco de dados inadequado ou separação de serviços. 
+
+Um argumento plausível em que a linguagem importa – mas via de regra mal compreendedido e utilizado – são problemas de escalabilidade com uma linguagem lenta. São argumentos usados sem rigor algum, com base em anedotas e benchmarks para cenários específicos, que normalmente mistura os conceitos de velocidade e escalabilidade.
 
 # Seja criterioso com métricas
 
@@ -73,11 +73,11 @@ Um conhecimento muito cobrado dos cientistas de dados, é o domínio sobre métr
 O erro mais comum que eu vejo ser cometido, é não entender a relevância da métrica. Por exemplo, a importância de um falso negativo é diferente para cada problema: condenar alguém erronemanente é um erro bem grave, diagnosticar COVID em alguém gripado. No ápice da pandemia, 
 a importância de um falso positivo de COVID era muito maior.
 
-O relatório das [linguagens mais sustentáveis](https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf) apareceu várias vezes no meu LinkedIn, destacando a ineficiência do Python: é tão lenta, que consome 70x mais energia para fazer o mesmo trabalho que C. É um resultado válido pelos experimentos feitos, mas que não é relevante para o cenário de uso da linguagem, apesar de ser ótimo para chamar atenção em uma rede social.
+O relatório das [linguagens mais sustentáveis](https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf) apareceu várias vezes no meu LinkedIn, destacando a ineficiência do Python: é tão lenta, que consome 70x mais energia para fazer o mesmo trabalho que C. É um resultado válido pelos experimentos feitos, mas que não é relevante para o cenário de uso da linguagem.
 
-Os testes foram feitos com tarefas chamadas *CPU bound*, como cálculo de autovalor e manipulação de árvores binárias. Para computação científica, a "regra" é usar bibliotecas [como o numpy](/2021/01/12/para-se-preocupar-ame-numpy.html), implementadas em outras linguagens mais rápidas. Para desenvolvimento de aplicações web, normalmente estamos falando de um cenário *IO Bound*, com muito mais tempo gasto com rede e armazenamento que com CPU.
+Os testes foram feitos com tarefas chamadas *CPU bound*, como cálculo de autovalor e manipulação de árvores binárias. Para computação científica, a "regra" é usar bibliotecas [como o numpy](/2021/01/12/para-se-preocupar-ame-numpy.html), implementadas em outras linguagens mais rápidas. Para desenvolvimento de aplicações web, normalmente estamos falando de um cenário *IO Bound*, com muito mais tempo gasto com rede e armazenamento.
 
-Mesmo quando uma métrica é relevante, ela pode ser muito limitada para repsesentar o problema real. Por exemplo, eu fiz essa [comparação de performance entre gRPC e REST](/2023/04/16/grpc-rest.html), utilizando diferentes linguagens de programação. Pelo primeiro experimento, poderia ter concluído que o melhor tempo médio de resposta foi Python com gRPC, mas fiz questão de não citar essa métrica durante o texto.
+Mesmo quando uma métrica é relevante, ela pode ser muito limitada para representar todas as nuances do problema. Por exemplo, eu fiz essa [comparação de performance entre gRPC e REST](/2023/04/16/grpc-rest.html), utilizando diferentes linguagens de programação. Pelo primeiro experimento, usando o tempo médio de resposta do primeiro teste, poderia dizer que Python com gRPC é a melhor alternativa.
 
 A média é uma métrica muito sensível a outliers, o que a torna muito capciosa para comparar resultados que envolvem comunicação por rede. Fazendo um teste com requisições sequenciais, grPC com Go foi uma solução com boa mediana, mas muita variância também:
 
@@ -91,10 +91,12 @@ Esse comportamento é normal, porque os protocolos de rede são otimizados para 
   <img src="/assets/images/grpc-rest/histogram_batch.svg"/>
 </figure>
 
-Esses resultados são muito mais relevantes para avaliar aplicação web, comparado ao teste de consumo de energia. Entretanto, são resultados frágeis, por dois motivos em especial: 
+Esses resultados são muito mais relevantes para avaliar aplicação web, comparado ao teste de consumo de energia. Entretanto, são resultados frágeis que devem ser avaliados com cuidado:
 
-* quaisquer mudanças de cenário podem trazer resultados muito diferentes, especialmente considerando que foi feito a partir de Wi-Fi em uma rede caseira;
+* os testes foram feitos em uma rede Wi-Fi, é um cenário completamente diferente de uma comunicação entre servidores em um datacenter;
 
 * se eu tivesse caido na tentação de representar os resultados em métricas como a média – eu poderia concluir que Python com gRPC é a solução mais rápida – o que seria uma conclusão válida e rasa ao mesmo tempo.
+
+Eu deliberadamente não coloquei as métricas no post, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade, mas nem sempre são relevantes ou bons para representar a realidade.
 
 
