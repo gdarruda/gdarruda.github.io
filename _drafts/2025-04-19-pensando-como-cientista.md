@@ -94,6 +94,19 @@ Esses resultados são mais relevantes para avaliar aplicação web, Python é um
 
 Eu deliberadamente não coloquei as métricas no post, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mas nem sempre são relevantes ou bons para representar a realidade.
 
+Pior que lidar com as métricas de performance do software, é lidor com as métricas falhas para produtividade dos programadores: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
+
+Eu compadeço da dor que os gestores sentem, fazer software é caro e caótico. Essas são as métricas possíveis de medir, mesmo que sejam pouco relevantes e pouco representativas. A engenharia de software sofre de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy), admitir as limitações podem ajudar a simplificar as coisas e lidar melhor com as incertezas.
+
 # Navalha de Ockham
 
-O pensamento científico é valioso, mas também 
+Eu [escrevi sobre](/2024/06/26/codigo-limpo-positivismo-fotografia.html) o livro Código Limpo, discutindo como a visão positivista do autor sobre engenharia de software, fez dele um sucesso e alvo de críticas recentes. As ideias propostas são muito boas, mas o tom prescritivo e científico do texto, não esta embasado com dados e método científico.
+
+Como enxergo a engenharia de software mais próximo às ciências humanas que exatas, optei por tratar a engenharia de software com outra ferramenta do pensamento científico, a [navalha de Ockham](https://pt.wikipedia.org/wiki/Navalha_de_Ockham): em igualdade de condições, a explicação mais simples é geralmente a mais provável.
+
+A ideia da navalha de Ockam é para comparar hipóteses científicas que explicam o problema, a mais simples é melhor que a mais complexa. Os cientistas de dados tratam modelos por essa mesma lógica: modelos complexos são mais sujeitos a problemas e tem menos interpretabilidade, o mais simples possível é a melhor opção.
+
+No contexto de desenvolvimento, eu uso essa abordagem para definir arquitetura e aplicar metodologias. Infelizmente, é muito díficil definir o que é "funcionar" em termos de arquitetura ou metodologia, mas procuro pensar sempre na alternativa mais minimalista e expandir quando for necessário.
+
+Os erros de arquitetura 
+Trabalhando em grande empresa, é mais provável que arquiteturas precisem ser iniciadas mas
