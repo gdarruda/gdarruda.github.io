@@ -8,7 +8,7 @@ description: "Discussão sobre como tratar problema"
 
 Eu tenho o cargo de cientista de dados há vários anos, mas durante esse período, trabalhei muito pouco com modelos e análises descritivas. Gostos dessas atividades, mas sou medíocre, meus colegas conseguem fazer esse tipo de trabalho tão bem ou melhor que eu. Por outro lado, tenho bastante experiência como desenvolvedor, então foco meus esforços em colocar os modelos desenvolvidos por outros cientistas para rodar.
 
-Nessa posição, trabalho muito em conjunto com os cientistas de dados, mas atuando como programador. Qualquer desenvolvedor, que precisou colocar em produção – um modelo implementado em um único arquivo chamado *Untitled (7) Copy.ipynb* – sabe que alguns cientistas precisam aprender muito sobre as práticas de programação.  Ao mesmo tempo que cientistas precisam aprender sobre programação, trabalhar com cientistas me ensinou a ver os desafios de programação com outros olhos.
+Nessa posição, trabalho muito em conjunto com os cientistas de dados, mas atuando como programador. Qualquer desenvolvedor, que precisou colocar em produção – um modelo implementado em um único arquivo chamado *Untitled (7) Copy.ipynb* – sabe que alguns cientistas precisam aprender muito sobre as práticas de programação. Por outro lado, trabalhar com cientistas me ensinou a ver os desafios de programação com outros olhos.
 
 # Saber (somente) a API, não é saber
 
@@ -28,7 +28,7 @@ Não posso dizer que sei usar o SVM por conseguir treiná-lo usando uma bibliote
 
 Essa estratégia tende a funcionar bem, mas algumas vezes faz-se necessário entender a implementação, para fazer um *troubleshoot* ou resolver problemas de desempenho. Eu discuti nesse [post](/2023/03/04/engenharia-dados.html), como esse problema é recorrente na engenharia de dados: os tutoriais são super amigáveis e tudo funciona bem no começo, mas as coisas podem se complicar muito rapidamente.
 
-Eu brinco que a curva de aprendizado de Apache Spark é suave, especialmente se o uso se limitar a queries SQL, mas logo vira um problema complexo quando é necessário lidar com problemas de serialização e erros internos em Scala.
+Eu brinco que a curva de aprendizado de Apache Spark é suave, especialmente se o uso se limitar a queries SQL, mas de repente vira algo super avançado quando é necessário lidar com problemas de serialização e erros internos em Scala.
 
 <figure>
   <img src="/assets/images/cientista-programadores/grafico-spark.svg" style="display: block;margin-left:auto;margin-right: auto;">
@@ -48,11 +48,11 @@ Esse último ponto emenda com outro tópico que eu queria discutir, repensar o v
 
 Quando se aprende a programar, é normal o discurso de que o importante é aprender lógica, a linguagem é uma questão secundária. Mas isso é verdade até os primeiros meses, depois escolher a "sua" linguagem vira algo extremamente importante na carreira do programador.
 
-O mercado é avesso a migração de linguagens, é muito difícil trocar de "stack" tecnológica. Mesmo com 15 anos de experiência, seria difícil eu conseguir uma vage de senior para uma linguagem que eu não tenha experiência prévia, especialmente se tiver uma vasta oferta de profissionais experientes como C# ou PHP por exemplo.
+O mercado é avesso a migração de linguagens, é muito difícil trocar de "stack" tecnológica. Mesmo com 15 anos de experiência, seria difícil eu conseguir uma vaga de senior para uma linguagem que eu não tenha experiência prévia, especialmente se tiver uma vasta oferta de profissionais experientes como C# ou PHP por exemplo.
 
 Os cientistas de dados têm especialidades também – pessoas que trabalham mais com dados não-estruturados, outras focadas em métodos estatísticos, ou especialistas em otimização – mas sinto que as barreiras são menores para migrar entre especialidades. É mais importante que você tenha mostrado capacidade de se aprofundadar em algo, do que ter experiência prévia em um domínio específico.
 
-Meu mestrado é completamente irrelevante hoje como pesquisa, mas ainda é importante como experiência. Não importa tanto o assunto da sua pesquisa, mas a premissa de que você conseguiu se aprofundar em um tópico relacionado, então pode fazer o mesmo em outro domínio próximo. Afinal, é uma área em que as inovações acadêmicas chegam muito rapidamente ao mercado, aprender é uma característica chave da carreira.
+Meu mestrado é completamente irrelevante como pesquisa hoje em dia, mas ainda é importante como experiência. Não importa tanto o assunto da sua pesquisa, mas a premissa de que você conseguiu se aprofundar em um tópico relacionado, então pode fazer o mesmo em outro domínio próximo. Afinal, é uma área em que as inovações acadêmicas chegam muito rapidamente ao mercado, acompanhar essa evolução é primordial.
 
 Apesar do mercado não incentivar, tento aproveitar as oportunidades que tenho para trabalhar com outras linguagens e tecnologias. É normal não ter a mesma velocidade no começo, mas concordo com essa [sugestão do Norvig](https://www.norvig.com/21-days.html), que é importante aprender várias linguagens com propostas diferentes:
 
@@ -66,19 +66,19 @@ Eu tenho minhas preferências, mas se o projeto é uma aplicação web tradicion
 
 Um conhecimento muito cobrado dos cientistas de dados, é o domínio sobre métricas de avaliação. Saber escolher a mais adequada para o problema, como interpretá-las e suas limitações. O mesmo deveria ser cobrado de programadores e arquitetos, quando usam a *performance* como argumento de suas escolhas.
 
-O erro mais comum que eu vejo ser cometido, é não entender a relevância da métrica. Por exemplo, a relevância de um falso positivo, é diferente para cada cenário. Em um julgamento, condenar alguém inocente a pena de morte é um erro irreversível. Uma compra classicada erroneamente como fraude, é um pequeno transtorno em comparação.
+O erro mais comum que eu vejo ser cometido, é não entender a relevância da métrica. Por exemplo, se formos considerar uma taxa de falso positivo. Em um julgamento, condenar alguém inocente a pena de morte é um erro irreversível. Uma compra classificada erroneamente como fraude, é um pequeno transtorno em comparação. O problema e o contexto que dão a relevância de uma métrica.
 
 O relatório das [linguagens mais sustentáveis](https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf) apareceu várias vezes no meu LinkedIn, destacando a ineficiência do Python: é tão lenta, que consome 70x mais energia para fazer o mesmo trabalho que C. É um resultado válido pelos experimentos feitos, mas que não é relevante para o cenário de uso da linguagem.
 
 Os testes foram feitos com tarefas chamadas *CPU bound*, como cálculo de autovalor e manipulação de árvores binárias. Para cenários de computação pesada, a "regra" é usar bibliotecas [como o numpy](/2021/01/12/para-se-preocupar-ame-numpy.html), implementadas em outras linguagens mais rápidas. Para desenvolvimento de aplicações web, normalmente estamos falando de um cenário *IO Bound*, com muito mais tempo gasto com rede e armazenamento.
 
-Mesmo quando uma métrica é relevante, ela pode ser muito limitada para representar todas as nuances do problema. Por exemplo, eu fiz essa [comparação de performance entre gRPC e REST](/2023/04/16/grpc-rest.html), utilizando diferentes linguagens de programação. Pelo primeiro experimento, usando o tempo médio de resposta do primeiro teste, poderia dizer que Python com gRPC é a melhor alternativa.
+Mesmo quando uma métrica é relevante, ela pode ser muito limitada para representar todas as nuances do problema. Por exemplo, eu fiz essa [comparação de performance entre gRPC e REST](/2023/04/16/grpc-rest.html), utilizando diferentes linguagens de programação. Pelo primeiro experimento, considerando o tempo médio de resposta, poderia dizer que Python com gRPC é a melhor alternativa.
 
 <figure>
   <img src="/assets/images/grpc-rest/boxplot_outliers.svg"/>
 </figure>
 
-A média é uma métrica muito sensível a outliers, o que a torna pouco adequada para comparar resultados que envolvem comunicação por rede. É normal comunicações por rede terem muitos outiliers, porque os protocolos de rede são otimizados para aumentar *throughput* em detrimento à constância de velocidade.
+A média é uma métrica muito sensível a outliers, o que a torna pouco adequada para comparar resultados que envolvem comunicação por rede. É normal terem muitos outiliers em um experimento como esse, porque os protocolos de rede são otimizados para aumentar *throughput* em detrimento à constância.
 
 Mudando o cenário do experimento, para requisições concorrentes, os resultados de Go com gRPC são melhores que Pyhton com gRPC:
 
@@ -86,27 +86,32 @@ Mudando o cenário do experimento, para requisições concorrentes, os resultado
   <img src="/assets/images/grpc-rest/histogram_batch.svg"/>
 </figure>
 
-Esses resultados são mais relevantes para avaliar aplicação web, Python é uma alternativa competitiva e não 70x mais lento. Entretanto, pela natureza do problema, não é recomendado extrapolar esses resultados para outros cenários:
+Esses experimentos e resultados são mais relevantes para avaliar aplicação web, Python é uma alternativa competitiva e não 70x mais lento. Entretanto, pela natureza do problema, não é recomendado extrapolar esses resultados para outros cenários:
 
-* os testes foram feitos em uma rede Wi-Fi, completamente diferente de uma comunicação entre servidores em um datacenter;
+* os testes foram feitos em uma rede Wi-Fi, completamente diferente de uma comunicação entre servidores em um datacenter por exemplo;
 
 * se eu tivesse caido na tentação de representar os resultados em métricas como a média – eu poderia concluir que Python com gRPC é a solução mais rápida – o que seria uma conclusão válida e rasa ao mesmo tempo.
 
-Eu deliberadamente não coloquei as métricas no post, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mas nem sempre são relevantes ou bons para representar a realidade.
+Eu deliberadamente não calculei as métricas, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mesmo que não seja justificado.
 
-Pior que lidar com as métricas de performance do software, é lidor com as métricas falhas para produtividade dos programadores: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
+Pior que lidar com as métricas de performance do software, é lidar com as métricas de perfomance de programadores: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
 
-Eu compadeço da dor que os gestores sentem, fazer software é caro e caótico. Essas são as métricas possíveis de medir, mesmo que sejam pouco relevantes e pouco representativas. A engenharia de software sofre de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy), admitir as limitações podem ajudar a simplificar as coisas e lidar melhor com as incertezas.
+Eu compadeço da dor que os gestores sentem, fazer software é caro e caótico. Essas são as métricas possíveis de medir, mesmo que sejam pouco relevantes e pouco representativas. Isso é um reflexo de como a engenharia de software sofre de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy), aceitar as limitações pode ajudar a reduzir as frustrações no processo de desenvolvimento de software.
 
 # Navalha de Ockham
 
-Eu [escrevi sobre](/2024/06/26/codigo-limpo-positivismo-fotografia.html) o livro Código Limpo, discutindo como a visão positivista do autor sobre engenharia de software, fez dele um sucesso e alvo de críticas recentes. As ideias propostas são muito boas, mas o tom prescritivo e científico do texto, não esta embasado com dados e método científico.
+Eu [escrevi sobre](/2024/06/26/codigo-limpo-positivismo-fotografia.html) o livro Código Limpo, discutindo como a visão positivista sobre o tema, fez dele um sucesso e alvo de críticas recentes. As ideias propostas são muito boas, mas o tom prescritivo e científico do texto, não está realmente embasado com dados e rigor metodológico.
 
 Como enxergo a engenharia de software mais próximo às ciências humanas que exatas, optei por tratar a engenharia de software com outra ferramenta do pensamento científico, a [navalha de Ockham](https://pt.wikipedia.org/wiki/Navalha_de_Ockham): em igualdade de condições, a explicação mais simples é geralmente a mais provável.
 
-A ideia da navalha de Ockam é para comparar hipóteses científicas que explicam o problema, a mais simples é melhor que a mais complexa. Os cientistas de dados tratam modelos por essa mesma lógica: modelos complexos são mais sujeitos a problemas e tem menos interpretabilidade, o mais simples possível é a melhor opção.
+A ideia da navalha de Ockam é para comparar hipóteses científicas, a mais simples é melhor que a mais complexa. Os cientistas de dados tratam modelos por essa mesma heurística: modelos complexos são mais suscetíveis a problemas e via de regra são menos interpretáveis, o mais simples possível é a melhor opção.
 
-No contexto de desenvolvimento, eu uso essa abordagem para definir arquitetura e aplicar metodologias. Infelizmente, é muito díficil definir o que é "funcionar" em termos de arquitetura ou metodologia, mas procuro pensar sempre na alternativa mais minimalista e expandir quando for necessário.
+No contexto de desenvolvimento, eu uso essa abordagem para definir arquitetura e aplicar metodologias. Infelizmente, é muito díficil definir o que é "funcionar" nesses contextos, mas procuro pensar sempre na alternativa mais minimalista e expandir quando sentir necessidade.
 
-Os erros de arquitetura 
-Trabalhando em grande empresa, é mais provável que arquiteturas precisem ser iniciadas mas
+É normal arquitetura seguir pelo caminho inverso: ser desenhada para ser o mais "future proof" possível e acabar com várias soluções para problemas que nunca existirão. Um exemplo clássico desse cenário, são startups iniciando com arquitetura de microsserviços, perdendo velocidade para resolver um problema que só existe em grandes empresas.
+
+Não existe uma regra para definir o quanto de "future proof" devemos ser, mas é possível iniciar a partir do mínimo para funcionar e adicionar complexidade após uma análise de custo/beneício: talvez eu não precise começar o projeto com Kubernetes, mas criar imagens Docker é algo simples que pode facilitar no futuro e traz benefícios imediatos.
+
+As metodologias de trabalho seguem uma tendência parecida, em que as pessoas tentam emular os rituais de empresas bem sucedidas, na mesma lógica de seguir rotinas matinais de personalidades. É muito tentador creditar uma série de processos e regras como a razão do sucesso, porque basta aplicar a fórmula do sucesso para avançar.
+
+Seguindo as ideias do [manifesto ágil](https://agilemanifesto.org), sou a favor de implementar o mínimo de cerimônias e processos. Falando de scrum, começo peo que considero mínimo: refinamento, planning (sem poker) e daily. 
