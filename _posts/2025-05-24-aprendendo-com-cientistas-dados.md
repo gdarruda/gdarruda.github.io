@@ -94,7 +94,7 @@ Esses experimentos e resultados são mais relevantes para avaliar aplicações w
 
 Eu deliberadamente não calculei as métricas, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mesmo que não seja o caso .
 
-Pior que lidar com as métricas de performance do software, é lidar com as métricas de produtividade e qualidade no desenvolvimento: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
+Pior que lidar com as métricas de performance de software, é lidar com as métricas de produtividade e qualidade no desenvolvimento: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
 
 Eu compadeço da dor que os gestores sentem, fazer software é caro e caótico. Essas são as métricas possíveis de medir, mesmo que sejam pouco relevantes e pouco representativas. Isso é um reflexo de como a engenharia de software sofre de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy), aceitar nossas limitações pode ajudar a reduzir as frustrações no processo de desenvolvimento de software.
 
@@ -116,4 +116,4 @@ As metodologias de trabalho seguem uma tendência parecida, em que as pessoas te
 
 Seguindo as ideias do [manifesto ágil](https://agilemanifesto.org), sou a favor de implementar o mínimo de cerimônias e processos. Falando de scrum, começo com três cerimônias: refinamento, planning (sem poker) e daily. Para times menores e mais experientes, normalmente funciona muito bem. Outras cerimônias como demo e retrospectiva, aplico quando o time sente que faz sentido.
 
-Seguir essa premissa "minimalista" não é a prova de falhas, não sei nem dizer se realmente é melhor. Mas entre pecar pela falta ou pelo excesso, minha impressão é que o excesso é o mais comum, porque existe toda uma dinâmicas de incentivos para vender e consumir soluções e metodologias complexas. Afinal, como dizem: [ninguém é demitido por comprar IBM](https://www.forbes.com/sites/duenablomstrom1/2018/11/30/nobody-gets-fired-for-buying-ibm-but-they-should/).
+Seguir essa premissa "minimalista" não é a prova de falhas, não sei nem dizer se realmente é melhor. Mas entre pecar pela falta ou pelo excesso, minha impressão é que o excesso é o mais comum, porque existe toda uma dinâmicas de incentivos para vender e consumir soluções e metodologias complexas. Afinal, [ninguém é demitido por comprar IBM](https://www.forbes.com/sites/duenablomstrom1/2018/11/30/nobody-gets-fired-for-buying-ibm-but-they-should/).
