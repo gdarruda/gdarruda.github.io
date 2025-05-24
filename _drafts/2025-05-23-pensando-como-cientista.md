@@ -58,7 +58,7 @@ Apesar do mercado não incentivar, tento aproveitar as oportunidades que tenho p
 
 > Learn at least a half dozen programming languages. Include one language that emphasizes class abstractions (like Java or C++), one that emphasizes functional abstraction (like Lisp or ML or Haskell), one that supports syntactic abstraction (like Lisp), one that supports declarative specifications (like Prolog or C++ templates), and one that emphasizes parallelism (like Clojure or Go).
 
-Recentemente, eu precisei desenvolver uma aplicação C#, mas nunca tinha mexido em nada do ecossistema .NET. Após algumas semanas, eu já estava conseguindo ser produtivo, existem mais similaridades que diferenças entre linguagens como Java e C#. A infinidade de recursos que existem para aprendizado hoje em dia – IDEs/LSPs, IAs, documentação, Stack Overflow – facilitam muito essa migração para alguém com experiência prévia em outra linguagem.
+Recentemente, eu precisei desenvolver uma aplicação C#, mas nunca tinha mexido em nada do ecossistema .NET. Após algumas semanas, eu já estava conseguindo ser produtivo, existem mais similaridades que diferenças entre linguagens como Java e C#. A infinidade de recursos que existe para aprendizado hoje em dia – IDEs/LSPs, IAs, documentação, Stack Overflow – facilitam muito essa migração para alguém com experiência prévia em outra linguagem.
 
 Eu tenho minhas preferências, mas se o projeto é uma aplicação web tradicional, a linguagem dificilmente é uma questão. Normalmente, são outras decisões de arquitetura que viram um problema, como um banco de dados inadequado ou separação incorreta de serviços. Um argumento plausível – mas incompreendido e mal utilizado – em que a linguagem escolhida importa, são problemas de escalabilidade.
 
@@ -68,7 +68,7 @@ Um conhecimento muito cobrado dos cientistas de dados, é o domínio sobre métr
 
 O erro mais comum que eu vejo ser cometido, é não entender a relevância da métrica. Por exemplo, se formos considerar uma taxa de falso positivo. Em um julgamento, condenar alguém inocente a pena de morte é um erro irreversível. Uma compra classificada erroneamente como fraude, é um pequeno transtorno em comparação. O problema e o contexto que dão a relevância de uma métrica.
 
-O relatório das [linguagens mais sustentáveis](https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf) apareceu várias vezes no meu LinkedIn, destacando a ineficiência do Python: é tão lenta, que consome 70x mais energia para fazer o mesmo trabalho que C. É um resultado válido pelos experimentos feitos, mas que não é relevante para o cenário de uso da linguagem.
+O relatório das [linguagens mais sustentáveis](https://greenlab.di.uminho.pt/wp-content/uploads/2017/10/sleFinal.pdf) apareceu várias vezes no meu LinkedIn, destacando a ineficiência do Python: é tão lenta, que consome 70x mais energia para fazer o mesmo trabalho que C. É um resultado válido pelos experimentos feitos, mas que não é relevante para os cenário de uso mais comuns da linguagem.
 
 Os testes foram feitos com tarefas chamadas *CPU bound*, como cálculo de autovalor e manipulação de árvores binárias. Para cenários de computação pesada, a "regra" é usar bibliotecas [como o numpy](/2021/01/12/para-se-preocupar-ame-numpy.html), implementadas em outras linguagens mais rápidas. Para desenvolvimento de aplicações web, normalmente estamos falando de um cenário *IO Bound*, com muito mais tempo gasto com rede e armazenamento.
 
@@ -90,13 +90,13 @@ Esses experimentos e resultados são mais relevantes para avaliar aplicação we
 
 * os testes foram feitos em uma rede Wi-Fi, completamente diferente de uma comunicação entre servidores em um datacenter por exemplo;
 
-* se eu tivesse caido na tentação de representar os resultados em métricas como a média – eu poderia concluir que Python com gRPC é a solução mais rápida – o que seria uma conclusão válida e rasa ao mesmo tempo.
+* se eu tivesse resumido os resultados na média – eu poderia concluir que Python com gRPC é a solução mais rápida – o que seria uma conclusão válida e rasa ao mesmo tempo.
 
-Eu deliberadamente não calculei as métricas, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mesmo que não seja justificado.
+Eu deliberadamente não calculei as métricas, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mesmo que não seja o caso .
 
 Pior que lidar com as métricas de performance do software, é lidar com as métricas de perfomance de programadores: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
 
-Eu compadeço da dor que os gestores sentem, fazer software é caro e caótico. Essas são as métricas possíveis de medir, mesmo que sejam pouco relevantes e pouco representativas. Isso é um reflexo de como a engenharia de software sofre de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy), aceitar as limitações pode ajudar a reduzir as frustrações no processo de desenvolvimento de software.
+Eu compadeço da dor que os gestores sentem, fazer software é caro e caótico. Essas são as métricas possíveis de medir, mesmo que sejam pouco relevantes e pouco representativas. Isso é um reflexo de como a engenharia de software sofre de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy), aceitar nossas limitações pode ajudar a reduzir as frustrações no processo de desenvolvimento de software.
 
 # Navalha de Ockham
 
@@ -114,4 +114,6 @@ Não existe uma regra para definir o quanto de "future proof" devemos ser, mas �
 
 As metodologias de trabalho seguem uma tendência parecida, em que as pessoas tentam emular os rituais de empresas bem sucedidas, na mesma lógica de seguir rotinas matinais de personalidades. É muito tentador creditar uma série de processos e regras como a razão do sucesso, porque basta aplicar a fórmula do sucesso para avançar.
 
-Seguindo as ideias do [manifesto ágil](https://agilemanifesto.org), sou a favor de implementar o mínimo de cerimônias e processos. Falando de scrum, começo peo que considero mínimo: refinamento, planning (sem poker) e daily. 
+Seguindo as ideias do [manifesto ágil](https://agilemanifesto.org), sou a favor de implementar o mínimo de cerimônias e processos. Falando de scrum, começo com três cerimônias: refinamento, planning (sem poker) e daily. Para times menores e mais experientes, normalmente funciona muito bem. Outras cerimônias como demo e retrospectiva, aplico quando o time sente que faz sentido.
+
+Seguir essa premissa "minimalista" não é a prova de falhas, não sei nem dizer se realmente é melhor. Mas entre pecar pela falta ou pelo excesso, minha impressão é que o excesso é o mais comum, porque existe toda uma dinâmicas de incentivos para vender e consumir soluções complexas e metodologias.
