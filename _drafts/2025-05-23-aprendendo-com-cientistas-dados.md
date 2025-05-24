@@ -86,7 +86,7 @@ Mudando o cenário do experimento, para requisições concorrentes, os resultado
   <img src="/assets/images/grpc-rest/histogram_batch.svg"/>
 </figure>
 
-Esses experimentos e resultados são mais relevantes para avaliar aplicação web, Python é uma alternativa competitiva e não 70x mais lento. Entretanto, pela natureza do problema, não é recomendado extrapolar esses resultados para outros cenários:
+Esses experimentos e resultados são mais relevantes para avaliar aplicações web, Python é uma alternativa competitiva e não 70x mais lento. Entretanto, pela natureza do problema, não é recomendado extrapolar esses resultados para outros cenários:
 
 * os testes foram feitos em uma rede Wi-Fi, completamente diferente de uma comunicação entre servidores em um datacenter por exemplo;
 
@@ -94,13 +94,13 @@ Esses experimentos e resultados são mais relevantes para avaliar aplicação we
 
 Eu deliberadamente não calculei as métricas, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mesmo que não seja o caso .
 
-Pior que lidar com as métricas de performance do software, é lidar com as métricas de perfomance de programadores: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
+Pior que lidar com as métricas de performance do software, é lidar com as métricas de produtividade e qualidade no desenvolvimento: quantidade de deploys, contagem de bugs, cobertura de testes, linhas de código, commits, "tamanho" de histórias, etc...
 
 Eu compadeço da dor que os gestores sentem, fazer software é caro e caótico. Essas são as métricas possíveis de medir, mesmo que sejam pouco relevantes e pouco representativas. Isso é um reflexo de como a engenharia de software sofre de [inveja da física](https://en.wikipedia.org/wiki/Physics_envy), aceitar nossas limitações pode ajudar a reduzir as frustrações no processo de desenvolvimento de software.
 
 # Navalha de Ockham
 
-Eu [escrevi sobre](/2024/06/26/codigo-limpo-positivismo-fotografia.html) o livro Código Limpo, discutindo como a visão positivista sobre o tema, fez dele um sucesso e alvo de críticas recentes. As ideias propostas são muito boas, mas o tom prescritivo e científico do texto, não está realmente embasado com dados e rigor metodológico.
+Eu [escrevi sobre](/2024/06/26/codigo-limpo-positivismo-fotografia.html) o livro Código Limpo, discutindo como a visão positivista sobre o tema, fez dele um sucesso no lançamento e alvo de críticas recentes. As ideias propostas são muito boas, mas o tom prescritivo e científico do texto, não está realmente embasado com dados e rigor metodológico.
 
 Como enxergo a engenharia de software mais próximo às ciências humanas que exatas, optei por tratar a engenharia de software com outra ferramenta do pensamento científico, a [navalha de Ockham](https://pt.wikipedia.org/wiki/Navalha_de_Ockham): em igualdade de condições, a explicação mais simples é geralmente a mais provável.
 
@@ -116,4 +116,4 @@ As metodologias de trabalho seguem uma tendência parecida, em que as pessoas te
 
 Seguindo as ideias do [manifesto ágil](https://agilemanifesto.org), sou a favor de implementar o mínimo de cerimônias e processos. Falando de scrum, começo com três cerimônias: refinamento, planning (sem poker) e daily. Para times menores e mais experientes, normalmente funciona muito bem. Outras cerimônias como demo e retrospectiva, aplico quando o time sente que faz sentido.
 
-Seguir essa premissa "minimalista" não é a prova de falhas, não sei nem dizer se realmente é melhor. Mas entre pecar pela falta ou pelo excesso, minha impressão é que o excesso é o mais comum, porque existe toda uma dinâmicas de incentivos para vender e consumir soluções complexas e metodologias.
+Seguir essa premissa "minimalista" não é a prova de falhas, não sei nem dizer se realmente é melhor. Mas entre pecar pela falta ou pelo excesso, minha impressão é que o excesso é o mais comum, porque existe toda uma dinâmicas de incentivos para vender e consumir soluções e metodologias complexas. Afinal, como dizem: [ninguém é demitido por comprar IBM](https://www.forbes.com/sites/duenablomstrom1/2018/11/30/nobody-gets-fired-for-buying-ibm-but-they-should/).
