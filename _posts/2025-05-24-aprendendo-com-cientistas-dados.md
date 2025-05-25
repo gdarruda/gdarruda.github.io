@@ -22,7 +22,7 @@ clf = svm.SVC()
 clf.fit(X, y)
 ```
 
-Não posso dizer que sei usar o SVM por conseguir treiná-lo usando uma biblioteca. Já como programador, é normal usar bibliotecas e abstrair completamente a implemantação, conquanto que tenha o comportamento esperado. Essa se tornou a abordagem padrão, tanto que o [MIT trocou Scheme por Python](https://www.wisdomandwonder.com/link/2110/why-mit-switched-from-scheme-to-python) em seu curso introdutório, para refletir esse cenário:
+Não posso dizer que sei usar o SVM por conseguir treiná-lo usando uma biblioteca. Já como programador, é normal usar bibliotecas e abstrair completamente a implementação, conquanto que tenha o comportamento esperado. Essa se tornou a abordagem padrão, tanto que o [MIT trocou Scheme por Python](https://www.wisdomandwonder.com/link/2110/why-mit-switched-from-scheme-to-python) em seu curso introdutório, para refletir esse cenário:
 
 > In 1980, good programmers spent a lot of time thinking, and then produced spare code that they thought should work. Code ran close to the metal, even Scheme — it was understandable all the way down. [...] But programming now isn’t so much like that, said Sussman. Nowadays you muck around with incomprehensible or nonexistent man pages for software you don’t know who wrote. You have to do basic science on your libraries to see how they work, trying out different inputs and seeing how the code reacts. This is a fundamentally different job, and it needed a different course.
 
@@ -90,7 +90,9 @@ Esses experimentos e resultados são mais relevantes para avaliar aplicações w
 
 * os testes foram feitos em uma rede Wi-Fi, completamente diferente de uma comunicação entre servidores em um datacenter por exemplo;
 
-* se eu tivesse resumido os resultados na média – eu poderia concluir que Python com gRPC é a solução mais rápida – o que seria uma conclusão válida e rasa ao mesmo tempo.
+* se eu tivesse resumido os resultados na média – eu poderia concluir que Python com gRPC é a solução mais rápida – o que seria uma conclusão válida e rasa ao mesmo tempo;
+
+* o tempo é dominado por I/O, ter repostas em tempo parecido não significa que teremos a mesma escalabilidade, precisaríamos focar no consumo de recursos para comparar as linguagens nesse aspecto.
 
 Eu deliberadamente não calculei as métricas, porque é natural que as pessoas simplesmente comparem os números e ignore as nuances. Números sempre trazem uma maior credibilidade e sensação de confiança, mesmo que não seja o caso .
 
