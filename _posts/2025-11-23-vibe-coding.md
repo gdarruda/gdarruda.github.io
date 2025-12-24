@@ -17,7 +17,7 @@ Eu já discuti sobre os motivos do [low code](/2024/01/20/low-code-dilema.html) 
 
 Os problemas que um ERP precisa resolver são bem conhecidos (e.g. gestão de estoque, cálculos de imposto, contabilidade) e não exigem conhecimentos em tópicos avançados de computação. Só que cada empresa tem um ERP diferente, seguindo a  ["lei de Conway"](https://en.wikipedia.org/wiki/Conway%27s_law):
 
-> [O]rganizations which design systems (in the broad sense used here) are constrained to produce designs which are copies of the communication structures of these organizations.
+> Organizations which design systems (in the broad sense used here) are constrained to produce designs which are copies of the communication structures of these organizations.
 
 Suponha uma nova regra para cálculo imposto – o desafio não é compreender e codificar a regra – é saber em que parte do sistema esse cálculo é feito, identificar os impactos da mudança e desenhar como será alterado. O padrão é que profissionais mais experientes e arquitetos façam o desenho da solução, profissionais menos experientes fazem a codificação.
 
